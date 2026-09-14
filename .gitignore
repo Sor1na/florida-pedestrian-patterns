@@ -1,0 +1,30 @@
+# Raw source data stays out of the repository (FARS, EPA SLD, Census downloads)
+data/raw/
+data/interim/
+*.zip
+*.gdb/
+*.gpkg
+*.parquet
+
+# Credentials and local settings
+.env
+*.env
+secrets/
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Database dumps and backups
+*.dump
+*.sql.gz
+backups/

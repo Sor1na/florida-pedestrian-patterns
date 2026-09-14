@@ -1,0 +1,90 @@
+erDiagram
+    %% Notation: crow's foot. || exactly one, |o zero or one, }| one or more, }o zero or more.
+    %% Solid line = identifying relationship (the child key contains the parent key).
+    %% Dashed line = non-identifying relationship (plain foreign key).
+
+    COUNTY ||--|{ COUNTY_POPULATION : "has a yearly estimate"
+    COUNTY ||..o{ CRASH : "is the location of"
+    COUNTY ||..|{ BLOCK_GROUP : "contains"
+    CRASH }o..o| BLOCK_GROUP : "is geocoded to"
+    CRASH ||--|{ PEDESTRIAN : "kills"
+    CRASH ||--|{ VEHICLE : "involves"
+    PEDESTRIAN }o..o| VEHICLE : "is struck by"
+    PEDESTRIAN ||--o| PED_CRASH_TYPE : "is typed by"
+
+    CRASH {
+        int year PK "crash year 2020-2024"
+        int st_case PK "12xxxx; reused every year"
+        smallint county FK "GSA code = FIPS in Florida"
+        text geoid10 FK "block group; NULL if no valid point"
+        smallint month
+        smallint day_week "1 = Sunday"
+        smallint hour "0-23, 99 unknown"
+        smallint rur_urb "2 = urban"
+        smallint func_sys "3-7 kept, 1-2 excluded in view"
+        smallint reljct2 "junction relation"
+        smallint lgt_cond "light condition"
+        smallint weather
+        numeric latitude "NULL if 77.7777 / 88.8888 / 99.9999"
+        numeric longitud "NULL if 777.7777 / 888.8888 / 999.9999"
+        text tway_id "trafficway name, for corridor labels"
+        smallint fatals "deaths in the crash"
+        smallint peds "non-motorists in the crash"
+    }
+
+    VEHICLE {
+        int year PK, FK
+        int st_case PK, FK
+        smallint veh_no PK "1-999; in-transport vehicles only"
+        smallint body_typ "NCSA body type"
+        smallint vspd_lim "posted mph; 0 none, 98/99 unknown"
+        smallint hit_run "0 no, 1 yes"
+    }
+
+    PEDESTRIAN {
+        int year PK, FK
+        int st_case PK, FK
+        smallint veh_no PK "always 0 for non-motorists"
+        smallint per_no PK
+        smallint str_veh FK "striking vehicle; NULL when 0"
+        smallint per_typ "= 5 by scope"
+        smallint inj_sev "= 4 by scope"
+        smallint age "998/999 unknown"
+        smallint sex
+        smallint drinking "police-reported; stratifier only"
+    }
+
+    PED_CRASH_TYPE {
+        int year PK, FK
+        int st_case PK, FK
+        smallint veh_no PK, FK
+        smallint per_no PK, FK
+        smallint pbcwalk "marked crosswalk present"
+        smallint pbswalk "sidewalk present"
+        smallint pedloc "at / near / not at intersection"
+        smallint pedpos "position at impact"
+        smallint pedctype "PBCAT crash type"
+        smallint pedcgp "PBCAT crash group"
+    }
+
+    COUNTY {
+        smallint county_fips PK "67 Florida counties"
+        text name
+    }
+
+    COUNTY_POPULATION {
+        smallint county_fips PK, FK
+        smallint year PK
+        int population "July 1 resident estimate"
+        smallint vintage "Census vintage, e.g. 2025"
+    }
+
+    BLOCK_GROUP {
+        text geoid10 PK "12-digit block group id"
+        smallint county_fips FK "digits 3-5 of geoid10"
+        numeric natwalkind "EPA walkability 1-20"
+        numeric d3b "intersection density"
+        numeric d4a "distance to transit; -99999 = none"
+        int totpop
+        geometry geom "block group polygon"
+    }
