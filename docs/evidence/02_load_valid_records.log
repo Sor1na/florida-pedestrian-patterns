@@ -1,0 +1,16 @@
+        table_name         | row_count 
+---------------------------+-----------
+ county                    |        67
+ county_population         |        35
+ block_group               |         8
+ code_lookup               |        98
+ pbcat_group               |        16
+ pbcat_type                |        55
+ crash                     |        15
+ vehicle                   |        16
+ pedestrian                |        16
+ ped_crash_type            |        15
+ data_dictionary           |       135
+ v_ped_transactions (view) |        14
+(12 rows)
+

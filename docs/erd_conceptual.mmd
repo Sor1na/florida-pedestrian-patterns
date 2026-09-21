@@ -1,0 +1,96 @@
+erDiagram
+    %% Conceptual ER diagram, version 2 (supersedes docs/erd.mmd from the first-pass model).
+    %% Crow's foot notation. || exactly one, |o zero or one, }| one or more, }o zero or more.
+    %% The symbol next to an entity says how many of THAT entity take part for one of the other.
+    %% Solid line = identifying relationship (the child's key contains the parent's key).
+    %% Dashed line = non-identifying relationship (plain foreign key).
+    %% Attribute "types" here are conceptual domains, not SQL types; those are in erd_logical.mmd.
+
+    COUNTY ||--|{ COUNTY_POPULATION : "has a yearly estimate"
+    COUNTY ||..o{ CRASH : "is the location of"
+    COUNTY ||..|{ BLOCK_GROUP : "contains"
+    CRASH }o..o| BLOCK_GROUP : "is geocoded to"
+    CRASH ||--|{ PEDESTRIAN : "kills"
+    CRASH ||--|{ VEHICLE : "involves"
+    PEDESTRIAN }o..o| VEHICLE : "is struck by"
+    PEDESTRIAN ||--o| PED_CRASH_TYPE : "is typed by"
+    PBCAT_TYPE ||..o{ PED_CRASH_TYPE : "classifies"
+    PBCAT_GROUP ||..|{ PBCAT_TYPE : "groups"
+
+    CRASH {
+        year year PK "2020-2024"
+        number st_case PK "12xxxx; reused every year"
+        code county FK "mandatory"
+        id geoid10 FK "optional; only with a valid point"
+        number month
+        code day_week
+        number hour "99 = unknown"
+        code rur_urb "2 = urban"
+        code func_sys "road class"
+        code reljct2 "junction relation"
+        code lgt_cond "lighting"
+        code weather
+        degrees latitude "optional"
+        degrees longitud "optional"
+        text tway_id "optional"
+        count fatals
+        count peds
+    }
+    VEHICLE {
+        year year PK, FK
+        number st_case PK, FK
+        number veh_no PK "1-999"
+        code body_typ
+        mph vspd_lim "posted speed limit"
+        code hit_run
+    }
+    PEDESTRIAN {
+        year year PK, FK
+        number st_case PK, FK
+        number veh_no PK "always 0"
+        number per_no PK
+        number str_veh FK "optional striking vehicle"
+        code per_typ "5 by scope"
+        code inj_sev "4 by scope"
+        years age "998/999 = unknown"
+        code sex
+        code drinking "stratifier only"
+    }
+    PED_CRASH_TYPE {
+        year year PK, FK
+        number st_case PK, FK
+        number veh_no PK, FK
+        number per_no PK, FK
+        code pbcwalk "marked crosswalk"
+        code pbswalk "sidewalk"
+        code pedloc "crossing location"
+        code pedpos "position when struck"
+        code pedctype FK "crash type"
+    }
+    PBCAT_TYPE {
+        code pedctype PK "55 crash types"
+        text label
+        code pedcgp FK "its one crash group"
+    }
+    PBCAT_GROUP {
+        code pedcgp PK "16 crash groups"
+        text label
+    }
+    COUNTY {
+        code county_fips PK "67 Florida counties"
+        text name "unique"
+    }
+    COUNTY_POPULATION {
+        code county_fips PK, FK
+        year year PK
+        count population "July 1 estimate"
+        year vintage "Census release"
+    }
+    BLOCK_GROUP {
+        id geoid10 PK "12 digits"
+        code county_fips FK "derived from geoid10"
+        score natwalkind "1-20"
+        number d3b "intersection density"
+        meters d4a "optional; distance to transit"
+        count totpop
+    }

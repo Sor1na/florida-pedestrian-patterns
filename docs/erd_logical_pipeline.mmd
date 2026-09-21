@@ -1,0 +1,45 @@
+erDiagram
+    %% Logical / physical schema, part 2 of 2: the four pipeline bookkeeping tables, which hang off etl_run.
+    %% Not drawn in either part: code_lookup and data_dictionary. They have no foreign keys on purpose
+    %% (the design document, part 3, says why); their columns are listed in the relational schema there.
+
+    etl_run ||..o{ source_file : "downloaded"
+    etl_run ||..o{ etl_log : "logged"
+    etl_run ||..o{ validation_result : "checked"
+
+    etl_run {
+        integer run_id PK "identity"
+        timestamptz started_at
+        timestamptz finished_at "N"
+        text git_commit "N"
+        text status
+    }
+    source_file {
+        integer file_id PK "identity"
+        integer run_id FK
+        text source
+        smallint data_year "N"
+        text release
+        text file_name
+        text url
+        text sha256
+        date retrieved_on
+    }
+    etl_log {
+        integer log_id PK "identity"
+        integer run_id FK
+        text step
+        integer rows_in "N"
+        integer rows_out "N"
+        text status
+        text message "N"
+        timestamptz logged_at
+    }
+    validation_result {
+        integer result_id PK "identity"
+        integer run_id FK
+        text check_name
+        boolean passed
+        text detail "N"
+        timestamptz checked_at
+    }

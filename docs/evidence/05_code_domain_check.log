@@ -1,0 +1,18 @@
+  PASS  rur_urb    5 codes accepted,  5 labelled
+  PASS  func_sys  10 codes accepted, 10 labelled
+  PASS  reljct2   15 codes accepted, 15 labelled
+  PASS  lgt_cond   9 codes accepted,  9 labelled
+  PASS  weather   13 codes accepted, 13 labelled
+  PASS  day_week   7 codes accepted,  7 labelled
+  PASS  hit_run    3 codes accepted,  3 labelled
+  PASS  per_typ    1 codes accepted,  1 labelled
+  PASS  inj_sev    1 codes accepted,  1 labelled
+  PASS  sex        4 codes accepted,  4 labelled
+  PASS  drinking   4 codes accepted,  4 labelled
+  PASS  pbcwalk    3 codes accepted,  3 labelled
+  PASS  pbswalk    3 codes accepted,  3 labelled
+  PASS  pedloc     5 codes accepted,  5 labelled
+  PASS  pedpos     9 codes accepted,  9 labelled
+  PASS  pbcat     55 crash types in 16 crash groups
+
+CHECK constraints and code labels agree.

@@ -1,0 +1,20 @@
+
+Build finished. Objects created:
+ objects | how_many 
+---------+----------
+ indexes |       28
+ tables  |       15
+ views   |       10
+(3 rows)
+
+     constraints      | how_many 
+----------------------+----------
+ 1 PRIMARY KEY        |       15
+ 2 FOREIGN KEY        |       13
+ 3 UNIQUE             |        5
+ 4 CHECK              |       58
+ 5 EXCLUDE            |        1
+ 6 constraint trigger |        3
+ 7 NOT NULL columns   |       86
+(7 rows)
+

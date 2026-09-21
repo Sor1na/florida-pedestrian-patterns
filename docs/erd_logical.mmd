@@ -1,0 +1,93 @@
+erDiagram
+    direction LR
+    %% Logical / physical schema, part 1 of 2: the nine tables that are linked by foreign keys.
+    %% PostgreSQL types. N = nullable column. UK = unique. Part 2 is erd_logical_pipeline.mmd.
+
+    county ||--|{ county_population : ""
+    county ||..o{ crash : ""
+    county ||..|{ block_group : ""
+    block_group |o..o{ crash : ""
+    crash ||--|{ vehicle : ""
+    crash ||--|{ pedestrian : ""
+    vehicle |o..o{ pedestrian : "str_veh"
+    pedestrian ||--o| ped_crash_type : ""
+    pbcat_type ||..o{ ped_crash_type : ""
+    pbcat_group ||..|{ pbcat_type : ""
+
+    county {
+        smallint county_fips PK
+        text name UK
+    }
+    county_population {
+        smallint county_fips PK, FK
+        smallint year PK
+        integer population
+        smallint vintage
+    }
+    block_group {
+        text geoid10 PK
+        smallint county_fips FK "generated from geoid10"
+        numeric natwalkind
+        numeric d3b "N"
+        numeric d4a "N"
+        integer totpop
+    }
+    crash {
+        smallint year PK
+        integer st_case PK
+        smallint county FK
+        smallint month
+        smallint day_week
+        smallint hour
+        smallint rur_urb
+        smallint func_sys
+        smallint reljct2
+        smallint lgt_cond
+        smallint weather
+        numeric latitude "N"
+        numeric longitud "N"
+        text geoid10 FK "N"
+        text tway_id "N"
+        smallint fatals
+        smallint peds
+    }
+    vehicle {
+        smallint year PK, FK
+        integer st_case PK, FK
+        smallint veh_no PK
+        smallint body_typ
+        smallint vspd_lim
+        smallint hit_run
+    }
+    pedestrian {
+        smallint year PK, FK
+        integer st_case PK, FK
+        smallint veh_no PK
+        smallint per_no PK
+        smallint str_veh FK "N"
+        smallint per_typ
+        smallint inj_sev
+        smallint age
+        smallint sex
+        smallint drinking
+    }
+    ped_crash_type {
+        smallint year PK, FK
+        integer st_case PK, FK
+        smallint veh_no PK, FK
+        smallint per_no PK, FK
+        smallint pbcwalk
+        smallint pbswalk
+        smallint pedloc
+        smallint pedpos
+        smallint pedctype FK
+    }
+    pbcat_type {
+        smallint pedctype PK
+        text label UK
+        smallint pedcgp FK
+    }
+    pbcat_group {
+        smallint pedcgp PK
+        text label UK
+    }

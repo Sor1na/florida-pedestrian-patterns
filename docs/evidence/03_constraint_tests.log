@@ -1,0 +1,187 @@
+
+===== Results: one line per test (expected vs. what PostgreSQL did) =====
+ id  |                                            rule                                            |                   expected                    |                       got                       | verdict 
+-----+--------------------------------------------------------------------------------------------+-----------------------------------------------+-------------------------------------------------+---------
+ A1  | Rule 1: a crash is identified by year + st_case                                            | REJECT 23505 crash_pk                         | REJECTED 23505 crash_pk                         | PASS
+ A2  | Rule 1: st_case is reused every year                                                       | ACCEPT                                        | ACCEPTED                                        | PASS
+ A3  | a pedestrian is identified inside the crash by per_no                                      | REJECT 23505 pedestrian_pk                    | REJECTED 23505 pedestrian_pk                    | PASS
+ A4  | key columns are never empty                                                                | REJECT 23502                                  | REJECTED 23502                                  | PASS
+ A5  | at most one crash-typing record per pedestrian                                             | REJECT 23505 ped_crash_type_pk                | REJECTED 23505 ped_crash_type_pk                | PASS
+ A6  | one population estimate per county and year                                                | REJECT 23505 county_population_pk             | REJECTED 23505 county_population_pk             | PASS
+ B1  | Rule 1: every vehicle belongs to a crash of the same year                                  | REJECT 23503 vehicle_crash_fk                 | REJECTED 23503 vehicle_crash_fk                 | PASS
+ B2  | Rule 1: every pedestrian belongs to a crash of the same year                               | REJECT 23503 pedestrian_crash_fk              | REJECTED 23503 pedestrian_crash_fk              | PASS
+ B3  | Rule 2: the striking vehicle must be a vehicle of the same crash                           | REJECT 23503 pedestrian_striking_vehicle_fk   | REJECTED 23503 pedestrian_striking_vehicle_fk   | PASS
+ B4  | Rule 2: "no striking vehicle" is stored as NULL, never as 0                                | REJECT 23514 pedestrian_str_veh_ck            | REJECTED 23514 pedestrian_str_veh_ck            | PASS
+ B5  | Rule 2: the striking-vehicle link is optional                                              | ACCEPT                                        | ACCEPTED                                        | PASS
+ B6  | Rule 2: a vehicle that struck someone cannot be removed on its own                         | REJECT 23503 pedestrian_striking_vehicle_fk   | REJECTED 23503 pedestrian_striking_vehicle_fk   | PASS
+ B7  | Rule 3: every crash has a county that exists                                               | REJECT 23503 crash_county_fk                  | REJECTED 23503 crash_county_fk                  | PASS
+ B8  | Rule 3: a county with crashes cannot be deleted                                            | REJECT 23503                                  | REJECTED 23503 county_population_county_fk      | PASS
+ B9  | Rule 3: the block group must exist                                                         | REJECT 23503 crash_block_group_fk             | REJECTED 23503 crash_block_group_fk             | PASS
+ B10 | a typing record needs its pedestrian                                                       | REJECT 23503 ped_crash_type_pedestrian_fk     | REJECTED 23503 ped_crash_type_pedestrian_fk     | PASS
+ B11 | the crash type must be a PBCAT pedestrian type                                             | REJECT 23503 ped_crash_type_pbcat_fk          | REJECTED 23503 ped_crash_type_pbcat_fk          | PASS
+ B12 | a block group lies in a county that exists                                                 | REJECT 23503 block_group_county_fk            | REJECTED 23503 block_group_county_fk            | PASS
+ B13 | the county of a block group comes from its GEOID and cannot be typed in                    | REJECT 428C9                                  | REJECTED 428C9                                  | PASS
+ B14 | reload of one year: deleting a crash removes its vehicles, pedestrians, and typing records | ACCEPT                                        | ACCEPTED                                        | PASS
+ C1  | scope: crash years 2020-2024                                                               | REJECT 23514 crash_year_ck                    | REJECTED 23514 crash_year_ck                    | PASS
+ C2  | scope: Florida only (st_case starts with 12)                                               | REJECT 23514 crash_st_case_ck                 | REJECTED 23514 crash_st_case_ck                 | PASS
+ C3  | scope: pedestrians only (PER_TYP = 5)                                                      | REJECT 23514 pedestrian_per_typ_ck            | REJECTED 23514 pedestrian_per_typ_ck            | PASS
+ C4  | scope: fatal injuries only (INJ_SEV = 4)                                                   | REJECT 23514 pedestrian_inj_sev_ck            | REJECTED 23514 pedestrian_inj_sev_ck            | PASS
+ C5  | pedestrians are outside vehicles (VEH_NO = 0)                                              | REJECT 23514 pedestrian_veh_no_ck             | REJECTED 23514 pedestrian_veh_no_ck             | PASS
+ C6  | vehicles are numbered from 1                                                               | REJECT 23514 vehicle_veh_no_ck                | REJECTED 23514 vehicle_veh_no_ck                | PASS
+ C7  | LGT_COND codes are 1-9                                                                     | REJECT 23514 crash_lgt_cond_ck                | REJECTED 23514 crash_lgt_cond_ck                | PASS
+ C8  | HOUR is 0-23, or 99 for unknown                                                            | REJECT 23514 crash_hour_ck                    | REJECTED 23514 crash_hour_ck                    | PASS
+ C9  | FUNC_SYS codes are 1-7, 96, 98, 99                                                         | REJECT 23514 crash_func_sys_ck                | REJECTED 23514 crash_func_sys_ck                | PASS
+ C10 | posted speed limit is 0-95 mph, or 98/99                                                   | REJECT 23514 vehicle_vspd_lim_ck              | REJECTED 23514 vehicle_vspd_lim_ck              | PASS
+ C11 | AGE is 0-120, or 998/999                                                                   | REJECT 23514 pedestrian_age_ck                | REJECTED 23514 pedestrian_age_ck                | PASS
+ C12 | SEX codes are 1, 2, 8, 9                                                                   | REJECT 23514 pedestrian_sex_ck                | REJECTED 23514 pedestrian_sex_ck                | PASS
+ C13 | PEDLOC 7 means "not a pedestrian" and cannot occur here                                    | REJECT 23514 ped_crash_type_pedloc_ck         | REJECTED 23514 ped_crash_type_pedloc_ck         | PASS
+ C14 | unknown codes are values, not errors                                                       | ACCEPT                                        | ACCEPTED                                        | PASS
+ C15 | Rule 3: the FARS filler 77.7777 is not a latitude; it must arrive as NULL                  | REJECT 23514                                  | REJECTED 23514 crash_latitude_ck                | PASS
+ C16 | Rule 3: a point has both coordinates or neither                                            | REJECT 23514 crash_point_both_or_neither_ck   | REJECTED 23514 crash_point_both_or_neither_ck   | PASS
+ C17 | Rule 3: a point must fall inside Florida's bounding box                                    | REJECT 23514                                  | REJECTED 23514 crash_latitude_ck                | PASS
+ C18 | Rule 3: no block group without valid coordinates                                           | REJECT 23514 crash_block_group_needs_point_ck | REJECTED 23514 crash_block_group_needs_point_ck | PASS
+ C19 | the walkability index runs from 1 to 20                                                    | REJECT 23514 block_group_natwalkind_ck        | REJECTED 23514 block_group_natwalkind_ck        | PASS
+ C20 | EPA's -99999 (no transit stop nearby) must arrive as NULL                                  | REJECT 23514 block_group_d4a_ck               | REJECTED 23514 block_group_d4a_ck               | PASS
+ C21 | a block-group GEOID is 12 digits and starts with 12 (Florida)                              | REJECT 23514 block_group_geoid_ck             | REJECTED 23514 block_group_geoid_ck             | PASS
+ C22 | a population estimate is a positive number                                                 | REJECT 23514 county_population_pop_ck         | REJECTED 23514 county_population_pop_ck         | PASS
+ C23 | an estimate for year Y cannot come from a vintage before Y                                 | REJECT 23514 county_population_vintage_ck     | REJECTED 23514 county_population_vintage_ck     | PASS
+ C24 | one code has one label in any given year                                                   | REJECT 23P01 code_lookup_no_overlap_ex        | REJECTED 23P01 code_lookup_no_overlap_ex        | PASS
+ C25 | a file in the manifest carries a real SHA-256 checksum                                     | REJECT 23514 source_file_sha256_ck            | REJECTED 23514 source_file_sha256_ck            | PASS
+ C26 | a finished run has a finish time, a running one does not                                   | REJECT 23514 etl_run_finish_ck                | REJECTED 23514 etl_run_finish_ck                | PASS
+ D1  | a crash kills one or more pedestrians                                                      | REJECT 23514 crash_min_one_pedestrian         | REJECTED 23514 crash_min_one_pedestrian         | PASS
+ D2  | a crash involves one or more vehicles in transport                                         | REJECT 23514 crash_min_one_vehicle            | REJECTED 23514 crash_min_one_vehicle            | PASS
+ D3  | a crash kills one or more pedestrians (also after a delete)                                | REJECT 23514 crash_min_one_pedestrian         | REJECTED 23514 crash_min_one_pedestrian         | PASS
+ D4  | E1: one crash may kill several pedestrians                                                 | ACCEPT                                        | ACCEPTED                                        | PASS
+ E1  | the dashboard role cannot read person-level rows                                           | REJECT 42501                                  | REJECTED 42501                                  | PASS
+ E2  | the dashboard role cannot read crash coordinates                                           | REJECT 42501                                  | REJECTED 42501                                  | PASS
+ E3  | the dashboard role cannot read the case-level analysis view                                | REJECT 42501                                  | REJECTED 42501                                  | PASS
+ E4  | the dashboard role can read aggregates                                                     | ACCEPT                                        | ACCEPTED                                        | PASS
+ E5  | the analyst role reads everything but changes nothing                                      | REJECT 42501                                  | REJECTED 42501                                  | PASS
+ E6  | the analyst role can read the analysis view                                                | ACCEPT                                        | ACCEPTED                                        | PASS
+(56 rows)
+
+===== What each test tried, and the error text PostgreSQL returned =====
+A1  second crash with the key (2021, 120417)
+      -> duplicate key value violates unique constraint "crash_pk"
+A2  crash (2022, 120417): same st_case as R1 and R2, new year, with its vehicle and pedestrian
+      -> accepted
+A3  second pedestrian row with the key (2024, 120078, 0, 1)
+      -> duplicate key value violates unique constraint "pedestrian_pk"
+A4  pedestrian with per_no NULL
+      -> null value in column "per_no" of relation "pedestrian" violates not-null constraint
+A5  second ped_crash_type row for pedestrian (2021, 120417, 0, 1)
+      -> duplicate key value violates unique constraint "ped_crash_type_pk"
+A6  second estimate for Brevard 2021
+      -> duplicate key value violates unique constraint "county_population_pk"
+B1  vehicle for crash (2020, 120001), which does not exist
+      -> insert or update on table "vehicle" violates foreign key constraint "vehicle_crash_fk"
+B2  pedestrian with st_case 120417 in 2020 (the case exists in 2021 and 2023 only)
+      -> insert or update on table "pedestrian" violates foreign key constraint "pedestrian_crash_fk"
+B3  pedestrian 2 in crash (2022, 121307) with str_veh = 2; that crash has vehicle 1 only
+      -> insert or update on table "pedestrian" violates foreign key constraint "pedestrian_striking_vehicle_fk"
+B4  pedestrian with str_veh = 0
+      -> new row for relation "pedestrian" violates check constraint "pedestrian_str_veh_ck"
+B5  pedestrian with str_veh NULL
+      -> accepted
+B6  delete vehicle (2021, 120417, 1) while its pedestrian stays
+      -> update or delete on table "vehicle" violates foreign key constraint "pedestrian_striking_vehicle_fk" on table "pedestrian"
+B7  crash with the FARS county code 999 (unknown)
+      -> insert or update on table "crash" violates foreign key constraint "crash_county_fk"
+B8  delete Brevard (9)
+      -> update or delete on table "county" violates foreign key constraint "county_population_county_fk" on table "county_population"
+B9  crash geocoded to block group 120099999999
+      -> insert or update on table "crash" violates foreign key constraint "crash_block_group_fk"
+B10  ped_crash_type row for pedestrian (2021, 120417, 0, 7), who does not exist
+      -> insert or update on table "ped_crash_type" violates foreign key constraint "ped_crash_type_pedestrian_fk"
+B11  typing record for Q7 with pedctype 0 ("not a pedestrian")
+      -> insert or update on table "ped_crash_type" violates foreign key constraint "ped_crash_type_pbcat_fk"
+B12  block group 120250001001 (county 025, the retired Dade code)
+      -> insert or update on table "block_group" violates foreign key constraint "block_group_county_fk"
+B13  insert a block group with county_fips written by hand
+      -> cannot insert a non-DEFAULT value into column "county_fips"
+B14  delete every 2024 crash (the Annual Report File is replaced by the Final file)
+      -> accepted
+C1  crash dated 2019
+      -> new row for relation "crash" violates check constraint "crash_year_ck"
+C2  crash with st_case 130001 (Georgia)
+      -> new row for relation "crash" violates check constraint "crash_st_case_ck"
+C3  a bicyclist (per_typ 6) in the pedestrian table
+      -> new row for relation "pedestrian" violates check constraint "pedestrian_per_typ_ck"
+C4  a pedestrian with a serious injury (inj_sev 3)
+      -> new row for relation "pedestrian" violates check constraint "pedestrian_inj_sev_ck"
+C5  pedestrian row with veh_no 1
+      -> new row for relation "pedestrian" violates check constraint "pedestrian_veh_no_ck"
+C6  vehicle with veh_no 0
+      -> new row for relation "vehicle" violates check constraint "vehicle_veh_no_ck"
+C7  crash with lgt_cond 0
+      -> new row for relation "crash" violates check constraint "crash_lgt_cond_ck"
+C8  crash at hour 24
+      -> new row for relation "crash" violates check constraint "crash_hour_ck"
+C9  crash with func_sys 8
+      -> new row for relation "crash" violates check constraint "crash_func_sys_ck"
+C10  vehicle with vspd_lim 97
+      -> new row for relation "vehicle" violates check constraint "vehicle_vspd_lim_ck"
+C11  pedestrian aged 130
+      -> new row for relation "pedestrian" violates check constraint "pedestrian_age_ck"
+C12  pedestrian with sex 3 (a code NHTSA withdrew from the 2022 file)
+      -> new row for relation "pedestrian" violates check constraint "pedestrian_sex_ck"
+C13  typing record for Q7 with pedloc 7
+      -> new row for relation "ped_crash_type" violates check constraint "ped_crash_type_pedloc_ck"
+C14  crash with hour 99, lgt_cond 9, func_sys 99; vehicle with vspd_lim 99 and body_typ 99; pedestrian with age 998, sex 9, drinking 8
+      -> accepted
+C15  crash with latitude 77.7777 and longitude 777.7777
+      -> new row for relation "crash" violates check constraint "crash_latitude_ck"
+C16  crash with a latitude and no longitude
+      -> new row for relation "crash" violates check constraint "crash_point_both_or_neither_ck"
+C17  crash at 40.7128, -74.0060 (New York)
+      -> new row for relation "crash" violates check constraint "crash_latitude_ck"
+C18  crash with a block group and NULL coordinates
+      -> new row for relation "crash" violates check constraint "crash_block_group_needs_point_ck"
+C19  block group with natwalkind 21.5
+      -> new row for relation "block_group" violates check constraint "block_group_natwalkind_ck"
+C20  block group with d4a = -99999
+      -> new row for relation "block_group" violates check constraint "block_group_d4a_ck"
+C21  block group 130510001001 (Georgia)
+      -> new row for relation "block_group" violates check constraint "block_group_geoid_ck"
+C22  Lafayette 2021 with population 0
+      -> new row for relation "county_population" violates check constraint "county_population_pop_ck"
+C23  a 2024 estimate labelled Vintage 2023
+      -> new row for relation "county_population" violates check constraint "county_population_vintage_ck"
+C24  second label for lgt_cond 2 valid 2022-2024 (the first covers 2020-2024)
+      -> conflicting key value violates exclusion constraint "code_lookup_no_overlap_ex"
+C25  source_file row with sha256 = 'abc'
+      -> new row for relation "source_file" violates check constraint "source_file_sha256_ck"
+C26  etl_run marked succeeded with finished_at NULL
+      -> new row for relation "etl_run" violates check constraint "etl_run_finish_ck"
+D1  crash and vehicle, but no pedestrian row
+      -> crash (2023, 120994) has no pedestrian fatality row
+D2  crash and pedestrian, but no vehicle row
+      -> crash (2023, 120994) has no in-transport vehicle row
+D3  delete the only pedestrian of crash (2021, 120417)
+      -> crash (2021, 120417) has no pedestrian fatality row
+D4  delete one of the two pedestrians of crash (2024, 120078); one is left, so the crash is still valid
+      -> accepted
+E1  ped_dashboard: SELECT * FROM pedestrian
+      -> permission denied for table pedestrian
+E2  ped_dashboard: SELECT latitude, longitud FROM crash
+      -> permission denied for table crash
+E3  ped_dashboard: SELECT * FROM v_ped_transactions
+      -> permission denied for view v_ped_transactions
+E4  ped_dashboard: SELECT from v_county_rate and v_dash_pattern_county
+      -> accepted
+E5  ped_analyst: UPDATE crash SET lgt_cond = 1
+      -> permission denied for table crash
+E6  ped_analyst: SELECT * FROM v_ped_transactions
+      -> accepted
+===== Summary =====
+ tests | passed | failed | invalid_records_tried | valid_edge_cases_tried 
+-------+--------+--------+-----------------------+------------------------
+    56 |     56 |      0 |                    49 |                      7
+(1 row)
+
+===== The fixture is untouched (everything above was rolled back) =====
+ crashes | vehicles | pedestrians | typing_records 
+---------+----------+-------------+----------------
+      15 |       16 |          16 |             15
+(1 row)
+
