@@ -1,0 +1,16 @@
+check,value
+encoding that decodes the file,latin-1
+rows (all US),3195
+columns,99
+Florida rows incl. state summary (SUMLEV 040),68
+Florida county rows (SUMLEV 050),67
+POPESTIMATE columns,POPESTIMATE2020 POPESTIMATE2021 POPESTIMATE2022 POPESTIMATE2023 POPESTIMATE2024 POPESTIMATE2025
+Florida county codes are odd 1..133,False
+POPESTIMATE2020: FL county total / min / max,"21,591,325 / 7,818 / 2,695,519"
+POPESTIMATE2021: FL county total / min / max,"21,836,698 / 7,299 / 2,670,141"
+POPESTIMATE2022: FL county total / min / max,"22,413,989 / 7,602 / 2,733,972"
+POPESTIMATE2023: FL county total / min / max,"22,929,248 / 7,804 / 2,793,511"
+POPESTIMATE2024: FL county total / min / max,"23,265,838 / 7,977 / 2,812,144"
+POPESTIMATE2025: FL county total / min / max,"23,462,518 / 8,035 / 2,802,029"
+"FARS county codes (FL, all crashes) not in Census county list",[]
+Census counties with zero FARS crashes 2020-2024,[]

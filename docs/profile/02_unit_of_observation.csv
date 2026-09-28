@@ -1,0 +1,7 @@
+year,fl_crashes,fl_fatalities_all,fl_person_rows,fl_nonmotorist_rows,fl_pedestrian_rows_any_injury,fl_pedestrian_fatalities,crashes_with_ped_fatality,ped_fatalities_per_crash_max,crashes_with_2plus_ped_fatalities,ped_fatalities_urban,ped_fatalities_rural,ped_fatalities_rur_urb_unknown,ped_fatalities_urban_nonfreeway_subset,ped_fatalities_urban_freeway,ped_fatalities_urban_func_sys_unknown
+2020,3097,3329,7785,937,739,695,689,2,6,635,59,1,588,47,0
+2021,3453,3741,8889,1106,867,819,809,4,8,746,72,1,674,72,0
+2022,3315,3548,8592,1103,847,780,768,2,12,709,68,3,644,65,0
+2023,3163,3375,8222,1088,815,774,768,2,6,671,92,11,625,46,0
+2024,2931,3138,7645,974,713,668,656,3,10,564,73,31,522,42,0
+total,15959,17131,41133,5208,3981,3736,3690,13,42,3325,364,47,3053,272,0

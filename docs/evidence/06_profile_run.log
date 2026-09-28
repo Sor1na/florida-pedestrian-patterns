@@ -1,0 +1,27 @@
+02:50:15  profile_raw.py start
+02:50:16  2020 accident  national= 35,935 florida= 3,097 cols=81
+02:50:18  2020 vehicle   national= 54,552 florida= 4,845 cols=201
+02:50:20  2020 person    national= 86,396 florida= 7,785 cols=126
+02:50:20  2020 pbtype    national=  8,166 florida=   936 cols=45
+02:50:20  2020 parkwork  national=  1,551 florida=    93 cols=115
+02:50:21  2021 accident  national= 39,785 florida= 3,453 cols=80
+02:50:23  2021 vehicle   national= 61,802 florida= 5,485 cols=201
+02:50:26  2021 person    national= 97,511 florida= 8,889 cols=126
+02:50:26  2021 pbtype    national=  9,140 florida= 1,102 cols=45
+02:50:26  2021 parkwork  national=  1,772 florida=   121 cols=115
+02:50:27  2022 accident  national= 39,422 florida= 3,315 cols=80
+02:50:29  2022 vehicle   national= 60,765 florida= 5,234 cols=201
+02:50:32  2022 person    national= 96,186 florida= 8,592 cols=126
+02:50:32  2022 pbtype    national=  9,495 florida= 1,100 cols=45
+02:50:32  2022 parkwork  national=  1,613 florida=   119 cols=115
+02:50:33  2023 accident  national= 37,769 florida= 3,163 cols=80
+02:50:35  2023 vehicle   national= 58,508 florida= 5,019 cols=203
+02:50:38  2023 person    national= 92,768 florida= 8,222 cols=126
+02:50:38  2023 pbtype    national=  9,239 florida= 1,085 cols=45
+02:50:38  2023 parkwork  national=  1,530 florida=   113 cols=115
+02:50:39  2024 accident  national= 36,297 florida= 2,931 cols=80
+02:50:41  2024 vehicle   national= 56,011 florida= 4,620 cols=201
+02:50:43  2024 person    national= 88,326 florida= 7,645 cols=126
+02:50:43  2024 pbtype    national=  8,940 florida=   970 cols=45
+02:50:43  2024 parkwork  national=  1,526 florida=   121 cols=115
+02:50:46  wrote 12 tables to docs/profile/ and PROFILE.md

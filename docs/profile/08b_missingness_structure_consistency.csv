@@ -1,0 +1,58 @@
+check,group,n,flagged,flagged_pct
+BODY_TYP unknown (98/99) by hit-and-run,HIT_RUN = 0 (stayed),3039.0,5.0,0.16
+VSPD_LIM unknown (98/99) by hit-and-run,HIT_RUN = 0 (stayed),3039.0,79.0,2.6
+BODY_TYP unknown (98/99) by hit-and-run,HIT_RUN = 1 (left the scene),697.0,400.0,57.39
+VSPD_LIM unknown (98/99) by hit-and-run,HIT_RUN = 1 (left the scene),697.0,129.0,18.51
+VSPD_LIM unknown (98/99) by year,2020,695.0,31.0,4.46
+DRINKING not reported/unknown (8/9) by year,2020,695.0,239.0,34.39
+RUR_URB not reported/unknown (6/8/9) by year,2020,695.0,1.0,0.14
+"PEDCGP 990 (other/unknown, insufficient details) by year",2020,695.0,98.0,14.1
+VSPD_LIM unknown (98/99) by year,2021,819.0,49.0,5.98
+DRINKING not reported/unknown (8/9) by year,2021,819.0,293.0,35.78
+RUR_URB not reported/unknown (6/8/9) by year,2021,819.0,1.0,0.12
+"PEDCGP 990 (other/unknown, insufficient details) by year",2021,819.0,116.0,14.16
+VSPD_LIM unknown (98/99) by year,2022,780.0,44.0,5.64
+DRINKING not reported/unknown (8/9) by year,2022,780.0,282.0,36.15
+RUR_URB not reported/unknown (6/8/9) by year,2022,780.0,3.0,0.38
+"PEDCGP 990 (other/unknown, insufficient details) by year",2022,780.0,92.0,11.79
+VSPD_LIM unknown (98/99) by year,2023,774.0,48.0,6.2
+DRINKING not reported/unknown (8/9) by year,2023,774.0,338.0,43.67
+RUR_URB not reported/unknown (6/8/9) by year,2023,774.0,11.0,1.42
+"PEDCGP 990 (other/unknown, insufficient details) by year",2023,774.0,89.0,11.5
+VSPD_LIM unknown (98/99) by year,2024,668.0,36.0,5.39
+DRINKING not reported/unknown (8/9) by year,2024,668.0,287.0,42.96
+RUR_URB not reported/unknown (6/8/9) by year,2024,668.0,31.0,4.64
+"PEDCGP 990 (other/unknown, insufficient details) by year",2024,668.0,99.0,14.82
+VSPD_LIM unknown (98/99) by road class,FUNC_SYS 3 principal arterial,1710.0,82.0,4.8
+VSPD_LIM unknown (98/99) by road class,FUNC_SYS 4 minor arterial,846.0,63.0,7.45
+VSPD_LIM unknown (98/99) by road class,FUNC_SYS 5 major collector,397.0,29.0,7.3
+VSPD_LIM unknown (98/99) by road class,FUNC_SYS 6 minor collector,71.0,3.0,4.23
+VSPD_LIM unknown (98/99) by road class,FUNC_SYS 7 local,375.0,28.0,7.47
+VSPD_LIM unknown (98/99) by road class,FUNC_SYS 1 interstate,255.0,0.0,0.0
+VSPD_LIM unknown (98/99) by road class,FUNC_SYS 2 freeway/expressway,68.0,1.0,1.47
+LGT_COND = daylight (1) while HOUR is 22-04,all deaths,3736.0,0.0,0.0
+LGT_COND = dark (2/3) while HOUR is 10-15,all deaths,3736.0,0.0,0.0
+VSPD_LIM = 0 (no statutory limit),all deaths,3736.0,18.0,0.48
+VSPD_LIM valid but not a multiple of 5,all deaths,3736.0,0.0,0.0
+death in a crash with 2+ in-transport vehicles,all deaths,3736.0,400.0,10.71
+... and the vehicles report different VSPD_LIM values,deaths in multi-vehicle crashes,400.0,17.0,4.25
+BODY_TYP: distinct codes / codes with < 1% support (< 37 deaths),2020-2024,37.0,25.0,67.57
+PEDCTYPE: distinct codes / codes with < 1% support (< 37 deaths),2020-2024,48.0,35.0,72.92
+PEDCGP: distinct codes / codes with < 1% support (< 37 deaths),2020-2024,16.0,9.0,56.25
+share of deaths by month: 2024 ARF vs 2020-2023 final,month 01,9.55,10.63,1.08
+share of deaths by month: 2024 ARF vs 2020-2023 final,month 02,9.35,9.43,0.08
+share of deaths by month: 2024 ARF vs 2020-2023 final,month 03,9.84,9.58,-0.26
+share of deaths by month: 2024 ARF vs 2020-2023 final,month 04,7.46,7.78,0.32
+share of deaths by month: 2024 ARF vs 2020-2023 final,month 05,7.04,8.83,1.79
+share of deaths by month: 2024 ARF vs 2020-2023 final,month 06,6.29,5.09,-1.2
+share of deaths by month: 2024 ARF vs 2020-2023 final,month 07,6.75,7.04,0.29
+share of deaths by month: 2024 ARF vs 2020-2023 final,month 08,6.78,6.59,-0.19
+share of deaths by month: 2024 ARF vs 2020-2023 final,month 09,8.25,5.69,-2.56
+share of deaths by month: 2024 ARF vs 2020-2023 final,month 10,9.32,8.53,-0.79
+share of deaths by month: 2024 ARF vs 2020-2023 final,month 11,9.49,11.23,1.74
+share of deaths by month: 2024 ARF vs 2020-2023 final,month 12,9.88,9.58,-0.3
+deaths in the 10 counties with most deaths,2020-2024,3736.0,2389.0,63.95
+counties with fewer than 20 deaths in five years,2020-2024,64.0,33.0,51.56
+AGE reported as 0-4,all deaths,3736.0,25.0,0.67
+AGE unknown (998/999),all deaths,3736.0,214.0,5.73
+SEX not reported/unknown (8/9),all deaths,3736.0,160.0,4.28

@@ -1,0 +1,6 @@
+year,crashes_with_ped_fatality,coord_filler_codes,coord_filler_pct,coord_outside_fl_bbox,coord_usable,coord_usable_pct,lat_decimals_min,lat_decimals_max,repeated_points,county_codes_distinct,county_unknown_codes,county_out_of_range
+2020,689,0,0.0,0,689,100.0,8,8,2,51,0,0
+2021,809,2,0.25,0,807,99.75,8,8,0,52,0,0
+2022,768,1,0.13,0,767,99.87,8,8,0,55,0,0
+2023,768,0,0.0,0,768,100.0,8,8,0,57,0,0
+2024,656,0,0.0,0,656,100.0,8,8,0,51,0,0

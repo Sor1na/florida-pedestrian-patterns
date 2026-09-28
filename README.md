@@ -12,10 +12,28 @@ This repository holds the capstone deliverables as they are built: the PostgreSQ
 
 | Week | Deliverable | Where |
 |---|---|---|
+| 6 | **Data cleaning plan**: measured profile of the raw FARS 2020–2024 and Census files, five quality issues with detection rules, actions, rationale and verification tests, bias statement, raw-preservation and logging plan | [`docs/Week6_Data_Cleaning_Plan_Shkirpan.pdf`](docs/Week6_Data_Cleaning_Plan_Shkirpan.pdf) ([Markdown](docs/Week6_Data_Cleaning_Plan_Shkirpan.md)), [`pipeline/profile_raw.py`](pipeline/profile_raw.py), [`docs/profile/`](docs/profile), [`tests/verify_cleaning_rules.sql`](tests/verify_cleaning_rules.sql) |
 | 5 | **Database design**: conceptual and logical model, SQL scripts, data dictionary, constraint tests, sample queries | [`docs/Week5_Database_Design_Shkirpan.pdf`](docs/Week5_Database_Design_Shkirpan.pdf), [`sql/`](sql), [`tests/`](tests), [`queries/`](queries), [`docs/data_dictionary.md`](docs/data_dictionary.md) |
 | 4 | First-pass conceptual data model | [the section below](#week-4-first-pass-conceptual-data-model), [`docs/Week4_Conceptual_Data_Model_Shkirpan.pdf`](docs/Week4_Conceptual_Data_Model_Shkirpan.pdf), commit `cd0e009` |
 
 No real FARS rows are in this repository. FARS describes real deaths, and the proposal keeps person-level rows in the local database. Every record under `tests/` and `samples/` is synthetic. The repository holds no passwords, tokens, or keys; `.gitignore` keeps `.env` files, raw data, and database dumps out.
+
+---
+
+## Week 6: data cleaning plan
+
+The plan is [`docs/Week6_Data_Cleaning_Plan_Shkirpan.pdf`](docs/Week6_Data_Cleaning_Plan_Shkirpan.pdf) (Markdown source: [`docs/Week6_Data_Cleaning_Plan_Shkirpan.md`](docs/Week6_Data_Cleaning_Plan_Shkirpan.md)). Every number in it was measured on the raw files by one script:
+
+```
+# data/raw/ holds FARS2020..2024NationalCSV.zip and co-est2025-alldata.csv (not in Git; see the manifest)
+python pipeline/profile_raw.py
+```
+
+It writes eleven tables to [`docs/profile/`](docs/profile) (manifest with SHA-256, inventory, unit of observation, column drift, variable profile, keys and duplicates, category frequencies, code drift, coordinates, missingness structure, Census profile), a readable summary in [`docs/profile/PROFILE.md`](docs/profile/PROFILE.md), and a run log in `docs/evidence/06_profile_run.log`. The raw zips are read in place and never modified.
+
+Headline measurements: 3,736 pedestrian fatalities in 3,690 Florida crashes (695 / 819 / 780 / 774 / 668 by year), 3,053 of them in the urban, non-freeway population of the question; zero blank cells, zero duplicate or orphan rows, every STR_VEH link and every pbtype record present; 96% of case numbers reused across years; unknown body type in 57% of hit-and-run deaths vs 0.2% otherwise; posted speed unknown for 5.6% of striking vehicles; alcohol field unknown for 38.5% of deaths; RUR_URB not reported for 4.6% of the provisional 2024 deaths against at most 1.4% in the final years; coordinates usable for 99.9% of crashes.
+
+The five issues the plan treats, in order of consequence: coded unknowns that are not random; the provisional 2024 Annual Report File; identity across years and multi-victim crashes (no deduplication); sparse and drifting code lists; and the derived block-group link. The post-load tests for all five are in [`tests/verify_cleaning_rules.sql`](tests/verify_cleaning_rules.sql); run against the Week 5 fixture they execute end to end ([`docs/evidence/07_verify_cleaning_rules_on_fixture.log`](docs/evidence/07_verify_cleaning_rules_on_fixture.log)).
 
 ---
 

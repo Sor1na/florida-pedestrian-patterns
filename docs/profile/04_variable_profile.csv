@@ -1,0 +1,161 @@
+variable,year,present,kind,rows,dtype_in_file,blank_cells,blank_pct,coded_unknown,coded_unknown_pct,unknown_codes,distinct_values,min_valid,max_valid,median_valid
+accident.ST_CASE,2020,True,nominal (key),689,numeric,0,0.0,0,0.0,,689,120001.0,123324.0,121727.0
+accident.ST_CASE,2021,True,nominal (key),809,numeric,0,0.0,0,0.0,,809,120007.0,123646.0,121855.0
+accident.ST_CASE,2022,True,nominal (key),768,numeric,0,0.0,0,0.0,,768,120003.0,123540.0,121894.0
+accident.ST_CASE,2023,True,nominal (key),768,numeric,0,0.0,0,0.0,,768,120003.0,123356.0,121796.0
+accident.ST_CASE,2024,True,nominal (key),656,numeric,0,0.0,0,0.0,,656,120006.0,123039.0,121508.5
+accident.COUNTY,2020,True,nominal,689,numeric,0,0.0,0,0.0,0 997 998 999,51,1.0,131.0,86.0
+accident.COUNTY,2021,True,nominal,809,numeric,0,0.0,0,0.0,0 997 998 999,52,1.0,133.0,86.0
+accident.COUNTY,2022,True,nominal,768,numeric,0,0.0,0,0.0,0 997 998 999,55,1.0,133.0,83.0
+accident.COUNTY,2023,True,nominal,768,numeric,0,0.0,0,0.0,0 997 998 999,57,1.0,133.0,86.0
+accident.COUNTY,2024,True,nominal,656,numeric,0,0.0,0,0.0,0 997 998 999,51,1.0,131.0,83.0
+accident.MONTH,2020,True,ordinal (cyclic),689,numeric,0,0.0,0,0.0,,12,1.0,12.0,7.0
+accident.MONTH,2021,True,ordinal (cyclic),809,numeric,0,0.0,0,0.0,,12,1.0,12.0,7.0
+accident.MONTH,2022,True,ordinal (cyclic),768,numeric,0,0.0,0,0.0,,12,1.0,12.0,7.0
+accident.MONTH,2023,True,ordinal (cyclic),768,numeric,0,0.0,0,0.0,,12,1.0,12.0,6.5
+accident.MONTH,2024,True,ordinal (cyclic),656,numeric,0,0.0,0,0.0,,12,1.0,12.0,6.0
+accident.DAY_WEEK,2020,True,ordinal (cyclic),689,numeric,0,0.0,0,0.0,,7,1.0,7.0,4.0
+accident.DAY_WEEK,2021,True,ordinal (cyclic),809,numeric,0,0.0,0,0.0,,7,1.0,7.0,4.0
+accident.DAY_WEEK,2022,True,ordinal (cyclic),768,numeric,0,0.0,0,0.0,,7,1.0,7.0,4.0
+accident.DAY_WEEK,2023,True,ordinal (cyclic),768,numeric,0,0.0,0,0.0,,7,1.0,7.0,4.0
+accident.DAY_WEEK,2024,True,ordinal (cyclic),656,numeric,0,0.0,0,0.0,,7,1.0,7.0,4.0
+accident.HOUR,2020,True,ordinal (cyclic),689,numeric,0,0.0,0,0.0,99,24,0.0,23.0,19.0
+accident.HOUR,2021,True,ordinal (cyclic),809,numeric,0,0.0,0,0.0,99,24,0.0,23.0,18.0
+accident.HOUR,2022,True,ordinal (cyclic),768,numeric,0,0.0,0,0.0,99,24,0.0,23.0,18.0
+accident.HOUR,2023,True,ordinal (cyclic),768,numeric,0,0.0,0,0.0,99,24,0.0,23.0,18.0
+accident.HOUR,2024,True,ordinal (cyclic),656,numeric,0,0.0,0,0.0,99,24,0.0,23.0,17.0
+accident.RUR_URB,2020,True,nominal,689,numeric,0,0.0,1,0.15,6 8 9,3,1.0,2.0,2.0
+accident.RUR_URB,2021,True,nominal,809,numeric,0,0.0,1,0.12,6 8 9,3,1.0,2.0,2.0
+accident.RUR_URB,2022,True,nominal,768,numeric,0,0.0,3,0.39,6 8 9,3,1.0,2.0,2.0
+accident.RUR_URB,2023,True,nominal,768,numeric,0,0.0,11,1.43,6 8 9,4,1.0,2.0,2.0
+accident.RUR_URB,2024,True,nominal,656,numeric,0,0.0,31,4.73,6 8 9,5,1.0,2.0,2.0
+accident.FUNC_SYS,2020,True,ordinal,689,numeric,0,0.0,1,0.15,96 98 99,8,1.0,7.0,3.0
+accident.FUNC_SYS,2021,True,ordinal,809,numeric,0,0.0,1,0.12,96 98 99,8,1.0,7.0,3.0
+accident.FUNC_SYS,2022,True,ordinal,768,numeric,0,0.0,4,0.52,96 98 99,9,1.0,7.0,3.0
+accident.FUNC_SYS,2023,True,ordinal,768,numeric,0,0.0,3,0.39,96 98 99,8,1.0,7.0,3.0
+accident.FUNC_SYS,2024,True,ordinal,656,numeric,0,0.0,5,0.76,96 98 99,9,1.0,7.0,3.0
+accident.RELJCT2,2020,True,nominal,689,numeric,0,0.0,2,0.29,98 99,10,1.0,20.0,1.0
+accident.RELJCT2,2021,True,nominal,809,numeric,0,0.0,2,0.25,98 99,11,1.0,20.0,1.0
+accident.RELJCT2,2022,True,nominal,768,numeric,0,0.0,0,0.0,98 99,11,1.0,20.0,1.0
+accident.RELJCT2,2023,True,nominal,768,numeric,0,0.0,0,0.0,98 99,10,1.0,20.0,1.0
+accident.RELJCT2,2024,True,nominal,656,numeric,0,0.0,2,0.3,98 99,10,1.0,20.0,1.0
+accident.LGT_COND,2020,True,nominal,689,numeric,0,0.0,9,1.31,6 7 8 9,7,1.0,5.0,2.0
+accident.LGT_COND,2021,True,nominal,809,numeric,0,0.0,15,1.85,6 7 8 9,7,1.0,5.0,3.0
+accident.LGT_COND,2022,True,nominal,768,numeric,0,0.0,16,2.08,6 7 8 9,8,1.0,5.0,3.0
+accident.LGT_COND,2023,True,nominal,768,numeric,0,0.0,8,1.04,6 7 8 9,7,1.0,5.0,2.0
+accident.LGT_COND,2024,True,nominal,656,numeric,0,0.0,21,3.2,6 7 8 9,9,1.0,5.0,3.0
+accident.WEATHER,2020,True,nominal,689,numeric,0,0.0,1,0.15,8 98 99,5,1.0,10.0,1.0
+accident.WEATHER,2021,True,nominal,809,numeric,0,0.0,4,0.49,8 98 99,5,1.0,10.0,1.0
+accident.WEATHER,2022,True,nominal,768,numeric,0,0.0,3,0.39,8 98 99,5,1.0,10.0,1.0
+accident.WEATHER,2023,True,nominal,768,numeric,0,0.0,6,0.78,8 98 99,7,1.0,10.0,1.0
+accident.WEATHER,2024,True,nominal,656,numeric,0,0.0,4,0.61,8 98 99,7,1.0,10.0,1.0
+accident.LATITUDE,2020,True,interval (ratio-like coordinate),689,numeric,0,0.0,0,0.0,77.7777 88.8888 99.9999,687,24.57478056,30.99918889,27.98180833
+accident.LATITUDE,2021,True,interval (ratio-like coordinate),809,numeric,0,0.0,2,0.25,77.7777 88.8888 99.9999,807,24.92116389,30.96828056,27.99615278
+accident.LATITUDE,2022,True,interval (ratio-like coordinate),768,numeric,0,0.0,1,0.13,77.7777 88.8888 99.9999,767,24.57316111,30.81840278,27.97633611
+accident.LATITUDE,2023,True,interval (ratio-like coordinate),768,numeric,0,0.0,0,0.0,77.7777 88.8888 99.9999,768,24.56056111,30.99138611,28.000141665
+accident.LATITUDE,2024,True,interval (ratio-like coordinate),656,numeric,0,0.0,0,0.0,77.7777 88.8888 99.9999,656,24.92590833,30.77198056,27.958670835
+accident.LONGITUD,2020,True,interval (ratio-like coordinate),689,numeric,0,0.0,0,0.0,777.7777 888.8888 999.9999,686,-87.40964444,-80.03819444,-81.56558056
+accident.LONGITUD,2021,True,interval (ratio-like coordinate),809,numeric,0,0.0,2,0.25,777.7777 888.8888 999.9999,808,-87.40858889,-80.05452222,-81.57213056
+accident.LONGITUD,2022,True,interval (ratio-like coordinate),768,numeric,0,0.0,1,0.13,777.7777 888.8888 999.9999,768,-87.33490833,-80.05457222,-81.50310278
+accident.LONGITUD,2023,True,interval (ratio-like coordinate),768,numeric,0,0.0,0,0.0,777.7777 888.8888 999.9999,766,-87.3797,-80.039025,-81.59903889
+accident.LONGITUD,2024,True,interval (ratio-like coordinate),656,numeric,0,0.0,0,0.0,777.7777 888.8888 999.9999,656,-87.32480278,-80.05193611,-81.506747225
+accident.TWAY_ID,2020,True,nominal (free text),689,text,0,0.0,0,0.0,,404,,,
+accident.TWAY_ID,2021,True,nominal (free text),809,text,0,0.0,0,0.0,,411,,,
+accident.TWAY_ID,2022,True,nominal (free text),768,text,0,0.0,0,0.0,,479,,,
+accident.TWAY_ID,2023,True,nominal (free text),768,text,0,0.0,0,0.0,,490,,,
+accident.TWAY_ID,2024,True,nominal (free text),656,text,0,0.0,0,0.0,,447,,,
+accident.FATALS,2020,True,ratio (count),689,numeric,0,0.0,0,0.0,,3,1.0,3.0,1.0
+accident.FATALS,2021,True,ratio (count),809,numeric,0,0.0,0,0.0,,3,1.0,4.0,1.0
+accident.FATALS,2022,True,ratio (count),768,numeric,0,0.0,0,0.0,,2,1.0,2.0,1.0
+accident.FATALS,2023,True,ratio (count),768,numeric,0,0.0,0,0.0,,2,1.0,2.0,1.0
+accident.FATALS,2024,True,ratio (count),656,numeric,0,0.0,0,0.0,,4,1.0,4.0,1.0
+accident.PEDS,2020,True,ratio (count),689,numeric,0,0.0,0,0.0,,4,1.0,7.0,1.0
+accident.PEDS,2021,True,ratio (count),809,numeric,0,0.0,0,0.0,,7,1.0,7.0,1.0
+accident.PEDS,2022,True,ratio (count),768,numeric,0,0.0,0,0.0,,5,1.0,9.0,1.0
+accident.PEDS,2023,True,ratio (count),768,numeric,0,0.0,0,0.0,,4,1.0,4.0,1.0
+accident.PEDS,2024,True,ratio (count),656,numeric,0,0.0,0,0.0,,5,1.0,6.0,1.0
+vehicle.VEH_NO,2020,True,nominal (key),689,numeric,0,0.0,0,0.0,,3,1.0,4.0,1.0
+vehicle.VEH_NO,2021,True,nominal (key),809,numeric,0,0.0,0,0.0,,3,1.0,3.0,1.0
+vehicle.VEH_NO,2022,True,nominal (key),768,numeric,0,0.0,0,0.0,,3,1.0,3.0,1.0
+vehicle.VEH_NO,2023,True,nominal (key),768,numeric,0,0.0,0,0.0,,3,1.0,3.0,1.0
+vehicle.VEH_NO,2024,True,nominal (key),656,numeric,0,0.0,0,0.0,,5,1.0,5.0,1.0
+vehicle.BODY_TYP,2020,True,nominal,689,numeric,0,0.0,72,10.45,98 99,22,1.0,80.0,6.0
+vehicle.BODY_TYP,2021,True,nominal,809,numeric,0,0.0,85,10.51,98 99,22,1.0,85.0,6.0
+vehicle.BODY_TYP,2022,True,nominal,768,numeric,0,0.0,91,11.85,98 99,29,1.0,88.0,6.0
+vehicle.BODY_TYP,2023,True,nominal,768,numeric,0,0.0,90,11.72,98 99,25,1.0,95.0,14.0
+vehicle.BODY_TYP,2024,True,nominal,656,numeric,0,0.0,67,10.21,98 99,23,1.0,94.0,14.0
+vehicle.VSPD_LIM,2020,True,ratio (mph),689,numeric,0,0.0,30,4.35,98 99,15,5.0,70.0,45.0
+vehicle.VSPD_LIM,2021,True,ratio (mph),809,numeric,0,0.0,49,6.06,98 99,17,0.0,70.0,45.0
+vehicle.VSPD_LIM,2022,True,ratio (mph),768,numeric,0,0.0,44,5.73,98 99,16,0.0,70.0,45.0
+vehicle.VSPD_LIM,2023,True,ratio (mph),768,numeric,0,0.0,48,6.25,98 99,17,0.0,70.0,45.0
+vehicle.VSPD_LIM,2024,True,ratio (mph),656,numeric,0,0.0,36,5.49,98 99,16,0.0,70.0,45.0
+vehicle.HIT_RUN,2020,True,nominal (binary),689,numeric,0,0.0,0,0.0,9,2,0.0,1.0,0.0
+vehicle.HIT_RUN,2021,True,nominal (binary),809,numeric,0,0.0,0,0.0,9,2,0.0,1.0,0.0
+vehicle.HIT_RUN,2022,True,nominal (binary),768,numeric,0,0.0,0,0.0,9,2,0.0,1.0,0.0
+vehicle.HIT_RUN,2023,True,nominal (binary),768,numeric,0,0.0,0,0.0,9,2,0.0,1.0,0.0
+vehicle.HIT_RUN,2024,True,nominal (binary),656,numeric,0,0.0,0,0.0,9,2,0.0,1.0,0.0
+person.PER_NO,2020,True,nominal (key),695,numeric,0,0.0,0,0.0,,3,1.0,7.0,1.0
+person.PER_NO,2021,True,nominal (key),819,numeric,0,0.0,0,0.0,,4,1.0,4.0,1.0
+person.PER_NO,2022,True,nominal (key),780,numeric,0,0.0,0,0.0,,3,1.0,3.0,1.0
+person.PER_NO,2023,True,nominal (key),774,numeric,0,0.0,0,0.0,,3,1.0,4.0,1.0
+person.PER_NO,2024,True,nominal (key),668,numeric,0,0.0,0,0.0,,4,1.0,5.0,1.0
+person.STR_VEH,2020,True,nominal (link),695,numeric,0,0.0,0,0.0,0,3,1.0,4.0,1.0
+person.STR_VEH,2021,True,nominal (link),819,numeric,0,0.0,0,0.0,0,3,1.0,3.0,1.0
+person.STR_VEH,2022,True,nominal (link),780,numeric,0,0.0,0,0.0,0,3,1.0,3.0,1.0
+person.STR_VEH,2023,True,nominal (link),774,numeric,0,0.0,0,0.0,0,3,1.0,3.0,1.0
+person.STR_VEH,2024,True,nominal (link),668,numeric,0,0.0,0,0.0,0,5,1.0,5.0,1.0
+person.PER_TYP,2020,True,nominal,695,numeric,0,0.0,0,0.0,,1,5.0,5.0,5.0
+person.PER_TYP,2021,True,nominal,819,numeric,0,0.0,0,0.0,,1,5.0,5.0,5.0
+person.PER_TYP,2022,True,nominal,780,numeric,0,0.0,0,0.0,,1,5.0,5.0,5.0
+person.PER_TYP,2023,True,nominal,774,numeric,0,0.0,0,0.0,,1,5.0,5.0,5.0
+person.PER_TYP,2024,True,nominal,668,numeric,0,0.0,0,0.0,,1,5.0,5.0,5.0
+person.INJ_SEV,2020,True,ordinal,695,numeric,0,0.0,0,0.0,9,1,4.0,4.0,4.0
+person.INJ_SEV,2021,True,ordinal,819,numeric,0,0.0,0,0.0,9,1,4.0,4.0,4.0
+person.INJ_SEV,2022,True,ordinal,780,numeric,0,0.0,0,0.0,9,1,4.0,4.0,4.0
+person.INJ_SEV,2023,True,ordinal,774,numeric,0,0.0,0,0.0,9,1,4.0,4.0,4.0
+person.INJ_SEV,2024,True,ordinal,668,numeric,0,0.0,0,0.0,9,1,4.0,4.0,4.0
+person.AGE,2020,True,ratio (years),695,numeric,0,0.0,27,3.88,998 999,90,0.0,96.0,50.0
+person.AGE,2021,True,ratio (years),819,numeric,0,0.0,53,6.47,998 999,82,3.0,94.0,50.0
+person.AGE,2022,True,ratio (years),780,numeric,0,0.0,46,5.9,998 999,88,2.0,91.0,51.0
+person.AGE,2023,True,ratio (years),774,numeric,0,0.0,47,6.07,998 999,91,1.0,94.0,52.0
+person.AGE,2024,True,ratio (years),668,numeric,0,0.0,41,6.14,998 999,90,1.0,98.0,52.0
+person.SEX,2020,True,nominal,695,numeric,0,0.0,32,4.6,8 9,3,1.0,2.0,1.0
+person.SEX,2021,True,nominal,819,numeric,0,0.0,46,5.62,8 9,4,1.0,2.0,1.0
+person.SEX,2022,True,nominal,780,numeric,0,0.0,37,4.74,8 9,4,1.0,2.0,1.0
+person.SEX,2023,True,nominal,774,numeric,0,0.0,22,2.84,8 9,4,1.0,2.0,1.0
+person.SEX,2024,True,nominal,668,numeric,0,0.0,23,3.44,8 9,4,1.0,2.0,1.0
+person.DRINKING,2020,True,nominal,695,numeric,0,0.0,239,34.39,8 9,4,0.0,1.0,0.0
+person.DRINKING,2021,True,nominal,819,numeric,0,0.0,293,35.78,8 9,4,0.0,1.0,0.0
+person.DRINKING,2022,True,nominal,780,numeric,0,0.0,282,36.15,8 9,4,0.0,1.0,0.0
+person.DRINKING,2023,True,nominal,774,numeric,0,0.0,338,43.67,8 9,4,0.0,1.0,0.0
+person.DRINKING,2024,True,nominal,668,numeric,0,0.0,287,42.96,8 9,4,0.0,1.0,0.0
+pbtype.PBCWALK,2020,True,nominal (binary),695,numeric,0,0.0,0,0.0,9,2,0.0,1.0,0.0
+pbtype.PBCWALK,2021,True,nominal (binary),819,numeric,0,0.0,0,0.0,9,2,0.0,1.0,0.0
+pbtype.PBCWALK,2022,True,nominal (binary),780,numeric,0,0.0,0,0.0,9,2,0.0,1.0,0.0
+pbtype.PBCWALK,2023,True,nominal (binary),774,numeric,0,0.0,0,0.0,9,2,0.0,1.0,0.0
+pbtype.PBCWALK,2024,True,nominal (binary),668,numeric,0,0.0,0,0.0,9,2,0.0,1.0,0.0
+pbtype.PBSWALK,2020,True,nominal (binary),695,numeric,0,0.0,0,0.0,9,2,0.0,1.0,0.0
+pbtype.PBSWALK,2021,True,nominal (binary),819,numeric,0,0.0,0,0.0,9,2,0.0,1.0,0.0
+pbtype.PBSWALK,2022,True,nominal (binary),780,numeric,0,0.0,2,0.26,9,3,0.0,1.0,0.0
+pbtype.PBSWALK,2023,True,nominal (binary),774,numeric,0,0.0,1,0.13,9,3,0.0,1.0,0.0
+pbtype.PBSWALK,2024,True,nominal (binary),668,numeric,0,0.0,0,0.0,9,2,0.0,1.0,0.0
+pbtype.PEDLOC,2020,True,nominal,695,numeric,0,0.0,0,0.0,9,4,1.0,4.0,3.0
+pbtype.PEDLOC,2021,True,nominal,819,numeric,0,0.0,2,0.24,9,5,1.0,4.0,3.0
+pbtype.PEDLOC,2022,True,nominal,780,numeric,0,0.0,0,0.0,9,4,1.0,4.0,3.0
+pbtype.PEDLOC,2023,True,nominal,774,numeric,0,0.0,1,0.13,9,5,1.0,4.0,3.0
+pbtype.PEDLOC,2024,True,nominal,668,numeric,0,0.0,1,0.15,9,5,1.0,4.0,3.0
+pbtype.PEDPOS,2020,True,nominal,695,numeric,0,0.0,19,2.73,9,8,1.0,8.0,3.0
+pbtype.PEDPOS,2021,True,nominal,819,numeric,0,0.0,16,1.95,9,8,1.0,8.0,3.0
+pbtype.PEDPOS,2022,True,nominal,780,numeric,0,0.0,5,0.64,9,9,1.0,8.0,3.0
+pbtype.PEDPOS,2023,True,nominal,774,numeric,0,0.0,17,2.2,9,8,1.0,8.0,3.0
+pbtype.PEDPOS,2024,True,nominal,668,numeric,0,0.0,13,1.95,9,8,1.0,8.0,3.0
+pbtype.PEDCTYPE,2020,True,nominal,695,numeric,0,0.0,6,0.86,900 910 990,35,140.0,890.0,741.0
+pbtype.PEDCTYPE,2021,True,nominal,819,numeric,0,0.0,8,0.98,900 910 990,37,140.0,890.0,741.0
+pbtype.PEDCTYPE,2022,True,nominal,780,numeric,0,0.0,7,0.9,900 910 990,36,120.0,890.0,741.0
+pbtype.PEDCTYPE,2023,True,nominal,774,numeric,0,0.0,7,0.9,900 910 990,39,140.0,890.0,741.0
+pbtype.PEDCTYPE,2024,True,nominal,668,numeric,0,0.0,11,1.65,900 910 990,38,140.0,890.0,741.0
+pbtype.PEDCGP,2020,True,nominal,695,numeric,0,0.0,98,14.1,990,15,100.0,910.0,750.0
+pbtype.PEDCGP,2021,True,nominal,819,numeric,0,0.0,116,14.16,990,15,100.0,910.0,750.0
+pbtype.PEDCGP,2022,True,nominal,780,numeric,0,0.0,92,11.79,990,15,100.0,910.0,750.0
+pbtype.PEDCGP,2023,True,nominal,774,numeric,0,0.0,89,11.5,990,15,100.0,910.0,750.0
+pbtype.PEDCGP,2024,True,nominal,668,numeric,0,0.0,99,14.82,990,15,100.0,910.0,750.0

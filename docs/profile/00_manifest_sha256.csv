@@ -1,0 +1,7 @@
+source,data_year,file_name,url,bytes,sha256
+FARS,2020,FARS2020NationalCSV.zip,https://static.nhtsa.gov/nhtsa/downloads/FARS/2020/National/FARS2020NationalCSV.zip,31016385,b2806902b3da9b45c632499f82e1c74fd108238ae7f67e108ebf40360ee4c9c3
+FARS,2021,FARS2021NationalCSV.zip,https://static.nhtsa.gov/nhtsa/downloads/FARS/2021/National/FARS2021NationalCSV.zip,35190858,743c19a13884614430d295289e655c5ad32b0a025a11e5b2149dfb57acae389b
+FARS,2022,FARS2022NationalCSV.zip,https://static.nhtsa.gov/nhtsa/downloads/FARS/2022/National/FARS2022NationalCSV.zip,34689724,989448d7a2f3964264c96a3cdb220f6c413c782a33eb759781f520c5acb5f744
+FARS,2023,FARS2023NationalCSV.zip,https://static.nhtsa.gov/nhtsa/downloads/FARS/2023/National/FARS2023NationalCSV.zip,34174899,edde841eb493e55751961b36bac2d1ce8750f601cb8e6e183a525723bb62bab0
+FARS,2024,FARS2024NationalCSV.zip,https://static.nhtsa.gov/nhtsa/downloads/FARS/2024/National/FARS2024NationalCSV.zip,32672161,5112727a8c0dc91ffee27ca05bddb073934f2d192ce4fae997da767dccdbe04f
+CENSUS_POPEST,,co-est2025-alldata.csv,https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/counties/totals/co-est2025-alldata.csv,2071735,4f5a499d851e2cb48fd7a5405e5a9235453a8a66933657aacd10df0e264f35d5

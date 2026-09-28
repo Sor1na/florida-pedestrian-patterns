@@ -1,0 +1,33 @@
+    issue    |                                            test                                            |      expected      |       actual       | result 
+-------------+--------------------------------------------------------------------------------------------+--------------------+--------------------+--------
+ 1 unknowns  | BODY_TYP unknown among hit-and-run deaths reproduces the profile                           | 400                | 2                  | FAIL
+ 1 unknowns  | every death is in the view or excluded only by the scope filter (never by an unknown item) | 0                  | 0                  | PASS
+ 1 unknowns  | no NULL in coded columns of crash/vehicle/pedestrian/ped_crash_type                        | 0                  | 0                  | PASS
+ 1 unknowns  | speed=unknown items in the view equal raw VSPD_LIM 98/99 count (deaths, all years)         | 208                | 0                  | FAIL
+ 2 ARF       | 2024 file is labelled Annual Report File (until the Final file is loaded)                  | Annual Report File | Annual Report File | PASS
+ 2 ARF       | latest run has one source_file row per FARS year 2020-2024                                 | 5                  | 1                  | FAIL
+ 2 ARF       | pedestrian count 2020                                                                      | 695                | 2                  | FAIL
+ 2 ARF       | pedestrian count 2021                                                                      | 819                | 3                  | FAIL
+ 2 ARF       | pedestrian count 2022                                                                      | 780                | 4                  | FAIL
+ 2 ARF       | pedestrian count 2023                                                                      | 774                | 3                  | FAIL
+ 2 ARF       | pedestrian count 2024                                                                      | 668                | 4                  | FAIL
+ 3 identity  | crash rows = expected total                                                                | 3690               | 15                 | FAIL
+ 3 identity  | crashes with 2+ pedestrian deaths                                                          | 42                 | 1                  | FAIL
+ 3 identity  | every crash has >= 1 pedestrian and >= 1 in-transport vehicle                              | 0                  | 0                  | PASS
+ 3 identity  | no crash has more pedestrian rows than FATALS                                              | 0                  | 0                  | PASS
+ 3 identity  | pedestrian rows = expected total                                                           | 3736               | 16                 | FAIL
+ 3 identity  | st_case values reused across years exist (composite key is doing work)                     | > 0                | 1                  | PASS
+ 4 codes     | no NULL item in the transaction view                                                       | 0                  | 0                  | PASS
+ 4 codes     | no observed code without a label valid for its year (v_dq_unlabeled_code)                  | 0                  | 0                  | PASS
+ 4 codes     | no view row outside the scope (urban, FUNC_SYS 3-7)                                        | 0                  | 0                  | PASS
+ 4 codes     | view rows = expected analysis population                                                   | 3053               | 14                 | FAIL
+ 5 geography | block-group county digits agree with the crash county (v_dq_county_block_group_mismatch)   | 0                  | 0                  | PASS
+ 5 geography | county rates cover every death (sum over v_county_rate = pedestrian rows)                  | 16                 | 16                 | PASS
+ 5 geography | crashes without a usable point                                                             | 3                  | 1                  | FAIL
+ 5 geography | no negative transit distance (EPA sentinel -99999 must be NULL)                            | 0                  | 0                  | PASS
+ 5 geography | share of crashes with a block group (target >= 90%)                                        | >= 90              | 93.3               | PASS
+
+ passed | failed 
+--------+--------
+     13 |     13
+

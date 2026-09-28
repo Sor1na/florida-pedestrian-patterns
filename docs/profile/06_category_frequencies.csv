@@ -1,0 +1,1137 @@
+variable,year,value,label,n,pct
+accident.RUR_URB,2020,2,Urban,632,91.73
+accident.RUR_URB,2020,1,Rural,56,8.13
+accident.RUR_URB,2020,6,Trafficway Not in State Inventory,1,0.15
+accident.RUR_URB,2021,2,Urban,736,90.98
+accident.RUR_URB,2021,1,Rural,72,8.9
+accident.RUR_URB,2021,6,Trafficway Not in State Inventory,1,0.12
+accident.RUR_URB,2022,2,Urban,697,90.76
+accident.RUR_URB,2022,1,Rural,68,8.85
+accident.RUR_URB,2022,6,Trafficway Not in State Inventory,3,0.39
+accident.RUR_URB,2023,2,Urban,665,86.59
+accident.RUR_URB,2023,1,Rural,92,11.98
+accident.RUR_URB,2023,8,Not Reported,8,1.04
+accident.RUR_URB,2023,6,Trafficway Not in State Inventory,3,0.39
+accident.RUR_URB,2024,2,Urban,557,84.91
+accident.RUR_URB,2024,1,Rural,68,10.37
+accident.RUR_URB,2024,8,Not Reported,16,2.44
+accident.RUR_URB,2024,9,Unknown,11,1.68
+accident.RUR_URB,2024,6,Trafficway Not in State Inventory,4,0.61
+accident.FUNC_SYS,2020,3,Principal Arterial - Other,337,48.91
+accident.FUNC_SYS,2020,4,Minor Arterial,164,23.8
+accident.FUNC_SYS,2020,5,Major Collector,65,9.43
+accident.FUNC_SYS,2020,7,Local,58,8.42
+accident.FUNC_SYS,2020,1,Interstate,50,7.26
+accident.FUNC_SYS,2020,6,Minor Collector,8,1.16
+accident.FUNC_SYS,2020,2,Principal Arterial - Other Freeways and Expressways,6,0.87
+accident.FUNC_SYS,2020,96,Trafficway Not in State Inventory,1,0.15
+accident.FUNC_SYS,2021,3,Principal Arterial - Other,392,48.45
+accident.FUNC_SYS,2021,4,Minor Arterial,191,23.61
+accident.FUNC_SYS,2021,5,Major Collector,71,8.78
+accident.FUNC_SYS,2021,7,Local,59,7.29
+accident.FUNC_SYS,2021,1,Interstate,54,6.67
+accident.FUNC_SYS,2021,2,Principal Arterial - Other Freeways and Expressways,23,2.84
+accident.FUNC_SYS,2021,6,Minor Collector,18,2.22
+accident.FUNC_SYS,2021,96,Trafficway Not in State Inventory,1,0.12
+accident.FUNC_SYS,2022,3,Principal Arterial - Other,343,44.66
+accident.FUNC_SYS,2022,4,Minor Arterial,156,20.31
+accident.FUNC_SYS,2022,5,Major Collector,88,11.46
+accident.FUNC_SYS,2022,7,Local,88,11.46
+accident.FUNC_SYS,2022,1,Interstate,51,6.64
+accident.FUNC_SYS,2022,6,Minor Collector,21,2.73
+accident.FUNC_SYS,2022,2,Principal Arterial - Other Freeways and Expressways,17,2.21
+accident.FUNC_SYS,2022,96,Trafficway Not in State Inventory,3,0.39
+accident.FUNC_SYS,2022,98,Not Reported,1,0.13
+accident.FUNC_SYS,2023,3,Other Principal Arterial,345,44.92
+accident.FUNC_SYS,2023,4,Minor Arterial,183,23.83
+accident.FUNC_SYS,2023,7,Local,91,11.85
+accident.FUNC_SYS,2023,5,Major Collector,81,10.55
+accident.FUNC_SYS,2023,1,Interstate,48,6.25
+accident.FUNC_SYS,2023,6,Minor Collector,9,1.17
+accident.FUNC_SYS,2023,2,Other Freeways and Expressways,8,1.04
+accident.FUNC_SYS,2023,96,Trafficway Not in State Inventory,3,0.39
+accident.FUNC_SYS,2024,3,Other Principal Arterial,277,42.23
+accident.FUNC_SYS,2024,4,Minor Arterial,145,22.1
+accident.FUNC_SYS,2024,5,Major Collector,85,12.96
+accident.FUNC_SYS,2024,7,Local,78,11.89
+accident.FUNC_SYS,2024,1,Interstate,40,6.1
+accident.FUNC_SYS,2024,6,Minor Collector,14,2.13
+accident.FUNC_SYS,2024,2,Other Freeways and Expressways,12,1.83
+accident.FUNC_SYS,2024,96,Trafficway Not in State Inventory,4,0.61
+accident.FUNC_SYS,2024,98,Not Reported,1,0.15
+accident.LGT_COND,2020,3,Dark - Lighted,314,45.57
+accident.LGT_COND,2020,2,Dark - Not Lighted,237,34.4
+accident.LGT_COND,2020,1,Daylight,104,15.09
+accident.LGT_COND,2020,5,Dusk,14,2.03
+accident.LGT_COND,2020,4,Dawn,11,1.6
+accident.LGT_COND,2020,6,Dark - Unknown Lighting,8,1.16
+accident.LGT_COND,2020,9,Reported as Unknown,1,0.15
+accident.LGT_COND,2021,3,Dark - Lighted,369,45.61
+accident.LGT_COND,2021,2,Dark - Not Lighted,238,29.42
+accident.LGT_COND,2021,1,Daylight,153,18.91
+accident.LGT_COND,2021,5,Dusk,18,2.22
+accident.LGT_COND,2021,4,Dawn,16,1.98
+accident.LGT_COND,2021,6,Dark - Unknown Lighting,12,1.48
+accident.LGT_COND,2021,7,Other,3,0.37
+accident.LGT_COND,2022,3,Dark - Lighted,336,43.75
+accident.LGT_COND,2022,2,Dark - Not Lighted,247,32.16
+accident.LGT_COND,2022,1,Daylight,122,15.89
+accident.LGT_COND,2022,5,Dusk,24,3.12
+accident.LGT_COND,2022,4,Dawn,23,2.99
+accident.LGT_COND,2022,6,Dark - Unknown Lighting,13,1.69
+accident.LGT_COND,2022,9,Reported as Unknown,2,0.26
+accident.LGT_COND,2022,7,Other,1,0.13
+accident.LGT_COND,2023,3,Dark - Lighted,332,43.23
+accident.LGT_COND,2023,2,Dark - Not Lighted,258,33.59
+accident.LGT_COND,2023,1,Daylight,140,18.23
+accident.LGT_COND,2023,4,Dawn,15,1.95
+accident.LGT_COND,2023,5,Dusk,15,1.95
+accident.LGT_COND,2023,6,Dark - Unknown Lighting,7,0.91
+accident.LGT_COND,2023,7,Other,1,0.13
+accident.LGT_COND,2024,3,Dark - Lighted,298,45.43
+accident.LGT_COND,2024,2,Dark - Not Lighted,196,29.88
+accident.LGT_COND,2024,1,Daylight,115,17.53
+accident.LGT_COND,2024,4,Dawn,16,2.44
+accident.LGT_COND,2024,6,Dark - Unknown Lighting,14,2.13
+accident.LGT_COND,2024,5,Dusk,10,1.52
+accident.LGT_COND,2024,9,Reported as Unknown,5,0.76
+accident.LGT_COND,2024,7,Other,1,0.15
+accident.LGT_COND,2024,8,Not Reported,1,0.15
+accident.RELJCT2,2020,1,Non-Junction,482,69.96
+accident.RELJCT2,2020,3,Intersection-Related,147,21.34
+accident.RELJCT2,2020,2,Intersection,38,5.52
+accident.RELJCT2,2020,18,Through Roadway,6,0.87
+accident.RELJCT2,2020,20,Entrance/Exit Ramp,6,0.87
+accident.RELJCT2,2020,8,Driveway Access Related,5,0.73
+accident.RELJCT2,2020,99,Reported as Unknown,2,0.29
+accident.RELJCT2,2020,16,Shared-Use Path Crossing,1,0.15
+accident.RELJCT2,2020,5,Entrance/Exit Ramp Related,1,0.15
+accident.RELJCT2,2020,4,Driveway Access,1,0.15
+accident.RELJCT2,2021,1,Non-Junction,577,71.32
+accident.RELJCT2,2021,3,Intersection-Related,157,19.41
+accident.RELJCT2,2021,2,Intersection,44,5.44
+accident.RELJCT2,2021,18,Through Roadway,12,1.48
+accident.RELJCT2,2021,8,Driveway Access Related,9,1.11
+accident.RELJCT2,2021,20,Entrance/Exit Ramp,3,0.37
+accident.RELJCT2,2021,5,Entrance/Exit Ramp Related,2,0.25
+accident.RELJCT2,2021,4,Driveway Access,2,0.25
+accident.RELJCT2,2021,99,Reported as Unknown,1,0.12
+accident.RELJCT2,2021,19,Other location within Interchange Area,1,0.12
+accident.RELJCT2,2021,98,Not Reported,1,0.12
+accident.RELJCT2,2022,1,Non-Junction,545,70.96
+accident.RELJCT2,2022,3,Intersection-Related,155,20.18
+accident.RELJCT2,2022,2,Intersection,33,4.3
+accident.RELJCT2,2022,8,Driveway Access Related,13,1.69
+accident.RELJCT2,2022,18,Through Roadway,9,1.17
+accident.RELJCT2,2022,20,Entrance/Exit Ramp,4,0.52
+accident.RELJCT2,2022,19,Other location within Interchange Area,3,0.39
+accident.RELJCT2,2022,5,Entrance/Exit Ramp Related,3,0.39
+accident.RELJCT2,2022,16,Shared-Use Path Crossing,1,0.13
+accident.RELJCT2,2022,6,Railway Grade Crossing,1,0.13
+accident.RELJCT2,2022,4,Driveway Access,1,0.13
+accident.RELJCT2,2023,1,Non-Junction,557,72.53
+accident.RELJCT2,2023,3,Intersection-Related,156,20.31
+accident.RELJCT2,2023,2,Intersection,34,4.43
+accident.RELJCT2,2023,8,Driveway Access Related,12,1.56
+accident.RELJCT2,2023,20,Entrance/Exit Ramp,3,0.39
+accident.RELJCT2,2023,18,Through Roadway,2,0.26
+accident.RELJCT2,2023,16,Shared-Use Path Crossing,1,0.13
+accident.RELJCT2,2023,4,Driveway Access,1,0.13
+accident.RELJCT2,2023,5,Entrance/Exit Ramp Related,1,0.13
+accident.RELJCT2,2023,19,Other location within Interchange Area,1,0.13
+accident.RELJCT2,2024,1,Non-Junction,466,71.04
+accident.RELJCT2,2024,3,Intersection-Related,142,21.65
+accident.RELJCT2,2024,2,Intersection,31,4.73
+accident.RELJCT2,2024,8,Driveway Access Related,8,1.22
+accident.RELJCT2,2024,18,Through Roadway,3,0.46
+accident.RELJCT2,2024,5,Entrance/Exit Ramp Related,2,0.3
+accident.RELJCT2,2024,4,Driveway Access,1,0.15
+accident.RELJCT2,2024,20,Entrance/Exit Ramp,1,0.15
+accident.RELJCT2,2024,99,Reported as Unknown,1,0.15
+accident.RELJCT2,2024,98,Not Reported,1,0.15
+accident.WEATHER,2020,1,Clear,531,77.07
+accident.WEATHER,2020,10,Cloudy,104,15.09
+accident.WEATHER,2020,2,Rain,49,7.11
+accident.WEATHER,2020,5,"Fog, Smog, Smoke",4,0.58
+accident.WEATHER,2020,98,Not Reported,1,0.15
+accident.WEATHER,2021,1,Clear,639,78.99
+accident.WEATHER,2021,10,Cloudy,105,12.98
+accident.WEATHER,2021,2,Rain,50,6.18
+accident.WEATHER,2021,5,"Fog, Smog, Smoke",11,1.36
+accident.WEATHER,2021,8,Other,4,0.49
+accident.WEATHER,2022,1,Clear,616,80.21
+accident.WEATHER,2022,10,Cloudy,90,11.72
+accident.WEATHER,2022,2,Rain,46,5.99
+accident.WEATHER,2022,5,"Fog, Smog, Smoke",13,1.69
+accident.WEATHER,2022,8,Other,3,0.39
+accident.WEATHER,2023,1,Clear,621,80.86
+accident.WEATHER,2023,10,Cloudy,86,11.2
+accident.WEATHER,2023,2,Rain,40,5.21
+accident.WEATHER,2023,5,"Fog, Smog, Smoke",15,1.95
+accident.WEATHER,2023,8,Other,4,0.52
+accident.WEATHER,2023,99,Reported as Unknown,1,0.13
+accident.WEATHER,2023,98,Not Reported,1,0.13
+accident.WEATHER,2024,1,Clear,538,82.01
+accident.WEATHER,2024,10,Cloudy,72,10.98
+accident.WEATHER,2024,2,Rain,37,5.64
+accident.WEATHER,2024,5,"Fog, Smog, Smoke",5,0.76
+accident.WEATHER,2024,99,Reported as Unknown,2,0.3
+accident.WEATHER,2024,8,Other,1,0.15
+accident.WEATHER,2024,98,Not Reported,1,0.15
+accident.HOUR,2020,21-23,,211,30.62
+accident.HOUR,2020,18-20,,200,29.03
+accident.HOUR,2020,00-05,,134,19.45
+accident.HOUR,2020,06-11,,78,11.32
+accident.HOUR,2020,12-17,,66,9.58
+accident.HOUR,2021,18-20,,215,26.58
+accident.HOUR,2021,21-23,,209,25.83
+accident.HOUR,2021,00-05,,194,23.98
+accident.HOUR,2021,06-11,,100,12.36
+accident.HOUR,2021,12-17,,91,11.25
+accident.HOUR,2022,00-05,,209,27.21
+accident.HOUR,2022,18-20,,206,26.82
+accident.HOUR,2022,21-23,,183,23.83
+accident.HOUR,2022,06-11,,97,12.63
+accident.HOUR,2022,12-17,,73,9.51
+accident.HOUR,2023,18-20,,225,29.3
+accident.HOUR,2023,21-23,,185,24.09
+accident.HOUR,2023,00-05,,182,23.7
+accident.HOUR,2023,06-11,,108,14.06
+accident.HOUR,2023,12-17,,68,8.85
+accident.HOUR,2024,00-05,,177,26.98
+accident.HOUR,2024,21-23,,164,25.0
+accident.HOUR,2024,18-20,,159,24.24
+accident.HOUR,2024,06-11,,93,14.18
+accident.HOUR,2024,12-17,,63,9.6
+accident.DAY_WEEK,2020,7,Saturday,118,17.13
+accident.DAY_WEEK,2020,6,Friday,106,15.38
+accident.DAY_WEEK,2020,1,Sunday,100,14.51
+accident.DAY_WEEK,2020,3,Tuesday,96,13.93
+accident.DAY_WEEK,2020,2,Monday,94,13.64
+accident.DAY_WEEK,2020,5,Thursday,88,12.77
+accident.DAY_WEEK,2020,4,Wednesday,87,12.63
+accident.DAY_WEEK,2021,6,Friday,147,18.17
+accident.DAY_WEEK,2021,7,Saturday,140,17.31
+accident.DAY_WEEK,2021,2,Monday,117,14.46
+accident.DAY_WEEK,2021,1,Sunday,115,14.22
+accident.DAY_WEEK,2021,5,Thursday,100,12.36
+accident.DAY_WEEK,2021,3,Tuesday,97,11.99
+accident.DAY_WEEK,2021,4,Wednesday,93,11.5
+accident.DAY_WEEK,2022,7,Saturday,145,18.88
+accident.DAY_WEEK,2022,1,Sunday,119,15.49
+accident.DAY_WEEK,2022,6,Friday,107,13.93
+accident.DAY_WEEK,2022,5,Thursday,102,13.28
+accident.DAY_WEEK,2022,4,Wednesday,101,13.15
+accident.DAY_WEEK,2022,3,Tuesday,100,13.02
+accident.DAY_WEEK,2022,2,Monday,94,12.24
+accident.DAY_WEEK,2023,7,Saturday,130,16.93
+accident.DAY_WEEK,2023,6,Friday,123,16.02
+accident.DAY_WEEK,2023,2,Monday,116,15.1
+accident.DAY_WEEK,2023,1,Sunday,109,14.19
+accident.DAY_WEEK,2023,5,Thursday,101,13.15
+accident.DAY_WEEK,2023,3,Tuesday,99,12.89
+accident.DAY_WEEK,2023,4,Wednesday,90,11.72
+accident.DAY_WEEK,2024,6,Friday,123,18.75
+accident.DAY_WEEK,2024,7,Saturday,96,14.63
+accident.DAY_WEEK,2024,1,Sunday,94,14.33
+accident.DAY_WEEK,2024,3,Tuesday,93,14.18
+accident.DAY_WEEK,2024,5,Thursday,87,13.26
+accident.DAY_WEEK,2024,4,Wednesday,84,12.8
+accident.DAY_WEEK,2024,2,Monday,79,12.04
+accident.COUNTY,2020,86,MIAMI-DADE (86),83,12.05
+accident.COUNTY,2020,11,BROWARD (11),67,9.72
+accident.COUNTY,2020,57,HILLSBOROUGH (57),49,7.11
+accident.COUNTY,2020,31,DUVAL (31),45,6.53
+accident.COUNTY,2020,99,PALM BEACH (99),41,5.95
+accident.COUNTY,2020,95,ORANGE (95),41,5.95
+accident.COUNTY,2020,127,VOLUSIA (127),29,4.21
+accident.COUNTY,2020,103,PINELLAS (103),27,3.92
+accident.COUNTY,2020,71,LEE (71),25,3.63
+accident.COUNTY,2020,101,PASCO (101),24,3.48
+accident.COUNTY,2020,105,POLK (105),23,3.34
+accident.COUNTY,2020,83,MARION (83),22,3.19
+accident.COUNTY,2020,81,MANATEE (81),20,2.9
+accident.COUNTY,2020,9,BREVARD (9),17,2.47
+accident.COUNTY,2020,33,ESCAMBIA (33),16,2.32
+accident.COUNTY,2020,91,OKALOOSA (91),13,1.89
+accident.COUNTY,2020,115,SARASOTA (115),12,1.74
+accident.COUNTY,2020,97,OSCEOLA (97),12,1.74
+accident.COUNTY,2020,73,LEON (73),11,1.6
+accident.COUNTY,2020,69,LAKE (69),10,1.45
+accident.COUNTY,2020,111,ST. LUCIE (111),10,1.45
+accident.COUNTY,2020,1,ALACHUA (1),9,1.31
+accident.COUNTY,2020,117,SEMINOLE (117),9,1.31
+accident.COUNTY,2020,17,CITRUS (17),5,0.73
+accident.COUNTY,2020,121,SUWANNEE (121),5,0.73
+accident.COUNTY,2020,109,ST. JOHNS (109),4,0.58
+accident.COUNTY,2020,19,CLAY (19),4,0.58
+accident.COUNTY,2020,5,BAY (5),4,0.58
+accident.COUNTY,2020,107,PUTNAM (107),4,0.58
+accident.COUNTY,2020,21,COLLIER (21),4,0.58
+accident.COUNTY,2020,15,CHARLOTTE (15),4,0.58
+accident.COUNTY,2020,131,WALTON (131),4,0.58
+accident.COUNTY,2020,87,MONROE (87),3,0.44
+accident.COUNTY,2020,35,FLAGLER (35),3,0.44
+accident.COUNTY,2020,119,SUMTER (119),3,0.44
+accident.COUNTY,2020,53,HERNANDO (53),3,0.44
+accident.COUNTY,2020,55,HIGHLANDS (55),3,0.44
+accident.COUNTY,2020,63,JACKSON (63),2,0.29
+accident.COUNTY,2020,51,HENDRY (51),2,0.29
+accident.COUNTY,2020,85,MARTIN (85),2,0.29
+accident.COUNTY,2020,89,NASSAU (89),2,0.29
+accident.COUNTY,2020,29,DIXIE (29),2,0.29
+accident.COUNTY,2020,113,SANTA ROSA (113),2,0.29
+accident.COUNTY,2020,47,HAMILTON (47),2,0.29
+accident.COUNTY,2020,61,INDIAN RIVER (61),1,0.15
+accident.COUNTY,2020,23,COLUMBIA (23),1,0.15
+accident.COUNTY,2020,27,DE SOTO (27),1,0.15
+accident.COUNTY,2020,43,GLADES (43),1,0.15
+accident.COUNTY,2020,49,HARDEE (49),1,0.15
+accident.COUNTY,2020,7,BRADFORD (7),1,0.15
+accident.COUNTY,2020,93,OKEECHOBEE (93),1,0.15
+accident.COUNTY,2021,86,MIAMI-DADE (86),92,11.37
+accident.COUNTY,2021,11,BROWARD (11),78,9.64
+accident.COUNTY,2021,95,ORANGE (95),68,8.41
+accident.COUNTY,2021,57,HILLSBOROUGH (57),63,7.79
+accident.COUNTY,2021,103,PINELLAS (103),55,6.8
+accident.COUNTY,2021,99,PALM BEACH (99),48,5.93
+accident.COUNTY,2021,31,DUVAL (31),44,5.44
+accident.COUNTY,2021,9,BREVARD (9),30,3.71
+accident.COUNTY,2021,105,POLK (105),30,3.71
+accident.COUNTY,2021,127,VOLUSIA (127),26,3.21
+accident.COUNTY,2021,71,LEE (71),23,2.84
+accident.COUNTY,2021,33,ESCAMBIA (33),23,2.84
+accident.COUNTY,2021,101,PASCO (101),20,2.47
+accident.COUNTY,2021,115,SARASOTA (115),20,2.47
+accident.COUNTY,2021,81,MANATEE (81),19,2.35
+accident.COUNTY,2021,83,MARION (83),17,2.1
+accident.COUNTY,2021,111,ST LUCIE (111),12,1.48
+accident.COUNTY,2021,1,ALACHUA (1),12,1.48
+accident.COUNTY,2021,109,ST JOHNS (109),9,1.11
+accident.COUNTY,2021,91,OKALOOSA (91),9,1.11
+accident.COUNTY,2021,5,BAY (5),8,0.99
+accident.COUNTY,2021,117,SEMINOLE (117),8,0.99
+accident.COUNTY,2021,17,CITRUS (17),8,0.99
+accident.COUNTY,2021,97,OSCEOLA (97),6,0.74
+accident.COUNTY,2021,73,LEON (73),6,0.74
+accident.COUNTY,2021,69,LAKE (69),5,0.62
+accident.COUNTY,2021,63,JACKSON (63),5,0.62
+accident.COUNTY,2021,19,CLAY (19),4,0.49
+accident.COUNTY,2021,51,HENDRY (51),4,0.49
+accident.COUNTY,2021,113,SANTA ROSA (113),4,0.49
+accident.COUNTY,2021,21,COLLIER (21),4,0.49
+accident.COUNTY,2021,107,PUTNAM (107),4,0.49
+accident.COUNTY,2021,55,HIGHLANDS (55),4,0.49
+accident.COUNTY,2021,23,COLUMBIA (23),3,0.37
+accident.COUNTY,2021,119,SUMTER (119),3,0.37
+accident.COUNTY,2021,27,DE SOTO (27),3,0.37
+accident.COUNTY,2021,53,HERNANDO (53),3,0.37
+accident.COUNTY,2021,131,WALTON (131),3,0.37
+accident.COUNTY,2021,61,INDIAN RIVER (61),3,0.37
+accident.COUNTY,2021,85,MARTIN (85),3,0.37
+accident.COUNTY,2021,49,HARDEE (49),3,0.37
+accident.COUNTY,2021,39,GADSDEN (39),2,0.25
+accident.COUNTY,2021,121,SUWANNEE (121),2,0.25
+accident.COUNTY,2021,87,MONROE (87),2,0.25
+accident.COUNTY,2021,35,FLAGLER (35),2,0.25
+accident.COUNTY,2021,15,CHARLOTTE (15),2,0.25
+accident.COUNTY,2021,123,TAYLOR (123),2,0.25
+accident.COUNTY,2021,75,LEVY (75),1,0.12
+accident.COUNTY,2021,79,MADISON (79),1,0.12
+accident.COUNTY,2021,13,CALHOUN (13),1,0.12
+accident.COUNTY,2021,89,NASSAU (89),1,0.12
+accident.COUNTY,2021,133,WASHINGTON (133),1,0.12
+accident.COUNTY,2022,86,MIAMI-DADE (86),92,11.98
+accident.COUNTY,2022,11,BROWARD (11),81,10.55
+accident.COUNTY,2022,99,PALM BEACH (99),58,7.55
+accident.COUNTY,2022,57,HILLSBOROUGH (57),57,7.42
+accident.COUNTY,2022,95,ORANGE (95),54,7.03
+accident.COUNTY,2022,31,DUVAL (31),41,5.34
+accident.COUNTY,2022,71,LEE (71),32,4.17
+accident.COUNTY,2022,103,PINELLAS (103),32,4.17
+accident.COUNTY,2022,9,BREVARD (9),29,3.78
+accident.COUNTY,2022,101,PASCO (101),25,3.26
+accident.COUNTY,2022,105,POLK (105),23,2.99
+accident.COUNTY,2022,83,MARION (83),17,2.21
+accident.COUNTY,2022,117,SEMINOLE (117),15,1.95
+accident.COUNTY,2022,81,MANATEE (81),15,1.95
+accident.COUNTY,2022,1,ALACHUA (1),13,1.69
+accident.COUNTY,2022,127,VOLUSIA (127),13,1.69
+accident.COUNTY,2022,5,BAY (5),12,1.56
+accident.COUNTY,2022,33,ESCAMBIA (33),12,1.56
+accident.COUNTY,2022,97,OSCEOLA (97),12,1.56
+accident.COUNTY,2022,111,ST LUCIE (111),11,1.43
+accident.COUNTY,2022,69,LAKE (69),11,1.43
+accident.COUNTY,2022,73,LEON (73),10,1.3
+accident.COUNTY,2022,115,SARASOTA (115),9,1.17
+accident.COUNTY,2022,15,CHARLOTTE (15),7,0.91
+accident.COUNTY,2022,109,ST JOHNS (109),7,0.91
+accident.COUNTY,2022,17,CITRUS (17),6,0.78
+accident.COUNTY,2022,23,COLUMBIA (23),6,0.78
+accident.COUNTY,2022,19,CLAY (19),6,0.78
+accident.COUNTY,2022,53,HERNANDO (53),6,0.78
+accident.COUNTY,2022,21,COLLIER (21),5,0.65
+accident.COUNTY,2022,107,PUTNAM (107),5,0.65
+accident.COUNTY,2022,35,FLAGLER (35),3,0.39
+accident.COUNTY,2022,27,DE SOTO (27),3,0.39
+accident.COUNTY,2022,119,SUMTER (119),3,0.39
+accident.COUNTY,2022,91,OKALOOSA (91),3,0.39
+accident.COUNTY,2022,131,WALTON (131),3,0.39
+accident.COUNTY,2022,93,OKEECHOBEE (93),3,0.39
+accident.COUNTY,2022,85,MARTIN (85),2,0.26
+accident.COUNTY,2022,51,HENDRY (51),2,0.26
+accident.COUNTY,2022,47,HAMILTON (47),2,0.26
+accident.COUNTY,2022,61,INDIAN RIVER (61),2,0.26
+accident.COUNTY,2022,39,GADSDEN (39),2,0.26
+accident.COUNTY,2022,113,SANTA ROSA (113),2,0.26
+accident.COUNTY,2022,121,SUWANNEE (121),2,0.26
+accident.COUNTY,2022,87,MONROE (87),2,0.26
+accident.COUNTY,2022,55,HIGHLANDS (55),2,0.26
+accident.COUNTY,2022,133,WASHINGTON (133),2,0.26
+accident.COUNTY,2022,123,TAYLOR (123),1,0.13
+accident.COUNTY,2022,7,BRADFORD (7),1,0.13
+accident.COUNTY,2022,59,HOLMES (59),1,0.13
+accident.COUNTY,2022,3,BAKER (3),1,0.13
+accident.COUNTY,2022,89,NASSAU (89),1,0.13
+accident.COUNTY,2022,13,CALHOUN (13),1,0.13
+accident.COUNTY,2022,49,HARDEE (49),1,0.13
+accident.COUNTY,2022,29,DIXIE (29),1,0.13
+accident.COUNTY,2023,86,MIAMI-DADE (86),98,12.76
+accident.COUNTY,2023,57,HILLSBOROUGH (57),66,8.59
+accident.COUNTY,2023,11,BROWARD (11),63,8.2
+accident.COUNTY,2023,95,ORANGE (95),59,7.68
+accident.COUNTY,2023,99,PALM BEACH (99),56,7.29
+accident.COUNTY,2023,103,PINELLAS (103),42,5.47
+accident.COUNTY,2023,31,DUVAL (31),40,5.21
+accident.COUNTY,2023,101,PASCO (101),29,3.78
+accident.COUNTY,2023,127,VOLUSIA (127),25,3.26
+accident.COUNTY,2023,105,POLK (105),25,3.26
+accident.COUNTY,2023,9,BREVARD (9),24,3.12
+accident.COUNTY,2023,71,LEE (71),21,2.73
+accident.COUNTY,2023,81,MANATEE (81),19,2.47
+accident.COUNTY,2023,33,ESCAMBIA (33),19,2.47
+accident.COUNTY,2023,97,OSCEOLA (97),17,2.21
+accident.COUNTY,2023,83,MARION (83),14,1.82
+accident.COUNTY,2023,73,LEON (73),13,1.69
+accident.COUNTY,2023,117,SEMINOLE (117),11,1.43
+accident.COUNTY,2023,115,SARASOTA (115),10,1.3
+accident.COUNTY,2023,19,CLAY (19),9,1.17
+accident.COUNTY,2023,1,ALACHUA (1),9,1.17
+accident.COUNTY,2023,53,HERNANDO (53),9,1.17
+accident.COUNTY,2023,69,LAKE (69),9,1.17
+accident.COUNTY,2023,109,ST JOHNS (109),7,0.91
+accident.COUNTY,2023,111,ST LUCIE (111),6,0.78
+accident.COUNTY,2023,5,BAY (5),5,0.65
+accident.COUNTY,2023,17,CITRUS (17),4,0.52
+accident.COUNTY,2023,61,INDIAN RIVER (61),4,0.52
+accident.COUNTY,2023,87,MONROE (87),4,0.52
+accident.COUNTY,2023,15,CHARLOTTE (15),4,0.52
+accident.COUNTY,2023,91,OKALOOSA (91),3,0.39
+accident.COUNTY,2023,49,HARDEE (49),3,0.39
+accident.COUNTY,2023,79,MADISON (79),3,0.39
+accident.COUNTY,2023,63,JACKSON (63),3,0.39
+accident.COUNTY,2023,131,WALTON (131),3,0.39
+accident.COUNTY,2023,7,BRADFORD (7),3,0.39
+accident.COUNTY,2023,39,GADSDEN (39),2,0.26
+accident.COUNTY,2023,89,NASSAU (89),2,0.26
+accident.COUNTY,2023,107,PUTNAM (107),2,0.26
+accident.COUNTY,2023,21,COLLIER (21),2,0.26
+accident.COUNTY,2023,41,GILCHRIST (41),2,0.26
+accident.COUNTY,2023,113,SANTA ROSA (113),2,0.26
+accident.COUNTY,2023,3,BAKER (3),2,0.26
+accident.COUNTY,2023,75,LEVY (75),2,0.26
+accident.COUNTY,2023,55,HIGHLANDS (55),1,0.13
+accident.COUNTY,2023,37,FRANKLIN (37),1,0.13
+accident.COUNTY,2023,65,JEFFERSON (65),1,0.13
+accident.COUNTY,2023,121,SUWANNEE (121),1,0.13
+accident.COUNTY,2023,27,DE SOTO (27),1,0.13
+accident.COUNTY,2023,119,SUMTER (119),1,0.13
+accident.COUNTY,2023,13,CALHOUN (13),1,0.13
+accident.COUNTY,2023,123,TAYLOR (123),1,0.13
+accident.COUNTY,2023,129,WAKULLA (129),1,0.13
+accident.COUNTY,2023,35,FLAGLER (35),1,0.13
+accident.COUNTY,2023,45,GULF (45),1,0.13
+accident.COUNTY,2023,29,DIXIE (29),1,0.13
+accident.COUNTY,2023,133,WASHINGTON (133),1,0.13
+accident.COUNTY,2024,86,MIAMI-DADE (86),76,11.59
+accident.COUNTY,2024,11,BROWARD (11),68,10.37
+accident.COUNTY,2024,99,PALM BEACH (99),60,9.15
+accident.COUNTY,2024,57,HILLSBOROUGH (57),46,7.01
+accident.COUNTY,2024,31,DUVAL (31),39,5.95
+accident.COUNTY,2024,95,ORANGE (95),39,5.95
+accident.COUNTY,2024,103,PINELLAS (103),29,4.42
+accident.COUNTY,2024,101,PASCO (101),24,3.66
+accident.COUNTY,2024,83,MARION (83),22,3.35
+accident.COUNTY,2024,105,POLK (105),21,3.2
+accident.COUNTY,2024,127,VOLUSIA (127),20,3.05
+accident.COUNTY,2024,71,LEE (71),20,3.05
+accident.COUNTY,2024,81,MANATEE (81),17,2.59
+accident.COUNTY,2024,9,BREVARD (9),16,2.44
+accident.COUNTY,2024,73,LEON (73),11,1.68
+accident.COUNTY,2024,33,ESCAMBIA (33),11,1.68
+accident.COUNTY,2024,117,SEMINOLE (117),10,1.52
+accident.COUNTY,2024,21,COLLIER (21),10,1.52
+accident.COUNTY,2024,69,LAKE (69),8,1.22
+accident.COUNTY,2024,115,SARASOTA (115),8,1.22
+accident.COUNTY,2024,5,BAY (5),8,1.22
+accident.COUNTY,2024,97,OSCEOLA (97),8,1.22
+accident.COUNTY,2024,61,INDIAN RIVER (61),7,1.07
+accident.COUNTY,2024,109,ST JOHNS (109),6,0.91
+accident.COUNTY,2024,17,CITRUS (17),6,0.91
+accident.COUNTY,2024,1,ALACHUA (1),5,0.76
+accident.COUNTY,2024,111,ST LUCIE (111),5,0.76
+accident.COUNTY,2024,53,HERNANDO (53),5,0.76
+accident.COUNTY,2024,15,CHARLOTTE (15),5,0.76
+accident.COUNTY,2024,35,FLAGLER (35),4,0.61
+accident.COUNTY,2024,119,SUMTER (119),4,0.61
+accident.COUNTY,2024,19,CLAY (19),4,0.61
+accident.COUNTY,2024,49,HARDEE (49),3,0.46
+accident.COUNTY,2024,131,WALTON (131),3,0.46
+accident.COUNTY,2024,113,SANTA ROSA (113),3,0.46
+accident.COUNTY,2024,87,MONROE (87),2,0.3
+accident.COUNTY,2024,91,OKALOOSA (91),2,0.3
+accident.COUNTY,2024,23,COLUMBIA (23),2,0.3
+accident.COUNTY,2024,29,DIXIE (29),2,0.3
+accident.COUNTY,2024,89,NASSAU (89),2,0.3
+accident.COUNTY,2024,45,GULF (45),2,0.3
+accident.COUNTY,2024,79,MADISON (79),2,0.3
+accident.COUNTY,2024,55,HIGHLANDS (55),2,0.3
+accident.COUNTY,2024,107,PUTNAM (107),2,0.3
+accident.COUNTY,2024,129,WAKULLA (129),1,0.15
+accident.COUNTY,2024,75,LEVY (75),1,0.15
+accident.COUNTY,2024,93,OKEECHOBEE (93),1,0.15
+accident.COUNTY,2024,37,FRANKLIN (37),1,0.15
+accident.COUNTY,2024,43,GLADES (43),1,0.15
+accident.COUNTY,2024,39,GADSDEN (39),1,0.15
+accident.COUNTY,2024,85,MARTIN (85),1,0.15
+vehicle.VSPD_LIM,2020,45-50,,276,40.06
+vehicle.VSPD_LIM,2020,35-40,,181,26.27
+vehicle.VSPD_LIM,2020,55+,,128,18.58
+vehicle.VSPD_LIM,2020,5-30,,74,10.74
+vehicle.VSPD_LIM,2020,98 unknown,,28,4.06
+vehicle.VSPD_LIM,2020,99 unknown,,2,0.29
+vehicle.VSPD_LIM,2021,45-50,,330,40.79
+vehicle.VSPD_LIM,2021,35-40,,198,24.47
+vehicle.VSPD_LIM,2021,55+,,149,18.42
+vehicle.VSPD_LIM,2021,5-30,,77,9.52
+vehicle.VSPD_LIM,2021,98 unknown,,47,5.81
+vehicle.VSPD_LIM,2021,0 none,,6,0.74
+vehicle.VSPD_LIM,2021,99 unknown,,2,0.25
+vehicle.VSPD_LIM,2022,45-50,,262,34.11
+vehicle.VSPD_LIM,2022,35-40,,197,25.65
+vehicle.VSPD_LIM,2022,55+,,144,18.75
+vehicle.VSPD_LIM,2022,5-30,,115,14.97
+vehicle.VSPD_LIM,2022,98 unknown,,42,5.47
+vehicle.VSPD_LIM,2022,0 none,,6,0.78
+vehicle.VSPD_LIM,2022,99 unknown,,2,0.26
+vehicle.VSPD_LIM,2023,45-50,,284,36.98
+vehicle.VSPD_LIM,2023,35-40,,200,26.04
+vehicle.VSPD_LIM,2023,55+,,130,16.93
+vehicle.VSPD_LIM,2023,5-30,,104,13.54
+vehicle.VSPD_LIM,2023,98 unknown,,47,6.12
+vehicle.VSPD_LIM,2023,0 none,,2,0.26
+vehicle.VSPD_LIM,2023,99 unknown,,1,0.13
+vehicle.VSPD_LIM,2024,45-50,,248,37.8
+vehicle.VSPD_LIM,2024,35-40,,164,25.0
+vehicle.VSPD_LIM,2024,55+,,112,17.07
+vehicle.VSPD_LIM,2024,5-30,,92,14.02
+vehicle.VSPD_LIM,2024,98 unknown,,35,5.34
+vehicle.VSPD_LIM,2024,0 none,,4,0.61
+vehicle.VSPD_LIM,2024,99 unknown,,1,0.15
+vehicle.BODY_TYP,2020,4,"4-door sedan, hardtop",227,32.95
+vehicle.BODY_TYP,2020,34,Light Pickup,99,14.37
+vehicle.BODY_TYP,2020,14,"Compact Utility (Utility Vehicle Categories ""Small"" and ""Midsize"")",91,13.21
+vehicle.BODY_TYP,2020,99,Unknown body type,70,10.16
+vehicle.BODY_TYP,2020,15,"Large utility (ANSI D16.1 Utility Vehicle Categories and ""Full Size"" and ""Large"")",41,5.95
+vehicle.BODY_TYP,2020,6,Station Wagon (excluding van and truck based),38,5.52
+vehicle.BODY_TYP,2020,2,"2-door sedan,hardtop,coupe",21,3.05
+vehicle.BODY_TYP,2020,20,"Minivan (Chrysler Town and Country, Caravan, Grand Caravan, Voyager, Voyager, Honda-Odyssey, ...)",20,2.9
+vehicle.BODY_TYP,2020,5,5-door/4-door hatchback,16,2.32
+vehicle.BODY_TYP,2020,66,"Truck-tractor (Cab only, or with any number of trailing unit; any weight)",12,1.74
+vehicle.BODY_TYP,2020,63,"Single-unit straight truck or Cab-Chassis (GVWR greater than 26,000 lbs.)",9,1.31
+vehicle.BODY_TYP,2020,21,"Large Van-Includes van-based buses (B150-B350, Sportsman, Royal Maxiwagon, Ram, Tradesman,...)",9,1.31
+vehicle.BODY_TYP,2020,80,Two Wheel Motorcycle (excluding motor scooters),6,0.87
+vehicle.BODY_TYP,2020,1,"Convertible(excludes sun-roof,t-bar)",5,0.73
+vehicle.BODY_TYP,2020,67,"Medium/heavy Pickup (GVWR greater than 10,000 lbs.)",5,0.73
+vehicle.BODY_TYP,2020,3,3-door/2-door hatchback,5,0.73
+vehicle.BODY_TYP,2020,16,"Utility station wagon (includes suburban limousines, Suburban, Travellall, Grand Wagoneer)",4,0.58
+vehicle.BODY_TYP,2020,61,"Single-unit straight truck or Cab-Chassis (GVWR range 10,001 to 19,500 lbs.)",3,0.44
+vehicle.BODY_TYP,2020,52,Transit Bus (City Bus),3,0.44
+vehicle.BODY_TYP,2020,62,"Single-unit straight truck or Cab-Chassis (GVWR range 19,501 to 26,000 lbs.)",2,0.29
+vehicle.BODY_TYP,2020,98,Not Reported,2,0.29
+vehicle.BODY_TYP,2020,51,Cross Country/Intercity Bus,1,0.15
+vehicle.BODY_TYP,2021,4,"4-door sedan, hardtop",267,33.0
+vehicle.BODY_TYP,2021,34,Light Pickup,127,15.7
+vehicle.BODY_TYP,2021,14,"Compact Utility (Utility Vehicle Categories ""Small"" and ""Midsize"")",103,12.73
+vehicle.BODY_TYP,2021,99,Unknown body type,83,10.26
+vehicle.BODY_TYP,2021,15,"Large utility (ANSI D16.1 Utility Vehicle Categories and ""Full Size"" and ""Large"")",40,4.94
+vehicle.BODY_TYP,2021,6,Station Wagon (excluding van and truck based),38,4.7
+vehicle.BODY_TYP,2021,2,"2-door sedan,hardtop,coupe",26,3.21
+vehicle.BODY_TYP,2021,20,"Minivan (Chrysler Town and Country, Caravan, Grand Caravan, Voyager, Voyager, Honda-Odyssey, ...)",24,2.97
+vehicle.BODY_TYP,2021,66,"Truck-tractor (Cab only, or with any number of trailing unit; any weight)",21,2.6
+vehicle.BODY_TYP,2021,5,5-door/4-door hatchback,16,1.98
+vehicle.BODY_TYP,2021,61,"Single-unit straight truck or Cab-Chassis (GVWR range 10,001 to 19,500 lbs.)",12,1.48
+vehicle.BODY_TYP,2021,21,"Large Van-Includes van-based buses (B150-B350, Sportsman, Royal Maxiwagon, Ram, Tradesman,...)",8,0.99
+vehicle.BODY_TYP,2021,3,3-door/2-door hatchback,8,0.99
+vehicle.BODY_TYP,2021,1,"Convertible(excludes sun-roof,t-bar)",8,0.99
+vehicle.BODY_TYP,2021,67,"Medium/heavy Pickup (GVWR greater than 10,000 lbs.)",5,0.62
+vehicle.BODY_TYP,2021,63,"Single-unit straight truck or Cab-Chassis (GVWR greater than 26,000 lbs.)",5,0.62
+vehicle.BODY_TYP,2021,62,"Single-unit straight truck or Cab-Chassis (GVWR range 19,501 to 26,000 lbs.)",5,0.62
+vehicle.BODY_TYP,2021,80,Two Wheel Motorcycle (excluding motor scooters),5,0.62
+vehicle.BODY_TYP,2021,52,Transit Bus (City Bus),3,0.37
+vehicle.BODY_TYP,2021,85,Unenclosed Three Wheel Motorcycle / Unenclosed Autocycle (1 Rear Wheel),2,0.25
+vehicle.BODY_TYP,2021,98,Not Reported,2,0.25
+vehicle.BODY_TYP,2021,55,"Van-Based Bus GVWR greater than 10,000 lbs.",1,0.12
+vehicle.BODY_TYP,2022,4,"4-door sedan, hardtop",247,32.16
+vehicle.BODY_TYP,2022,34,Light Pickup,106,13.8
+vehicle.BODY_TYP,2022,14,"Compact Utility (Utility Vehicle Categories ""Small"" and ""Midsize"")",103,13.41
+vehicle.BODY_TYP,2022,99,Unknown body type,88,11.46
+vehicle.BODY_TYP,2022,15,"Large utility (ANSI D16.1 Utility Vehicle Categories and ""Full Size"" and ""Large"")",43,5.6
+vehicle.BODY_TYP,2022,6,Station Wagon (excluding van and truck based),31,4.04
+vehicle.BODY_TYP,2022,2,"2-door sedan,hardtop,coupe",27,3.52
+vehicle.BODY_TYP,2022,5,5-door/4-door hatchback,21,2.73
+vehicle.BODY_TYP,2022,20,"Minivan (Chrysler Town and Country, Caravan, Grand Caravan, Voyager, Voyager, Honda-Odyssey, ...)",16,2.08
+vehicle.BODY_TYP,2022,66,"Truck-tractor (Cab only, or with any number of trailing unit; any weight)",14,1.82
+vehicle.BODY_TYP,2022,1,"Convertible(excludes sun-roof,t-bar)",9,1.17
+vehicle.BODY_TYP,2022,21,"Large Van-Includes van-based buses (B150-B350, Sportsman, Royal Maxiwagon, Ram, Tradesman,...)",9,1.17
+vehicle.BODY_TYP,2022,61,"Single-unit straight truck or Cab-Chassis (GVWR range 10,001 to 19,500 lbs.)",9,1.17
+vehicle.BODY_TYP,2022,3,3-door/2-door hatchback,8,1.04
+vehicle.BODY_TYP,2022,67,"Medium/heavy Pickup (GVWR greater than 10,000 lbs.)",6,0.78
+vehicle.BODY_TYP,2022,16,"Utility station wagon (includes suburban limousines, Suburban, Travellall, Grand Wagoneer)",5,0.65
+vehicle.BODY_TYP,2022,52,Transit Bus (City Bus),4,0.52
+vehicle.BODY_TYP,2022,80,Two Wheel Motorcycle (excluding motor scooters),4,0.52
+vehicle.BODY_TYP,2022,63,"Single-unit straight truck or Cab-Chassis (GVWR greater than 26,000 lbs.)",4,0.52
+vehicle.BODY_TYP,2022,62,"Single-unit straight truck or Cab-Chassis (GVWR range 19,501 to 26,000 lbs.)",3,0.39
+vehicle.BODY_TYP,2022,98,Not Reported,3,0.39
+vehicle.BODY_TYP,2022,19,"Utility Vehicle, Unknown body type",1,0.13
+vehicle.BODY_TYP,2022,51,Cross Country/Intercity Bus,1,0.13
+vehicle.BODY_TYP,2022,65,Medium/Heavy Vehicle Based Motor Home,1,0.13
+vehicle.BODY_TYP,2022,83,Off-road Motorcycle,1,0.13
+vehicle.BODY_TYP,2022,84,Motor Scooter,1,0.13
+vehicle.BODY_TYP,2022,8,"Sedan/Hardtop, number of doors unknown",1,0.13
+vehicle.BODY_TYP,2022,88,"Other motored cycle type (mini-bikes, pocket motorcycles ""pocket bikes"")",1,0.13
+vehicle.BODY_TYP,2022,39,Unknown (pickup style) light conventional truck type,1,0.13
+vehicle.BODY_TYP,2023,4,"4-door sedan, hardtop",214,27.86
+vehicle.BODY_TYP,2023,14,"Compact Utility (Utility Vehicle Categories ""Small"" and ""Midsize"")",134,17.45
+vehicle.BODY_TYP,2023,34,Light Pickup,125,16.28
+vehicle.BODY_TYP,2023,99,Unknown body type,90,11.72
+vehicle.BODY_TYP,2023,15,"Large utility (ANSI D16.1 Utility Vehicle Categories and ""Full Size"" and ""Large"")",42,5.47
+vehicle.BODY_TYP,2023,6,Station Wagon (excluding van and truck based),37,4.82
+vehicle.BODY_TYP,2023,2,"2-door sedan,hardtop,coupe",25,3.26
+vehicle.BODY_TYP,2023,20,"Minivan (Chrysler Town and Country, Caravan, Grand Caravan, Voyager, Voyager, Honda-Odyssey, ...)",18,2.34
+vehicle.BODY_TYP,2023,5,5-door/4-door hatchback,13,1.69
+vehicle.BODY_TYP,2023,66,"Truck-tractor (Cab only, or with any number of trailing unit; any weight)",12,1.56
+vehicle.BODY_TYP,2023,21,"Large Van-Includes van-based buses (B150-B350, Sportsman, Royal Maxiwagon, Ram, Tradesman,...)",11,1.43
+vehicle.BODY_TYP,2023,61,"Single-unit straight truck or Cab-Chassis (GVWR range 10,001 to 19,500 lbs.)",9,1.17
+vehicle.BODY_TYP,2023,1,"Convertible(excludes sun-roof,t-bar)",8,1.04
+vehicle.BODY_TYP,2023,80,Two Wheel Motorcycle (excluding motor scooters),6,0.78
+vehicle.BODY_TYP,2023,3,3-door/2-door hatchback,4,0.52
+vehicle.BODY_TYP,2023,63,"Single-unit straight truck or Cab-Chassis (GVWR greater than 26,000 lbs.)",4,0.52
+vehicle.BODY_TYP,2023,52,Transit Bus (City Bus),3,0.39
+vehicle.BODY_TYP,2023,67,"Medium/heavy Pickup (GVWR greater than 10,000 lbs.)",3,0.39
+vehicle.BODY_TYP,2023,62,"Single-unit straight truck or Cab-Chassis (GVWR range 19,501 to 26,000 lbs.)",3,0.39
+vehicle.BODY_TYP,2023,16,"Utility station wagon (includes suburban limousines, Suburban, Travellall, Grand Wagoneer)",2,0.26
+vehicle.BODY_TYP,2023,51,Cross Country/Intercity Bus,1,0.13
+vehicle.BODY_TYP,2023,79,Unknown truck type (light/medium/heavy),1,0.13
+vehicle.BODY_TYP,2023,95,Golf Cart,1,0.13
+vehicle.BODY_TYP,2023,89,Unknown motored cycle type,1,0.13
+vehicle.BODY_TYP,2023,84,Motor Scooter,1,0.13
+vehicle.BODY_TYP,2024,4,"4-door sedan, hardtop",181,27.59
+vehicle.BODY_TYP,2024,14,"Compact Utility (Utility Vehicle Categories ""Small"" and ""Midsize"")",104,15.85
+vehicle.BODY_TYP,2024,34,Light Pickup,87,13.26
+vehicle.BODY_TYP,2024,99,Unknown body type,67,10.21
+vehicle.BODY_TYP,2024,15,"Large utility (ANSI D16.1 Utility Vehicle Categories and ""Full Size"" and ""Large"")",58,8.84
+vehicle.BODY_TYP,2024,6,Station Wagon (excluding van and truck based),30,4.57
+vehicle.BODY_TYP,2024,20,"Minivan (Chrysler Town and Country, Caravan, Grand Caravan, Voyager, Voyager, Honda-Odyssey, ...)",18,2.74
+vehicle.BODY_TYP,2024,66,"Truck-tractor (Cab only, or with any number of trailing unit; any weight)",17,2.59
+vehicle.BODY_TYP,2024,2,"2-door sedan,hardtop,coupe",16,2.44
+vehicle.BODY_TYP,2024,5,5-door/4-door hatchback,16,2.44
+vehicle.BODY_TYP,2024,80,Two Wheel Motorcycle (excluding motor scooters),10,1.52
+vehicle.BODY_TYP,2024,63,"Single-unit straight truck or Cab-Chassis (GVWR greater than 26,000 lbs.)",9,1.37
+vehicle.BODY_TYP,2024,21,"Large Van-Includes van-based buses (B150-B350, Sportsman, Royal Maxiwagon, Ram, Tradesman,...)",9,1.37
+vehicle.BODY_TYP,2024,61,"Single-unit straight truck or Cab-Chassis (GVWR range 10,001 to 19,500 lbs.)",7,1.07
+vehicle.BODY_TYP,2024,1,"Convertible(excludes sun-roof,t-bar)",5,0.76
+vehicle.BODY_TYP,2024,62,"Single-unit straight truck or Cab-Chassis (GVWR range 19,501 to 26,000 lbs.)",4,0.61
+vehicle.BODY_TYP,2024,16,"Utility station wagon (includes suburban limousines, Suburban, Travellall, Grand Wagoneer)",4,0.61
+vehicle.BODY_TYP,2024,50,School Bus,3,0.46
+vehicle.BODY_TYP,2024,67,"Medium/heavy Pickup (GVWR greater than 10,000 lbs.)",3,0.46
+vehicle.BODY_TYP,2024,52,Transit Bus (City Bus),3,0.46
+vehicle.BODY_TYP,2024,40,"Cab Chassis Based (includes Rescue Vehicle, Light Stake, Dump, and Tow Truck)",2,0.3
+vehicle.BODY_TYP,2024,3,3-door/2-door hatchback,2,0.3
+vehicle.BODY_TYP,2024,94,Low Speed Vehicle (LSV) / Neighborhood Electric Vehicle (NEV),1,0.15
+vehicle.HIT_RUN,2020,0,No,563,81.71
+vehicle.HIT_RUN,2020,1,Yes,126,18.29
+vehicle.HIT_RUN,2021,0,No,650,80.35
+vehicle.HIT_RUN,2021,1,Yes,159,19.65
+vehicle.HIT_RUN,2022,0,No,623,81.12
+vehicle.HIT_RUN,2022,1,Yes,145,18.88
+vehicle.HIT_RUN,2023,0,No,627,81.64
+vehicle.HIT_RUN,2023,1,Yes,141,18.36
+vehicle.HIT_RUN,2024,0,No,536,81.71
+vehicle.HIT_RUN,2024,1,Yes,120,18.29
+person.STR_VEH,2020,1,,686,98.71
+person.STR_VEH,2020,2,,7,1.01
+person.STR_VEH,2020,4,,2,0.29
+person.STR_VEH,2021,1,,803,98.05
+person.STR_VEH,2021,2,,15,1.83
+person.STR_VEH,2021,3,,1,0.12
+person.STR_VEH,2022,1,,759,97.31
+person.STR_VEH,2022,2,,18,2.31
+person.STR_VEH,2022,3,,3,0.38
+person.STR_VEH,2023,1,,754,97.42
+person.STR_VEH,2023,2,,17,2.2
+person.STR_VEH,2023,3,,3,0.39
+person.STR_VEH,2024,1,,644,96.41
+person.STR_VEH,2024,2,,19,2.84
+person.STR_VEH,2024,4,,3,0.45
+person.STR_VEH,2024,5,,1,0.15
+person.STR_VEH,2024,3,,1,0.15
+person.SEX,2020,1,Male,467,67.19
+person.SEX,2020,2,Female,196,28.2
+person.SEX,2020,8,Not Reported,32,4.6
+person.SEX,2021,1,Male,579,70.7
+person.SEX,2021,2,Female,194,23.69
+person.SEX,2021,8,Not Reported,45,5.49
+person.SEX,2021,9,Reported as Unknown,1,0.12
+person.SEX,2022,1,Male,513,65.77
+person.SEX,2022,2,Female,230,29.49
+person.SEX,2022,8,Not Reported,35,4.49
+person.SEX,2022,9,Reported as Unknown,2,0.26
+person.SEX,2023,1,Male,532,68.73
+person.SEX,2023,2,Female,220,28.42
+person.SEX,2023,8,Not Reported,21,2.71
+person.SEX,2023,9,Reported as Unknown,1,0.13
+person.SEX,2024,1,Male,438,65.57
+person.SEX,2024,2,Female,207,30.99
+person.SEX,2024,8,Not Reported,19,2.84
+person.SEX,2024,9,Reported as Unknown,4,0.6
+person.DRINKING,2020,0,No (Alcohol Not Involved),335,48.2
+person.DRINKING,2020,9,Reported as Unknown,237,34.1
+person.DRINKING,2020,1,Yes (Alcohol Involved),121,17.41
+person.DRINKING,2020,8,Not Reported,2,0.29
+person.DRINKING,2021,0,No (Alcohol Not Involved),399,48.72
+person.DRINKING,2021,9,Reported as Unknown,288,35.16
+person.DRINKING,2021,1,Yes (Alcohol Involved),127,15.51
+person.DRINKING,2021,8,Not Reported,5,0.61
+person.DRINKING,2022,0,No (Alcohol Not Involved),360,46.15
+person.DRINKING,2022,9,Reported as Unknown,280,35.9
+person.DRINKING,2022,1,Yes (Alcohol Involved),138,17.69
+person.DRINKING,2022,8,Not Reported,2,0.26
+person.DRINKING,2023,0,No (Alcohol Not Involved),360,46.51
+person.DRINKING,2023,9,Reported as Unknown,335,43.28
+person.DRINKING,2023,1,Yes (Alcohol Involved),76,9.82
+person.DRINKING,2023,8,Not Reported,3,0.39
+person.DRINKING,2024,0,No (Alcohol Not Involved),325,48.65
+person.DRINKING,2024,9,Reported as Unknown,284,42.51
+person.DRINKING,2024,1,Yes (Alcohol Involved),56,8.38
+person.DRINKING,2024,8,Not Reported,3,0.45
+person.AGE,2020,45-64,,251,36.12
+person.AGE,2020,25-44,,207,29.78
+person.AGE,2020,65+,,140,20.14
+person.AGE,2020,15-24,,52,7.48
+person.AGE,2020,998/999 unknown,,27,3.88
+person.AGE,2020,0-14,,18,2.59
+person.AGE,2021,45-64,,306,37.36
+person.AGE,2021,25-44,,243,29.67
+person.AGE,2021,65+,,152,18.56
+person.AGE,2021,15-24,,56,6.84
+person.AGE,2021,998/999 unknown,,53,6.47
+person.AGE,2021,0-14,,9,1.1
+person.AGE,2022,45-64,,257,32.95
+person.AGE,2022,25-44,,238,30.51
+person.AGE,2022,65+,,174,22.31
+person.AGE,2022,15-24,,48,6.15
+person.AGE,2022,998/999 unknown,,46,5.9
+person.AGE,2022,0-14,,17,2.18
+person.AGE,2023,45-64,,229,29.59
+person.AGE,2023,25-44,,228,29.46
+person.AGE,2023,65+,,205,26.49
+person.AGE,2023,998/999 unknown,,47,6.07
+person.AGE,2023,15-24,,43,5.56
+person.AGE,2023,0-14,,22,2.84
+person.AGE,2024,45-64,,198,29.64
+person.AGE,2024,25-44,,185,27.69
+person.AGE,2024,65+,,171,25.6
+person.AGE,2024,15-24,,58,8.68
+person.AGE,2024,998/999 unknown,,41,6.14
+person.AGE,2024,0-14,,15,2.25
+pbtype.PBCWALK,2020,0,None Noted,611,87.91
+pbtype.PBCWALK,2020,1,Yes,84,12.09
+pbtype.PBCWALK,2021,0,None Noted,741,90.48
+pbtype.PBCWALK,2021,1,Yes,78,9.52
+pbtype.PBCWALK,2022,0,None Noted,677,86.79
+pbtype.PBCWALK,2022,1,Yes,103,13.21
+pbtype.PBCWALK,2023,0,None Noted,655,84.63
+pbtype.PBCWALK,2023,1,Yes,119,15.37
+pbtype.PBCWALK,2024,0,None Noted,564,84.43
+pbtype.PBCWALK,2024,1,Yes,104,15.57
+pbtype.PBSWALK,2020,0,None Noted,500,71.94
+pbtype.PBSWALK,2020,1,Yes,195,28.06
+pbtype.PBSWALK,2021,0,None Noted,621,75.82
+pbtype.PBSWALK,2021,1,Yes,198,24.18
+pbtype.PBSWALK,2022,0,None Noted,473,60.64
+pbtype.PBSWALK,2022,1,Yes,305,39.1
+pbtype.PBSWALK,2022,9,Unknown,2,0.26
+pbtype.PBSWALK,2023,0,None Noted,590,76.23
+pbtype.PBSWALK,2023,1,Yes,183,23.64
+pbtype.PBSWALK,2023,9,Unknown,1,0.13
+pbtype.PBSWALK,2024,0,None Noted,474,70.96
+pbtype.PBSWALK,2024,1,Yes,194,29.04
+pbtype.PEDLOC,2020,3,Not At Intersection,511,73.53
+pbtype.PEDLOC,2020,1,At Intersection,107,15.4
+pbtype.PEDLOC,2020,2,Intersection-Related,71,10.22
+pbtype.PEDLOC,2020,4,Non-Trafficway Location,6,0.86
+pbtype.PEDLOC,2021,3,Not At Intersection,633,77.29
+pbtype.PEDLOC,2021,1,At Intersection,118,14.41
+pbtype.PEDLOC,2021,2,Intersection-Related,62,7.57
+pbtype.PEDLOC,2021,4,Non-Trafficway Location,4,0.49
+pbtype.PEDLOC,2021,9,Unknown / Insufficient Information,2,0.24
+pbtype.PEDLOC,2022,3,Not At Intersection,605,77.56
+pbtype.PEDLOC,2022,1,At Intersection,96,12.31
+pbtype.PEDLOC,2022,2,Intersection-Related,74,9.49
+pbtype.PEDLOC,2022,4,Non-Trafficway Location,5,0.64
+pbtype.PEDLOC,2023,3,Not At Intersection,584,75.45
+pbtype.PEDLOC,2023,1,At Intersection,138,17.83
+pbtype.PEDLOC,2023,2,Intersection-Related,47,6.07
+pbtype.PEDLOC,2023,4,Non-Trafficway Location,4,0.52
+pbtype.PEDLOC,2023,9,Unknown / Insufficient Information,1,0.13
+pbtype.PEDLOC,2024,3,Not At Intersection,491,73.5
+pbtype.PEDLOC,2024,1,At Intersection,118,17.66
+pbtype.PEDLOC,2024,2,Intersection-Related,55,8.23
+pbtype.PEDLOC,2024,4,Non-Trafficway Location,3,0.45
+pbtype.PEDLOC,2024,9,Unknown / Insufficient Information,1,0.15
+pbtype.PEDPOS,2020,3,Travel Lane,512,73.67
+pbtype.PEDPOS,2020,2,Crosswalk Area,75,10.79
+pbtype.PEDPOS,2020,1,Intersection Area,36,5.18
+pbtype.PEDPOS,2020,4,Paved Shoulder / Bicycle Lane / Parking Lane,21,3.02
+pbtype.PEDPOS,2020,9,Other/Unknown,19,2.73
+pbtype.PEDPOS,2020,5,Sidewalk / Shared-Use Path / Driveway Access,18,2.59
+pbtype.PEDPOS,2020,6,Unpaved Right-of-Way,8,1.15
+pbtype.PEDPOS,2020,8,Non-Trafficway - Parking Lot/Other,6,0.86
+pbtype.PEDPOS,2021,3,Travel Lane,618,75.46
+pbtype.PEDPOS,2021,2,Crosswalk Area,75,9.16
+pbtype.PEDPOS,2021,1,Intersection Area,46,5.62
+pbtype.PEDPOS,2021,4,Paved Shoulder / Bicycle Lane / Parking Lane,30,3.66
+pbtype.PEDPOS,2021,5,Sidewalk / Shared-Use Path / Driveway Access,23,2.81
+pbtype.PEDPOS,2021,9,Other/Unknown,16,1.95
+pbtype.PEDPOS,2021,6,Unpaved Right-of-Way,7,0.85
+pbtype.PEDPOS,2021,8,Non-Trafficway - Parking Lot/Other,4,0.49
+pbtype.PEDPOS,2022,3,Travel Lane,605,77.56
+pbtype.PEDPOS,2022,2,Crosswalk Area,80,10.26
+pbtype.PEDPOS,2022,4,Paved Shoulder / Bicycle Lane / Parking Lane,32,4.1
+pbtype.PEDPOS,2022,1,Intersection Area,24,3.08
+pbtype.PEDPOS,2022,5,Sidewalk / Shared-Use Path / Driveway Access,21,2.69
+pbtype.PEDPOS,2022,6,Unpaved Right-of-Way,8,1.03
+pbtype.PEDPOS,2022,9,Other/Unknown,5,0.64
+pbtype.PEDPOS,2022,8,Non-Trafficway - Parking Lot/Other,4,0.51
+pbtype.PEDPOS,2022,7,Non-Trafficway - Driveway,1,0.13
+pbtype.PEDPOS,2023,3,Travel Lane,560,72.35
+pbtype.PEDPOS,2023,2,Crosswalk Area,108,13.95
+pbtype.PEDPOS,2023,1,Intersection Area,41,5.3
+pbtype.PEDPOS,2023,4,Paved Shoulder / Bicycle Lane / Parking Lane,23,2.97
+pbtype.PEDPOS,2023,5,Sidewalk / Shared-Use Path / Driveway Access,19,2.45
+pbtype.PEDPOS,2023,9,Other/Unknown,17,2.2
+pbtype.PEDPOS,2023,8,Non-Trafficway - Parking Lot/Other,4,0.52
+pbtype.PEDPOS,2023,6,Unpaved Right-of-Way,2,0.26
+pbtype.PEDPOS,2024,3,Travel Lane,486,72.75
+pbtype.PEDPOS,2024,2,Crosswalk Area,90,13.47
+pbtype.PEDPOS,2024,1,Intersection Area,33,4.94
+pbtype.PEDPOS,2024,4,Paved Shoulder / Bicycle Lane / Parking Lane,24,3.59
+pbtype.PEDPOS,2024,9,Other/Unknown,13,1.95
+pbtype.PEDPOS,2024,5,Sidewalk / Shared-Use Path / Driveway Access,13,1.95
+pbtype.PEDPOS,2024,6,Unpaved Right-of-Way,6,0.9
+pbtype.PEDPOS,2024,8,Non-Trafficway - Parking Lot/Other,3,0.45
+pbtype.PEDCGP,2020,750,Crossing Roadway - Vehicle Not Turning,312,44.89
+pbtype.PEDCGP,2020,990,Other / Unknown - Insufficient Details,98,14.1
+pbtype.PEDCGP,2020,400,Walking/Running Along Roadway,76,10.94
+pbtype.PEDCGP,2020,600,Pedestrian in Roadway - Circumstances Unknown,73,10.5
+pbtype.PEDCGP,2020,740,"Dash – Run, No Visual Obstruction Noted / Dart-Out – Visual Obstruction Noted",56,8.06
+pbtype.PEDCGP,2020,100,Unusual Circumstances,29,4.17
+pbtype.PEDCGP,2020,790,Crossing Roadway - Vehicle Turning,20,2.88
+pbtype.PEDCGP,2020,800,Non-Trafficway,6,0.86
+pbtype.PEDCGP,2020,910,Crossing Expressway,6,0.86
+pbtype.PEDCGP,2020,200,Backing Vehicle,4,0.58
+pbtype.PEDCGP,2020,340,Bus Stop-Related,4,0.58
+pbtype.PEDCGP,2020,350,Unique Midblock,4,0.58
+pbtype.PEDCGP,2020,500,Waiting to Cross,3,0.43
+pbtype.PEDCGP,2020,310,Working or Playing in Roadway,2,0.29
+pbtype.PEDCGP,2020,460,Driveway Access/Driveway Access Related,2,0.29
+pbtype.PEDCGP,2021,750,Crossing Roadway - Vehicle Not Turning,333,40.66
+pbtype.PEDCGP,2021,600,Pedestrian in Roadway - Circumstances Unknown,151,18.44
+pbtype.PEDCGP,2021,990,Other / Unknown - Insufficient Details,116,14.16
+pbtype.PEDCGP,2021,400,Walking/Running Along Roadway,79,9.65
+pbtype.PEDCGP,2021,740,"Dash - Run, No Visual Obstruction Noted / Dart-Out - Visual Obstruction Noted",49,5.98
+pbtype.PEDCGP,2021,100,Unusual Circumstances,32,3.91
+pbtype.PEDCGP,2021,790,Crossing Roadway - Vehicle Turning,22,2.69
+pbtype.PEDCGP,2021,200,Backing Vehicle,6,0.73
+pbtype.PEDCGP,2021,460,Driveway Access/Driveway Access Related,6,0.73
+pbtype.PEDCGP,2021,910,Crossing Expressway,6,0.73
+pbtype.PEDCGP,2021,350,Unique Midblock,6,0.73
+pbtype.PEDCGP,2021,310,Working or Playing in Roadway,5,0.61
+pbtype.PEDCGP,2021,800,Non-Trafficway,4,0.49
+pbtype.PEDCGP,2021,500,Waiting to Cross,2,0.24
+pbtype.PEDCGP,2021,340,Bus Stop-Related,2,0.24
+pbtype.PEDCGP,2022,750,Crossing Roadway - Vehicle Not Turning,317,40.64
+pbtype.PEDCGP,2022,600,Pedestrian in Roadway - Circumstances Unknown,126,16.15
+pbtype.PEDCGP,2022,990,Other / Unknown - Insufficient Details,92,11.79
+pbtype.PEDCGP,2022,400,Walking/Running Along Roadway,89,11.41
+pbtype.PEDCGP,2022,740,"Dash - Run, No Visual Obstruction Noted / Dart-Out - Visual Obstruction Noted",54,6.92
+pbtype.PEDCGP,2022,100,Unusual Circumstances,52,6.67
+pbtype.PEDCGP,2022,790,Crossing Roadway - Vehicle Turning,26,3.33
+pbtype.PEDCGP,2022,910,Crossing Expressway,7,0.9
+pbtype.PEDCGP,2022,200,Backing Vehicle,7,0.9
+pbtype.PEDCGP,2022,800,Non-Trafficway,3,0.38
+pbtype.PEDCGP,2022,310,Working or Playing in Roadway,2,0.26
+pbtype.PEDCGP,2022,340,Bus Stop-Related,2,0.26
+pbtype.PEDCGP,2022,460,Driveway Access/Driveway Access Related,1,0.13
+pbtype.PEDCGP,2022,350,Unique Midblock,1,0.13
+pbtype.PEDCGP,2022,720,Multiple Threat / Trapped,1,0.13
+pbtype.PEDCGP,2023,750,Crossing Roadway - Vehicle Not Turning,326,42.12
+pbtype.PEDCGP,2023,600,Pedestrian in Roadway - Circumstances Unknown,124,16.02
+pbtype.PEDCGP,2023,990,Other / Unknown - Insufficient Details,89,11.5
+pbtype.PEDCGP,2023,400,Walking/Running Along Roadway,74,9.56
+pbtype.PEDCGP,2023,740,"Dash - Run, No Visual Obstruction Noted / Dart-Out - Visual Obstruction Noted",62,8.01
+pbtype.PEDCGP,2023,790,Crossing Roadway - Vehicle Turning,33,4.26
+pbtype.PEDCGP,2023,100,Unusual Circumstances,30,3.88
+pbtype.PEDCGP,2023,350,Unique Midblock,11,1.42
+pbtype.PEDCGP,2023,910,Crossing Expressway,6,0.78
+pbtype.PEDCGP,2023,200,Backing Vehicle,5,0.65
+pbtype.PEDCGP,2023,310,Working or Playing in Roadway,5,0.65
+pbtype.PEDCGP,2023,460,Driveway Access/Driveway Access Related,4,0.52
+pbtype.PEDCGP,2023,800,Non-Trafficway,2,0.26
+pbtype.PEDCGP,2023,500,Waiting to Cross,2,0.26
+pbtype.PEDCGP,2023,340,Bus Stop-Related,1,0.13
+pbtype.PEDCGP,2024,750,Crossing Roadway - Vehicle Not Turning,261,39.07
+pbtype.PEDCGP,2024,990,Other / Unknown - Insufficient Details,99,14.82
+pbtype.PEDCGP,2024,600,Pedestrian in Roadway - Circumstances Unknown,89,13.32
+pbtype.PEDCGP,2024,400,Walking/Running Along Roadway,65,9.73
+pbtype.PEDCGP,2024,740,"Dash - Run, No Visual Obstruction Noted / Dart-Out - Visual Obstruction Noted",53,7.93
+pbtype.PEDCGP,2024,100,Unusual Circumstances,33,4.94
+pbtype.PEDCGP,2024,790,Crossing Roadway - Vehicle Turning,26,3.89
+pbtype.PEDCGP,2024,910,Crossing Expressway,10,1.5
+pbtype.PEDCGP,2024,350,Unique Midblock,7,1.05
+pbtype.PEDCGP,2024,340,Bus Stop-Related,5,0.75
+pbtype.PEDCGP,2024,310,Working or Playing in Roadway,5,0.75
+pbtype.PEDCGP,2024,200,Backing Vehicle,5,0.75
+pbtype.PEDCGP,2024,460,Driveway Access/Driveway Access Related,4,0.6
+pbtype.PEDCGP,2024,800,Non-Trafficway,3,0.45
+pbtype.PEDCGP,2024,500,Waiting to Cross,3,0.45
+accident.COUNTY,2020-2024,1,ALACHUA (1),48,1.3
+accident.COUNTY,2020-2024,101,PASCO (101),122,3.31
+accident.COUNTY,2020-2024,103,PINELLAS (103),185,5.01
+accident.COUNTY,2020-2024,105,POLK (105),122,3.31
+accident.COUNTY,2020-2024,107,PUTNAM (107),17,0.46
+accident.COUNTY,2020-2024,109,ST. JOHNS (109),33,0.89
+accident.COUNTY,2020-2024,11,BROWARD (11),357,9.67
+accident.COUNTY,2020-2024,111,ST. LUCIE (111),44,1.19
+accident.COUNTY,2020-2024,113,SANTA ROSA (113),13,0.35
+accident.COUNTY,2020-2024,115,SARASOTA (115),59,1.6
+accident.COUNTY,2020-2024,117,SEMINOLE (117),53,1.44
+accident.COUNTY,2020-2024,119,SUMTER (119),14,0.38
+accident.COUNTY,2020-2024,121,SUWANNEE (121),10,0.27
+accident.COUNTY,2020-2024,123,TAYLOR (123),4,0.11
+accident.COUNTY,2020-2024,127,VOLUSIA (127),113,3.06
+accident.COUNTY,2020-2024,129,WAKULLA (129),2,0.05
+accident.COUNTY,2020-2024,13,CALHOUN (13),3,0.08
+accident.COUNTY,2020-2024,131,WALTON (131),16,0.43
+accident.COUNTY,2020-2024,133,WASHINGTON (133),4,0.11
+accident.COUNTY,2020-2024,15,CHARLOTTE (15),22,0.6
+accident.COUNTY,2020-2024,17,CITRUS (17),29,0.79
+accident.COUNTY,2020-2024,19,CLAY (19),27,0.73
+accident.COUNTY,2020-2024,21,COLLIER (21),25,0.68
+accident.COUNTY,2020-2024,23,COLUMBIA (23),12,0.33
+accident.COUNTY,2020-2024,27,DE SOTO (27),8,0.22
+accident.COUNTY,2020-2024,29,DIXIE (29),6,0.16
+accident.COUNTY,2020-2024,3,BAKER (3),3,0.08
+accident.COUNTY,2020-2024,31,DUVAL (31),209,5.66
+accident.COUNTY,2020-2024,33,ESCAMBIA (33),81,2.2
+accident.COUNTY,2020-2024,35,FLAGLER (35),13,0.35
+accident.COUNTY,2020-2024,37,FRANKLIN (37),2,0.05
+accident.COUNTY,2020-2024,39,GADSDEN (39),7,0.19
+accident.COUNTY,2020-2024,41,GILCHRIST (41),2,0.05
+accident.COUNTY,2020-2024,43,GLADES (43),2,0.05
+accident.COUNTY,2020-2024,45,GULF (45),3,0.08
+accident.COUNTY,2020-2024,47,HAMILTON (47),4,0.11
+accident.COUNTY,2020-2024,49,HARDEE (49),11,0.3
+accident.COUNTY,2020-2024,5,BAY (5),37,1.0
+accident.COUNTY,2020-2024,51,HENDRY (51),8,0.22
+accident.COUNTY,2020-2024,53,HERNANDO (53),26,0.7
+accident.COUNTY,2020-2024,55,HIGHLANDS (55),12,0.33
+accident.COUNTY,2020-2024,57,HILLSBOROUGH (57),281,7.62
+accident.COUNTY,2020-2024,59,HOLMES (59),1,0.03
+accident.COUNTY,2020-2024,61,INDIAN RIVER (61),17,0.46
+accident.COUNTY,2020-2024,63,JACKSON (63),10,0.27
+accident.COUNTY,2020-2024,65,JEFFERSON (65),1,0.03
+accident.COUNTY,2020-2024,69,LAKE (69),43,1.17
+accident.COUNTY,2020-2024,7,BRADFORD (7),5,0.14
+accident.COUNTY,2020-2024,71,LEE (71),121,3.28
+accident.COUNTY,2020-2024,73,LEON (73),51,1.38
+accident.COUNTY,2020-2024,75,LEVY (75),4,0.11
+accident.COUNTY,2020-2024,79,MADISON (79),6,0.16
+accident.COUNTY,2020-2024,81,MANATEE (81),90,2.44
+accident.COUNTY,2020-2024,83,MARION (83),92,2.49
+accident.COUNTY,2020-2024,85,MARTIN (85),8,0.22
+accident.COUNTY,2020-2024,86,MIAMI-DADE (86),441,11.95
+accident.COUNTY,2020-2024,87,MONROE (87),13,0.35
+accident.COUNTY,2020-2024,89,NASSAU (89),8,0.22
+accident.COUNTY,2020-2024,9,BREVARD (9),116,3.14
+accident.COUNTY,2020-2024,91,OKALOOSA (91),30,0.81
+accident.COUNTY,2020-2024,93,OKEECHOBEE (93),5,0.14
+accident.COUNTY,2020-2024,95,ORANGE (95),261,7.07
+accident.COUNTY,2020-2024,97,OSCEOLA (97),55,1.49
+accident.COUNTY,2020-2024,99,PALM BEACH (99),263,7.13
+accident.DAY_WEEK,2020-2024,1,Sunday,537,14.55
+accident.DAY_WEEK,2020-2024,2,Monday,500,13.55
+accident.DAY_WEEK,2020-2024,3,Tuesday,485,13.14
+accident.DAY_WEEK,2020-2024,4,Wednesday,455,12.33
+accident.DAY_WEEK,2020-2024,5,Thursday,478,12.95
+accident.DAY_WEEK,2020-2024,6,Friday,606,16.42
+accident.DAY_WEEK,2020-2024,7,Saturday,629,17.05
+accident.FUNC_SYS,2020-2024,1,Interstate,243,6.59
+accident.FUNC_SYS,2020-2024,2,Principal Arterial - Other Freeways and Expressways,66,1.79
+accident.FUNC_SYS,2020-2024,3,Principal Arterial - Other,1694,45.91
+accident.FUNC_SYS,2020-2024,4,Minor Arterial,839,22.74
+accident.FUNC_SYS,2020-2024,5,Major Collector,390,10.57
+accident.FUNC_SYS,2020-2024,6,Minor Collector,70,1.9
+accident.FUNC_SYS,2020-2024,7,Local,374,10.14
+accident.FUNC_SYS,2020-2024,96,Trafficway Not in State Inventory,12,0.33
+accident.FUNC_SYS,2020-2024,98,Not Reported,2,0.05
+accident.HOUR,2020-2024,00-05,,896,24.28
+accident.HOUR,2020-2024,06-11,,476,12.9
+accident.HOUR,2020-2024,12-17,,361,9.78
+accident.HOUR,2020-2024,18-20,,1005,27.24
+accident.HOUR,2020-2024,21-23,,952,25.8
+accident.LGT_COND,2020-2024,1,Daylight,634,17.18
+accident.LGT_COND,2020-2024,2,Dark - Not Lighted,1176,31.87
+accident.LGT_COND,2020-2024,3,Dark - Lighted,1649,44.69
+accident.LGT_COND,2020-2024,4,Dawn,81,2.2
+accident.LGT_COND,2020-2024,5,Dusk,81,2.2
+accident.LGT_COND,2020-2024,6,Dark - Unknown Lighting,54,1.46
+accident.LGT_COND,2020-2024,7,Other,6,0.16
+accident.LGT_COND,2020-2024,8,Not Reported,1,0.03
+accident.LGT_COND,2020-2024,9,Reported as Unknown,8,0.22
+accident.RELJCT2,2020-2024,1,Non-Junction,2627,71.19
+accident.RELJCT2,2020-2024,16,Shared-Use Path Crossing,3,0.08
+accident.RELJCT2,2020-2024,18,Through Roadway,32,0.87
+accident.RELJCT2,2020-2024,19,Other location within Interchange Area,5,0.14
+accident.RELJCT2,2020-2024,2,Intersection,180,4.88
+accident.RELJCT2,2020-2024,20,Entrance/Exit Ramp,17,0.46
+accident.RELJCT2,2020-2024,3,Intersection-Related,757,20.51
+accident.RELJCT2,2020-2024,4,Driveway Access,6,0.16
+accident.RELJCT2,2020-2024,5,Entrance/Exit Ramp Related,9,0.24
+accident.RELJCT2,2020-2024,6,Railway Grade Crossing,1,0.03
+accident.RELJCT2,2020-2024,8,Driveway Access Related,47,1.27
+accident.RELJCT2,2020-2024,98,Not Reported,2,0.05
+accident.RELJCT2,2020-2024,99,Reported as Unknown,4,0.11
+accident.RUR_URB,2020-2024,1,Rural,356,9.65
+accident.RUR_URB,2020-2024,2,Urban,3287,89.08
+accident.RUR_URB,2020-2024,6,Trafficway Not in State Inventory,12,0.33
+accident.RUR_URB,2020-2024,8,Not Reported,24,0.65
+accident.RUR_URB,2020-2024,9,Unknown,11,0.3
+accident.WEATHER,2020-2024,1,Clear,2945,79.81
+accident.WEATHER,2020-2024,10,Cloudy,457,12.38
+accident.WEATHER,2020-2024,2,Rain,222,6.02
+accident.WEATHER,2020-2024,5,"Fog, Smog, Smoke",48,1.3
+accident.WEATHER,2020-2024,8,Other,12,0.33
+accident.WEATHER,2020-2024,98,Not Reported,3,0.08
+accident.WEATHER,2020-2024,99,Reported as Unknown,3,0.08
+pbtype.PBCWALK,2020-2024,0,None Noted,3248,86.94
+pbtype.PBCWALK,2020-2024,1,Yes,488,13.06
+pbtype.PBSWALK,2020-2024,0,None Noted,2658,71.15
+pbtype.PBSWALK,2020-2024,1,Yes,1075,28.77
+pbtype.PBSWALK,2020-2024,9,Unknown,3,0.08
+pbtype.PEDCGP,2020-2024,100,Unusual Circumstances,176,4.71
+pbtype.PEDCGP,2020-2024,200,Backing Vehicle,27,0.72
+pbtype.PEDCGP,2020-2024,310,Working or Playing in Roadway,19,0.51
+pbtype.PEDCGP,2020-2024,340,Bus Stop-Related,14,0.37
+pbtype.PEDCGP,2020-2024,350,Unique Midblock,29,0.78
+pbtype.PEDCGP,2020-2024,400,Walking/Running Along Roadway,383,10.25
+pbtype.PEDCGP,2020-2024,460,Driveway Access/Driveway Access Related,17,0.46
+pbtype.PEDCGP,2020-2024,500,Waiting to Cross,10,0.27
+pbtype.PEDCGP,2020-2024,600,Pedestrian in Roadway - Circumstances Unknown,563,15.07
+pbtype.PEDCGP,2020-2024,720,Multiple Threat / Trapped,1,0.03
+pbtype.PEDCGP,2020-2024,740,"Dash – Run, No Visual Obstruction Noted / Dart-Out – Visual Obstruction Noted",274,7.33
+pbtype.PEDCGP,2020-2024,750,Crossing Roadway - Vehicle Not Turning,1549,41.46
+pbtype.PEDCGP,2020-2024,790,Crossing Roadway - Vehicle Turning,127,3.4
+pbtype.PEDCGP,2020-2024,800,Non-Trafficway,18,0.48
+pbtype.PEDCGP,2020-2024,910,Crossing Expressway,35,0.94
+pbtype.PEDCGP,2020-2024,990,Other / Unknown - Insufficient Details,494,13.22
+pbtype.PEDLOC,2020-2024,1,At Intersection,577,15.44
+pbtype.PEDLOC,2020-2024,2,Intersection-Related,309,8.27
+pbtype.PEDLOC,2020-2024,3,Not At Intersection,2824,75.59
+pbtype.PEDLOC,2020-2024,4,Non-Trafficway Location,22,0.59
+pbtype.PEDLOC,2020-2024,9,Unknown / Insufficient Information,4,0.11
+pbtype.PEDPOS,2020-2024,1,Intersection Area,180,4.82
+pbtype.PEDPOS,2020-2024,2,Crosswalk Area,428,11.46
+pbtype.PEDPOS,2020-2024,3,Travel Lane,2781,74.44
+pbtype.PEDPOS,2020-2024,4,Paved Shoulder / Bicycle Lane / Parking Lane,130,3.48
+pbtype.PEDPOS,2020-2024,5,Sidewalk / Shared-Use Path / Driveway Access,94,2.52
+pbtype.PEDPOS,2020-2024,6,Unpaved Right-of-Way,31,0.83
+pbtype.PEDPOS,2020-2024,7,Non-Trafficway - Driveway,1,0.03
+pbtype.PEDPOS,2020-2024,8,Non-Trafficway - Parking Lot/Other,21,0.56
+pbtype.PEDPOS,2020-2024,9,Other/Unknown,70,1.87
+person.AGE,2020-2024,0-14,,81,2.17
+person.AGE,2020-2024,15-24,,257,6.88
+person.AGE,2020-2024,25-44,,1101,29.47
+person.AGE,2020-2024,45-64,,1241,33.22
+person.AGE,2020-2024,65+,,842,22.54
+person.AGE,2020-2024,998/999 unknown,,214,5.73
+person.DRINKING,2020-2024,0,No (Alcohol Not Involved),1779,47.62
+person.DRINKING,2020-2024,1,Yes (Alcohol Involved),518,13.87
+person.DRINKING,2020-2024,8,Not Reported,15,0.4
+person.DRINKING,2020-2024,9,Reported as Unknown,1424,38.12
+person.SEX,2020-2024,1,Male,2529,67.69
+person.SEX,2020-2024,2,Female,1047,28.02
+person.SEX,2020-2024,8,Not Reported,152,4.07
+person.SEX,2020-2024,9,Reported as Unknown,8,0.21
+person.STR_VEH,2020-2024,1,,3646,97.59
+person.STR_VEH,2020-2024,2,,76,2.03
+person.STR_VEH,2020-2024,3,,8,0.21
+person.STR_VEH,2020-2024,4,,5,0.13
+person.STR_VEH,2020-2024,5,,1,0.03
+vehicle.BODY_TYP,2020-2024,1,"Convertible(excludes sun-roof,t-bar)",35,0.95
+vehicle.BODY_TYP,2020-2024,14,"Compact Utility (Utility Vehicle Categories ""Small"" and ""Midsize"")",535,14.5
+vehicle.BODY_TYP,2020-2024,15,"Large utility (ANSI D16.1 Utility Vehicle Categories and ""Full Size"" and ""Large"")",224,6.07
+vehicle.BODY_TYP,2020-2024,16,"Utility station wagon (includes suburban limousines, Suburban, Travellall, Grand Wagoneer)",15,0.41
+vehicle.BODY_TYP,2020-2024,19,"Utility Vehicle, Unknown body type",1,0.03
+vehicle.BODY_TYP,2020-2024,2,"2-door sedan,hardtop,coupe",115,3.12
+vehicle.BODY_TYP,2020-2024,20,"Minivan (Chrysler Town and Country, Caravan, Grand Caravan, Voyager, Voyager, Honda-Odyssey, ...)",96,2.6
+vehicle.BODY_TYP,2020-2024,21,"Large Van-Includes van-based buses (B150-B350, Sportsman, Royal Maxiwagon, Ram, Tradesman,...)",46,1.25
+vehicle.BODY_TYP,2020-2024,3,3-door/2-door hatchback,27,0.73
+vehicle.BODY_TYP,2020-2024,34,Light Pickup,544,14.74
+vehicle.BODY_TYP,2020-2024,39,Unknown (pickup style) light conventional truck type,1,0.03
+vehicle.BODY_TYP,2020-2024,4,"4-door sedan, hardtop",1136,30.79
+vehicle.BODY_TYP,2020-2024,40,"Cab Chassis Based (includes Rescue Vehicle, Light Stake, Dump, and Tow Truck)",2,0.05
+vehicle.BODY_TYP,2020-2024,5,5-door/4-door hatchback,82,2.22
+vehicle.BODY_TYP,2020-2024,50,School Bus,3,0.08
+vehicle.BODY_TYP,2020-2024,51,Cross Country/Intercity Bus,3,0.08
+vehicle.BODY_TYP,2020-2024,52,Transit Bus (City Bus),16,0.43
+vehicle.BODY_TYP,2020-2024,55,"Van-Based Bus GVWR greater than 10,000 lbs.",1,0.03
+vehicle.BODY_TYP,2020-2024,6,Station Wagon (excluding van and truck based),174,4.72
+vehicle.BODY_TYP,2020-2024,61,"Single-unit straight truck or Cab-Chassis (GVWR range 10,001 to 19,500 lbs.)",40,1.08
+vehicle.BODY_TYP,2020-2024,62,"Single-unit straight truck or Cab-Chassis (GVWR range 19,501 to 26,000 lbs.)",17,0.46
+vehicle.BODY_TYP,2020-2024,63,"Single-unit straight truck or Cab-Chassis (GVWR greater than 26,000 lbs.)",31,0.84
+vehicle.BODY_TYP,2020-2024,65,Medium/Heavy Vehicle Based Motor Home,1,0.03
+vehicle.BODY_TYP,2020-2024,66,"Truck-tractor (Cab only, or with any number of trailing unit; any weight)",76,2.06
+vehicle.BODY_TYP,2020-2024,67,"Medium/heavy Pickup (GVWR greater than 10,000 lbs.)",22,0.6
+vehicle.BODY_TYP,2020-2024,79,Unknown truck type (light/medium/heavy),1,0.03
+vehicle.BODY_TYP,2020-2024,8,"Sedan/Hardtop, number of doors unknown",1,0.03
+vehicle.BODY_TYP,2020-2024,80,Two Wheel Motorcycle (excluding motor scooters),31,0.84
+vehicle.BODY_TYP,2020-2024,83,Off-road Motorcycle,1,0.03
+vehicle.BODY_TYP,2020-2024,84,Motor Scooter,2,0.05
+vehicle.BODY_TYP,2020-2024,85,Unenclosed Three Wheel Motorcycle / Unenclosed Autocycle (1 Rear Wheel),2,0.05
+vehicle.BODY_TYP,2020-2024,88,"Other motored cycle type (mini-bikes, pocket motorcycles ""pocket bikes"")",1,0.03
+vehicle.BODY_TYP,2020-2024,89,Unknown motored cycle type,1,0.03
+vehicle.BODY_TYP,2020-2024,94,Low Speed Vehicle (LSV) / Neighborhood Electric Vehicle (NEV),1,0.03
+vehicle.BODY_TYP,2020-2024,95,Golf Cart,1,0.03
+vehicle.BODY_TYP,2020-2024,98,Not Reported,7,0.19
+vehicle.BODY_TYP,2020-2024,99,Unknown body type,398,10.79
+vehicle.HIT_RUN,2020-2024,0,No,2999,81.27
+vehicle.HIT_RUN,2020-2024,1,Yes,691,18.73
+vehicle.VSPD_LIM,2020-2024,0 none,,18,0.49
+vehicle.VSPD_LIM,2020-2024,35-40,,940,25.47
+vehicle.VSPD_LIM,2020-2024,45-50,,1400,37.94
+vehicle.VSPD_LIM,2020-2024,5-30,,462,12.52
+vehicle.VSPD_LIM,2020-2024,55+,,663,17.97
+vehicle.VSPD_LIM,2020-2024,98 unknown,,199,5.39
+vehicle.VSPD_LIM,2020-2024,99 unknown,,8,0.22
