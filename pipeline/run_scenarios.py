@@ -222,6 +222,7 @@ def main() -> int:
     state = {}
 
     def s1(b):
+        b.write(f"server: {q('SELECT version()')}\n\n")
         rc, _ = etl(b, base)
         state["fp"] = snap(b)
         expect("exit code 0", rc == 0, f"exit {rc}", b)

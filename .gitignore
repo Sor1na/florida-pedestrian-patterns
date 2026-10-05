@@ -30,5 +30,5 @@ Thumbs.db
 *.sql.gz
 backups/
 
-# Pipeline run logs (copies of the ones cited are in docs/evidence/week7/)
+# Pipeline run logs (copies of the cited synthetic runs are in docs/evidence/week7_synthetic/runs/)
 logs/

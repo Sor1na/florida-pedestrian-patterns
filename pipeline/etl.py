@@ -487,7 +487,7 @@ def s_transform(ctx: Ctx) -> None:
 
 def s_join_block_groups(ctx: Ctx) -> str:
     n = len(ctx.unit["crash"])
-    ctx.log.step(f"skipped: the EPA Smart Location Database is not in sources.csv yet, so crash.geoid10 stays NULL "
+    ctx.log.step(f"skipped: the EPA block-group join is not implemented yet, so crash.geoid10 stays NULL "
                  f"for all {n:,} crashes and the walkability item reads 'unknown' (cleaning plan, issue 5)",
                  status="warning", rows_in=n, rows_out=0)
     return "skipped"
@@ -759,12 +759,12 @@ STAGES = [
     Stage("extract", ["verify_sources"], "G2", "read the CSV members from the zips (UTF-8, cp1252 fallback); required columns present; keep STATE = 12", s_extract),
     Stage("reconcile_inventory", ["extract"], "G3", "Florida rows per member equal expected_counts.csv", s_reconcile_inventory),
     Stage("transform", ["reconcile_inventory"], "-", "unit of observation; filler coordinates and STR_VEH 0 -> NULL; census to long format", s_transform),
-    Stage("join_block_groups", ["transform"], "-", "EPA spatial join for crash.geoid10 (skipped until the EPA file is in sources.csv)", s_join_block_groups),
+    Stage("join_block_groups", ["transform"], "-", "EPA spatial join for crash.geoid10 (not implemented yet: always skipped with a warning)", s_join_block_groups),
     Stage("validate_records", ["transform"], "G4", "pandera: unique keys, no orphans, types, code lists valid for the year, reference tables; failures -> rejected_record", s_validate_records),
     Stage("reconcile_unit", ["validate_records"], "G5", "pedestrian fatalities and crashes per year equal the published totals", s_reconcile_unit),
     Stage("load", ["reconcile_unit", "join_block_groups"], "-", "ONE transaction: delete 2020-2024, insert, run the deferred triggers", s_load),
-    Stage("verify_load", ["load"], "G6", "post-load checks inside the same transaction; COMMIT only if all blocking checks pass", s_verify_load),
-    Stage("finalize", ["verify_load"], "-", "row counts, content fingerprints, lineage lines; etl_run = succeeded", s_finalize),
+    Stage("verify_load", ["load"], "G6", "post-load checks inside the same transaction; if all blocking checks pass, etl_run = succeeded and COMMIT", s_verify_load),
+    Stage("finalize", ["verify_load"], "-", "report only: row counts, content fingerprints, lineage lines", s_finalize),
 ]
 
 
