@@ -269,6 +269,31 @@ CREATE TABLE validation_result (
     CONSTRAINT validation_result_name_uq UNIQUE (run_id, check_name)
 );
 
+-- Week 7: records that failed a record-level gate. The pipeline writes them in their
+-- own committed transaction, so the evidence survives the rollback of the load.
+-- raw_record holds the source values as read (person-level data: stays local).
+CREATE TABLE rejected_record (
+    reject_id     integer     GENERATED ALWAYS AS IDENTITY,
+    run_id        integer     NOT NULL,
+    data_year     smallint,
+    file_name     text        NOT NULL,
+    member        text        NOT NULL,
+    source_line   integer,
+    target_table  text        NOT NULL,
+    record_key    text        NOT NULL,
+    check_name    text        NOT NULL,
+    column_name   text,
+    failure_value text,
+    raw_record    jsonb       NOT NULL,
+    rejected_at   timestamptz NOT NULL DEFAULT now(),
+    CONSTRAINT rejected_record_pk        PRIMARY KEY (reject_id),
+    CONSTRAINT rejected_record_run_fk    FOREIGN KEY (run_id) REFERENCES etl_run (run_id) ON DELETE CASCADE,
+    CONSTRAINT rejected_record_year_ck   CHECK (data_year BETWEEN 2020 AND 2024),
+    CONSTRAINT rejected_record_line_ck   CHECK (source_line >= 2),               -- line 1 is the CSV header
+    CONSTRAINT rejected_record_target_ck CHECK (target_table IN ('accident', 'vehicle', 'person', 'pbtype',
+                                                                 'crash', 'pedestrian', 'ped_crash_type', 'county_population'))
+);
+
 -- ---------------------------------------------------------------------
 -- The data dictionary lives in the database too (loaded from docs/data_dictionary.csv).
 -- v_dq_undocumented_columns compares it with the catalog, so it cannot go stale quietly.

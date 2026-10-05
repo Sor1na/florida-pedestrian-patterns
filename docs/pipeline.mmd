@@ -1,0 +1,36 @@
+%% Week 7 pipeline: stages, dependencies, gates (hexagons), and where each run leaves evidence.
+%% The order is defined once, in STAGES in pipeline/etl.py (python pipeline/etl.py stages).
+flowchart LR
+    RAW[("data/raw/<br/>5 FARS zips +<br/>Census CSV")]
+    PIN["pipeline/sources.csv<br/>SHA-256, release"]
+    EXP["pipeline/expected_counts.csv<br/>Week 6 profile counts"]
+
+    S1["1 preflight<br/>lock, recover,<br/>open etl_run"]
+    S2{{"2 verify_sources<br/>G1 SHA-256"}}
+    S3{{"3 extract<br/>G2 columns,<br/>STATE = 12"}}
+    S4{{"4 reconcile_inventory<br/>G3 rows per file"}}
+    S5["5 transform<br/>unit of observation,<br/>fillers to NULL"]
+    S6["6 join_block_groups<br/>(skipped: no EPA file)"]
+    S7{{"7 validate_records<br/>G4 pandera rules"}}
+    S8{{"8 reconcile_unit<br/>G5 deaths per year"}}
+    S9["9 load<br/>ONE transaction:<br/>delete + insert 2020-24"]
+    S10{{"10 verify_load<br/>G6 post-load checks"}}
+    S11["11 finalize<br/>fingerprints, lineage,<br/>status succeeded"]
+
+    PIN --> S2
+    RAW --> S2
+    S1 --> S2 --> S3 --> S4 --> S5
+    EXP --> S4
+    S5 --> S6 --> S9
+    S5 --> S7 --> S8 --> S9
+    EXP --> S8
+    S9 --> S10 -- "COMMIT" --> S11
+
+    FAIL["Any gate fails:<br/>run = failed, ROLLBACK,<br/>tables unchanged,<br/>bad records in rejected_record"]
+    S10 -. "ROLLBACK" .-> FAIL
+
+    CORE[("crash, vehicle, pedestrian,<br/>ped_crash_type, county_population")]
+    BOOK[("etl_run, source_file, etl_log,<br/>validation_result, rejected_record<br/>+ logs/run_NNNN.log")]
+    S11 --> CORE
+    FAIL -.-> BOOK
+    S11 -.-> BOOK

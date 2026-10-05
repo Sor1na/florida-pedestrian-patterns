@@ -1,6 +1,7 @@
 # Raw source data stays out of the repository (FARS, EPA SLD, Census downloads)
 data/raw/
 data/interim/
+data/synthetic/
 *.zip
 *.gdb/
 *.gpkg
@@ -28,3 +29,6 @@ Thumbs.db
 *.dump
 *.sql.gz
 backups/
+
+# Pipeline run logs (copies of the ones cited are in docs/evidence/week7/)
+logs/

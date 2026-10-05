@@ -10,7 +10,7 @@
  vehicle                   |        16
  pedestrian                |        16
  ped_crash_type            |        15
- data_dictionary           |       135
+ data_dictionary           |       148
  v_ped_transactions (view) |        14
 (12 rows)
 
