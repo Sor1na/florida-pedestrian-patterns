@@ -1,28 +1,28 @@
 # Scenario 3 (deliberate failure A): a raw file edited after it was pinned
 # input: SYNTHETIC files from tools/make_synthetic_raw.py (not real FARS rows)
 # expected outcome: exit 1 at stage verify_sources (gate G1); nothing read, nothing loaded; tables unchanged
-# recorded 2026-10-04T21:28:08-04:00
+# recorded 2026-10-04T22:16:25-04:00
 
 fault injected: FARS2022NationalCSV.zip: person.csv line 131, AGE 35 -> 47
 (sources.csv is NOT updated: the pinned hash no longer matches)
 
 $ python pipeline/etl.py run --raw-dir data/interim/week7/tampered --sources data/synthetic/clean/sources.csv --expected data/synthetic/clean/expected_counts.csv --log-dir data/interim/week7/logs
-2026-10-04T21:28:09.289-04:00 run=- stage=preflight INFO | start (connect, take the run lock, close abandoned runs, open the etl_run row)
-2026-10-04T21:28:09.310-04:00 run=3 stage=preflight INFO | run 3 started 2026-10-04T21:28:09-04:00; git commit eb78b61b9580233bc8fc328898151c882464001b (working tree has uncommitted changes)
-2026-10-04T21:28:09.312-04:00 run=3 stage=preflight INFO | inputs: raw dir data/interim/week7/tampered; sources data/synthetic/clean/sources.csv; expected counts data/synthetic/clean/expected_counts.csv
-2026-10-04T21:28:09.320-04:00 run=3 stage=preflight INFO | data tables before the run: crash=547, vehicle=630, pedestrian=596, ped_crash_type=596, county_population=335; fingerprint c0656528b64a
-2026-10-04T21:28:09.322-04:00 run=3 stage=preflight INFO | stage preflight finished in 0.03s
-2026-10-04T21:28:09.322-04:00 run=3 stage=verify_sources INFO | start (every input file present; size and SHA-256 equal to sources.csv)
-2026-10-04T21:28:09.323-04:00 run=3 stage=verify_sources INFO | PASS  G1 sources.csv lists FARS 2020-2024 and the Census file: FARS years [2020, 2021, 2022, 2023, 2024]; census yes
-2026-10-04T21:28:09.324-04:00 run=3 stage=verify_sources INFO | PASS  G1 sha256 FARS2020NationalCSV.zip: expected ee66bdb47ab151b2... (35,023 bytes), found ee66bdb47ab151b2... (35,023 bytes)
-2026-10-04T21:28:09.326-04:00 run=3 stage=verify_sources INFO | PASS  G1 sha256 FARS2021NationalCSV.zip: expected cb71e777efb47a3a... (35,155 bytes), found cb71e777efb47a3a... (35,155 bytes)
-2026-10-04T21:28:09.326-04:00 run=3 stage=verify_sources ERROR | FAIL  G1 sha256 FARS2022NationalCSV.zip: expected e543adcea0c609ef... (33,417 bytes), found 0d82f7da3b4907ca... (33,420 bytes)
-2026-10-04T21:28:09.327-04:00 run=3 stage=verify_sources INFO | PASS  G1 sha256 FARS2023NationalCSV.zip: expected beee2e3bb57710c4... (36,198 bytes), found beee2e3bb57710c4... (36,198 bytes)
-2026-10-04T21:28:09.328-04:00 run=3 stage=verify_sources INFO | PASS  G1 sha256 FARS2024NationalCSV.zip: expected 6532260bed847f4c... (33,624 bytes), found 6532260bed847f4c... (33,624 bytes)
-2026-10-04T21:28:09.329-04:00 run=3 stage=verify_sources INFO | PASS  G1 sha256 co-est2025-alldata.csv: expected 5c45fd72b6545625... (8,159 bytes), found 5c45fd72b6545625... (8,159 bytes)
-2026-10-04T21:28:09.329-04:00 run=3 stage=verify_sources ERROR | gate failed at stage verify_sources: G1 integrity: 1 blocking check(s) failed: G1 sha256 FARS2022NationalCSV.zip
-2026-10-04T21:28:09.335-04:00 run=3 stage=verify_sources INFO | data tables unchanged by this run: True (fingerprint c0656528b64a); they still hold the load of run 2
-2026-10-04T21:28:09.337-04:00 run=3 stage=end ERROR | RUN 3 FAILED at stage verify_sources; see docs/Week7_Pipeline_Shkirpan.md, section 6 (recovery)
+2026-10-04T22:16:26.251-04:00 run=- stage=preflight INFO | start (connect, take the run lock, close abandoned runs, open the etl_run row)
+2026-10-04T22:16:26.276-04:00 run=3 stage=preflight INFO | run 3 started 2026-10-04T22:16:26-04:00; git commit 914e18eada1a2d532a4801007ac0a4f50f9d6b62
+2026-10-04T22:16:26.278-04:00 run=3 stage=preflight INFO | inputs: raw dir data/interim/week7/tampered; sources data/synthetic/clean/sources.csv; expected counts data/synthetic/clean/expected_counts.csv
+2026-10-04T22:16:26.293-04:00 run=3 stage=preflight INFO | data tables before the run: crash=547, vehicle=630, pedestrian=596, ped_crash_type=596, county_population=335; fingerprint c0656528b64a
+2026-10-04T22:16:26.295-04:00 run=3 stage=preflight INFO | stage preflight finished in 0.04s
+2026-10-04T22:16:26.296-04:00 run=3 stage=verify_sources INFO | start (every input file present; size and SHA-256 equal to sources.csv)
+2026-10-04T22:16:26.298-04:00 run=3 stage=verify_sources INFO | PASS  G1 sources.csv lists FARS 2020-2024 and the Census file: FARS years [2020, 2021, 2022, 2023, 2024]; census yes
+2026-10-04T22:16:26.299-04:00 run=3 stage=verify_sources INFO | PASS  G1 sha256 FARS2020NationalCSV.zip: expected ee66bdb47ab151b2... (35,023 bytes), found ee66bdb47ab151b2... (35,023 bytes)
+2026-10-04T22:16:26.300-04:00 run=3 stage=verify_sources INFO | PASS  G1 sha256 FARS2021NationalCSV.zip: expected cb71e777efb47a3a... (35,155 bytes), found cb71e777efb47a3a... (35,155 bytes)
+2026-10-04T22:16:26.302-04:00 run=3 stage=verify_sources ERROR | FAIL  G1 sha256 FARS2022NationalCSV.zip: expected e543adcea0c609ef... (33,417 bytes), found 0d82f7da3b4907ca... (33,420 bytes)
+2026-10-04T22:16:26.303-04:00 run=3 stage=verify_sources INFO | PASS  G1 sha256 FARS2023NationalCSV.zip: expected beee2e3bb57710c4... (36,198 bytes), found beee2e3bb57710c4... (36,198 bytes)
+2026-10-04T22:16:26.304-04:00 run=3 stage=verify_sources INFO | PASS  G1 sha256 FARS2024NationalCSV.zip: expected 6532260bed847f4c... (33,624 bytes), found 6532260bed847f4c... (33,624 bytes)
+2026-10-04T22:16:26.305-04:00 run=3 stage=verify_sources INFO | PASS  G1 sha256 co-est2025-alldata.csv: expected 5c45fd72b6545625... (8,159 bytes), found 5c45fd72b6545625... (8,159 bytes)
+2026-10-04T22:16:26.305-04:00 run=3 stage=verify_sources ERROR | gate failed at stage verify_sources: G1 integrity: 1 blocking check(s) failed: G1 sha256 FARS2022NationalCSV.zip
+2026-10-04T22:16:26.317-04:00 run=3 stage=verify_sources INFO | data tables unchanged by this run: True (fingerprint c0656528b64a); they hold the load of run 2
+2026-10-04T22:16:26.320-04:00 run=3 stage=end ERROR | RUN 3 FAILED at stage verify_sources; see docs/Week7_Pipeline_Shkirpan.md, section 6 (recovery)
 [exit code 1]
 
 --- tables after this scenario ---
@@ -37,3 +37,6 @@ county_population | 335  | 67   | 67   | 67   | 67   | 67   | 84cbd56a35e4
 fingerprint of all data tables: c0656528b64a4e34ba381d7f356635ef
 [exit code 0]
 
+CHECK PASS  exit code 1: exit 1
+CHECK PASS  stopped by G1 at verify_sources: log lines
+CHECK PASS  tables unchanged (fingerprint of scenario 1): c0656528b64a4e34ba381d7f356635ef
