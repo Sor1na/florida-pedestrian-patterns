@@ -36,6 +36,7 @@ import hashlib
 import io
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -118,6 +119,7 @@ class RunLog:
         self.fh = None
         self.path: Path | None = None
         self.bk = None                       # bookkeeping connection, set after preflight
+        self.redact = False                  # --redact-keys: mask case numbers in every log line
 
     def line(self, level: str, msg: str, rows_in=None, rows_out=None) -> None:
         ts = datetime.now().astimezone().isoformat(timespec="milliseconds")
@@ -127,6 +129,8 @@ class RunLog:
         if rows_out is not None:
             counts += f" rows_out={rows_out}"
         text = f"{ts} run={self.run_id if self.run_id else '-'} stage={self.stage} {level}{counts} | {msg}"
+        if self.redact:
+            text = re.sub(r"\b12\d{4}\b", "12xxxx", text)
         print(text, flush=True)
         if self.fh:
             self.fh.write(text + "\n")
@@ -146,8 +150,9 @@ class RunLog:
     def attach(self, run_id: int) -> None:
         self.run_id = run_id
         self.log_dir.mkdir(parents=True, exist_ok=True)
-        self.path = self.log_dir / f"run_{run_id:04d}.log"
-        self.fh = open(self.path, "a", encoding="utf-8")
+        # run ids restart after a database rebuild, so the start time keeps the file names unique
+        self.path = self.log_dir / f"run_{run_id:04d}_{datetime.now():%Y%m%dT%H%M%S}.log"
+        self.fh = open(self.path, "w", encoding="utf-8")
         for text in self.buffer:
             self.fh.write(text.replace(" run=- ", f" run={run_id} ", 1) + "\n")
         self.fh.flush()
@@ -176,6 +181,7 @@ class Ctx:
     census: pd.DataFrame | None = None
     unit: dict = field(default_factory=dict)         # unit[table] -> typed frame, all years
     fingerprint_before: str = ""
+    committed: bool = False                          # the load transaction (with status 'succeeded') is committed
     checks_failed: list[str] = field(default_factory=list)
 
 
@@ -205,7 +211,7 @@ def decode(raw: bytes, encodings: tuple[str, ...]) -> tuple[str, str]:
             return raw.decode(enc).lstrip("\ufeff"), enc         # a byte-order mark would hide the first column name
         except UnicodeDecodeError:
             continue
-    raise ValueError("no encoding fits")
+    raise ValueError(f"cannot be decoded as {' or '.join(encodings)}")
 
 
 def read_member(text: str, required: list[str]) -> tuple[pd.DataFrame | None, list[str], int]:
@@ -216,7 +222,7 @@ def read_member(text: str, required: list[str]) -> tuple[pd.DataFrame | None, li
     if missing:
         return None, missing, 0
     df = pd.read_csv(io.StringIO(text), dtype=str, keep_default_na=False, header=0, names=names,
-                     usecols=lambda c: c in required, low_memory=False)
+                     usecols=lambda c: c in required, index_col=False, low_memory=False)
     df = df.apply(lambda s: s.str.strip())
     df["_line"] = df.index + 2                      # line number in the CSV (line 1 = header)
     return df[required + ["_line"]], [], len(df)
@@ -296,14 +302,16 @@ def s_preflight(ctx: Ctx) -> None:
     if missing:
         raise SystemExit(ctx.log.error(f"database is not built for Week 7 (missing {missing}); "
                                        "run: psql -d ped_safety -v ON_ERROR_STOP=1 -f sql/00_build_all.sql") or 2)
-    abandoned = ctx.bk.execute(
-        "UPDATE etl_run SET status = 'failed', finished_at = greatest(now(), started_at) "
-        "WHERE status = 'running' RETURNING run_id, started_at").fetchall()
     sha, dirty = git_commit()
     ctx.run_id, started = ctx.bk.execute(
         "INSERT INTO etl_run (git_commit, status) VALUES (%s, 'running') RETURNING run_id, started_at", (sha,)).fetchone()
     ctx.log.attach(ctx.run_id)
     ctx.log.bk = ctx.bk
+    # This run holds the lock, so any other 'running' row belongs to a process that died. A run only
+    # becomes 'succeeded' inside its load transaction (s_verify_load), so a 'running' row never committed data.
+    abandoned = ctx.bk.execute(
+        "UPDATE etl_run SET status = 'failed', finished_at = greatest(now(), started_at) "
+        "WHERE status = 'running' AND run_id <> %s RETURNING run_id, started_at", (ctx.run_id,)).fetchall()
     for old_id, old_start in abandoned:
         ctx.bk.execute("INSERT INTO etl_log (run_id, step, status, message) VALUES (%s, 'recovery', 'error', %s)",
                        (old_id, f"abandoned: the process ended without closing the run; closed by run {ctx.run_id}"))
@@ -355,8 +363,12 @@ def s_extract(ctx: Ctx) -> None:
                 if name is None:
                     check(ctx, f"G2 {year} {member}.csv present", False, f"no {member}.csv in {s['file_name']}")
                     continue
-                text, enc = decode(zf.read(name), ("utf-8", "cp1252"))
-                df, missing, n = read_member(text, required)
+                try:
+                    text, enc = decode(zf.read(name), ("utf-8", "cp1252"))
+                    df, missing, n = read_member(text, required)
+                except Exception as e:  # noqa: BLE001 - any unreadable member is a structure failure
+                    check(ctx, f"G2 {year} {member}.csv readable", False, f"{s['file_name']}:{name}: {type(e).__name__}: {e}")
+                    continue
                 if not check(ctx, f"G2 {year} {member}.csv required columns", not missing,
                              f"missing {missing}" if missing else f"{len(required)} columns present ({enc})"):
                     continue
@@ -365,8 +377,12 @@ def s_extract(ctx: Ctx) -> None:
                 ctx.national[(year, member)] = n
                 ctx.log.step(f"{year} {member}.csv: kept STATE = 12 (encoding {enc})", rows_in=n, rows_out=len(fl))
     census = next(s for s in ctx.sources if s["source"] == "CENSUS_POPEST")
-    text, enc = decode((raw_dir / census["file_name"]).read_bytes(), ("utf-8", "latin-1"))
-    df, missing, n = read_member(text, CENSUS_REQUIRED)
+    try:
+        text, enc = decode((raw_dir / census["file_name"]).read_bytes(), ("utf-8", "latin-1"))
+        df, missing, n = read_member(text, CENSUS_REQUIRED)
+    except Exception as e:  # noqa: BLE001
+        check(ctx, "G2 census readable", False, f"{census['file_name']}: {type(e).__name__}: {e}")
+        gate(ctx, "G2 structure")
     if check(ctx, "G2 census required columns", not missing,
              f"missing {missing}" if missing else f"{len(CENSUS_REQUIRED)} columns present ({enc})"):
         ctx.census = df[(to_int(df["SUMLEV"]) == 50) & (to_int(df["STATE"]) == FL)].copy()
@@ -376,17 +392,24 @@ def s_extract(ctx: Ctx) -> None:
 
 
 def s_reconcile_inventory(ctx: Ctx) -> None:
+    # The reconciliation totals are required: a missing or incomplete file fails the gate, it never switches it off.
+    try:
+        ctx.expected = read_expected(Path(ctx.args.expected))
+        missing = [f"{y} {m}" for y in YEARS for m in [f"{x}_fl_rows" for x in REQUIRED] + ["ped_fatalities", "crashes_with_ped_fatality"]
+                   if ("FARS", y, m) not in ctx.expected]
+        missing += ["census fl_county_rows"] if ("CENSUS_POPEST", None, "fl_county_rows") not in ctx.expected else []
+        check(ctx, "G3 expected_counts.csv present and complete", not missing,
+              f"{len(ctx.expected)} totals read from {ctx.args.expected}" if not missing else f"missing: {', '.join(missing[:8])}")
+    except Exception as e:  # noqa: BLE001
+        check(ctx, "G3 expected_counts.csv present and complete", False, f"{ctx.args.expected}: {type(e).__name__}: {e}")
+    gate(ctx, "G3 inventory reconciliation")
     for year in YEARS:
         for member in REQUIRED:
-            exp = ctx.expected.get(("FARS", year, f"{member}_fl_rows"))
+            exp = ctx.expected[("FARS", year, f"{member}_fl_rows")]
             got = len(ctx.raw[year][member])
-            if exp is None:
-                ctx.log.step(f"no expected Florida row count for {year} {member}; not reconciled", status="warning")
-                continue
             check(ctx, f"G3 {year} {member} Florida rows", got == exp, f"expected {exp:,}, read {got:,}")
-    exp = ctx.expected.get(("CENSUS_POPEST", None, "fl_county_rows"))
-    if exp is not None:
-        check(ctx, "G3 census Florida county rows", len(ctx.census) == exp, f"expected {exp}, read {len(ctx.census)}")
+    exp = ctx.expected[("CENSUS_POPEST", None, "fl_county_rows")]
+    check(ctx, "G3 census Florida county rows", len(ctx.census) == exp, f"expected {exp}, read {len(ctx.census)}")
     gate(ctx, "G3 inventory reconciliation")
 
 
@@ -486,6 +509,8 @@ def unit_schema(table: str, year: int | None, ref: dict) -> pa.DataFrameSchema:
     if table != "county_population":
         cols["st_case"] = _pa_int([rng(120001, 129999, nm="Florida case number 120001-129999")])
     if table == "crash":
+        cols["st_case"] = _pa_int([rng(120001, 129999, nm="Florida case number 120001-129999"),
+                                   pa.Check.isin(ref["veh_cases"], error="crash has at least one in-transport vehicle")])
         cols.update(county=_pa_int([pa.Check.isin(ref["county"], error="one of the 67 Florida counties")]),
                     month=_pa_int([rng(1, 12)]), hour=_pa_int([rng(0, 23, [99])]),
                     latitude=pa.Column("Float64", [pa.Check.in_range(24.3, 31.1, error="inside the Florida box")], nullable=True),
@@ -502,16 +527,39 @@ def unit_schema(table: str, year: int | None, ref: dict) -> pa.DataFrameSchema:
     if table == "county_population":
         cols.update(county_fips=_pa_int([pa.Check.isin(ref["county"], error="one of the 67 Florida counties")]),
                     population=_pa_int([pa.Check.gt(0, error="greater than 0")]))
+        return pa.DataFrameSchema(cols, unique=["county_fips", "year"], report_duplicates="exclude_first", strict=False)
     for var in LOOKUP_VARS.get(table, []):
         cols[var] = _pa_int([pa.Check.isin(_codes(ref["lookup"], var, year), error=f"code with a {year} label in code_lookup")])
     return pa.DataFrameSchema(cols, strict=False)
 
 
-def raw_schema(member: str, accident_cases: list) -> pa.DataFrameSchema:
-    """Raw-file rules (cleaning plan, issue 3): unique keys within the year, no orphan rows."""
-    cols = {k: pa.Column("Int64", nullable=False) for k in RAW_KEYS[member]}
+def person_key(raw: pd.DataFrame) -> pd.Series:
+    return to_int(raw["ST_CASE"]).astype(str) + "/" + to_int(raw["VEH_NO"]).astype(str) + "/" + to_int(raw["PER_NO"]).astype(str)
+
+
+FLOAT_COLS = {"LATITUDE", "LONGITUD"}
+TEXT_COLS = {"STATE", "TWAY_ID"}
+
+
+def raw_typed(member: str, raw: pd.DataFrame) -> pd.DataFrame:
+    """The raw Florida rows with every coded column converted; a blank or non-numeric cell becomes NA."""
+    typed = pd.DataFrame({c: pd.to_numeric(raw[c], errors="coerce").astype("Float64") if c in FLOAT_COLS else to_int(raw[c])
+                          for c in REQUIRED[member] if c not in TEXT_COLS})
+    if member == "pbtype":
+        typed["_PERSON_KEY"] = person_key(raw)
+    typed["_line"] = raw["_line"]
+    return typed
+
+
+def raw_schema(member: str, accident_cases: list, person_keys: list) -> pa.DataFrameSchema:
+    """Raw-file rules (cleaning plan, issue 3): every coded cell is a number, unique keys within the year,
+    no orphan rows. They run on all Florida rows, so a blank PER_TYP cannot silently drop a death later."""
+    cols = {c: pa.Column("Float64" if c in FLOAT_COLS else "Int64", nullable=False)
+            for c in REQUIRED[member] if c not in TEXT_COLS}
     if member != "accident":
         cols["ST_CASE"] = pa.Column("Int64", [pa.Check.isin(accident_cases, error="ST_CASE exists in accident.csv (no orphan)")])
+    if member == "pbtype":
+        cols["_PERSON_KEY"] = pa.Column(str, [pa.Check.isin(person_keys, error="matching row exists in person.csv (no orphan typing record)")])
     return pa.DataFrameSchema(cols, unique=RAW_KEYS[member], report_duplicates="exclude_first", strict=False)
 
 
@@ -524,7 +572,7 @@ def _failures(err: pa.errors.SchemaErrors) -> list[tuple[int, str, str | None, s
             continue
         name = str(r["check"])
         if name == "not_nullable":
-            name = "not a whole number or blank"
+            name = "blank or not a number"
         elif "uniqueness" in name or name.startswith("field_uniqueness"):
             name = "duplicate key within the year"
             col = None
@@ -558,19 +606,22 @@ def s_validate_records(ctx: Ctx) -> None:
                 line = int(row["_line"]) if "_line" in row and pd.notna(row["_line"]) else None
                 match = raw_df[raw_df["_line"] == line] if line else raw_df.iloc[0:0]
                 rawrow = match.drop(columns="_line").iloc[0].to_dict() if len(match) else {}
+                if val is None and col:                  # a blank or non-numeric cell: show the text as read
+                    val = rawrow.get(col.upper(), rawrow.get(col))
                 rejects.append(dict(year=year, file_name=file_name, member=member, line=line, target=target,
-                                    key="/".join(str(row[k]) for k in key_cols if k in row), check=name, column=col,
+                                    key="/".join(str(df.at[idx, k]) for k in key_cols if k in df.columns), check=name, column=col,
                                     value=val, raw=rawrow))
                 per_table.setdefault((layer, target), []).append(f"{year or ''} {col or ''}: {name}".strip())
 
     for year in YEARS:
         acc_cases = to_int(ctx.raw[year]["accident"]["ST_CASE"]).dropna().tolist()
+        per = ctx.raw[year]["person"]
+        person_keys = person_key(per).tolist()
         for member in REQUIRED:
             raw = ctx.raw[year][member]
-            typed = pd.DataFrame({k: to_int(raw[k]) for k in RAW_KEYS[member]})
-            typed["_line"] = raw["_line"]
-            collect("raw keys", member, year, file_of[year], f"{member}.csv", typed, raw,
-                    raw_schema(member, acc_cases), RAW_KEYS[member])
+            collect("raw file", member, year, file_of[year], f"{member}.csv", raw_typed(member, raw), raw,
+                    raw_schema(member, acc_cases, person_keys), RAW_KEYS[member])
+        ref["veh_cases"] = ctx.unit["vehicle"].loc[ctx.unit["vehicle"]["year"] == year, "st_case"].dropna().unique().tolist()
         for table in ["crash", "vehicle", "pedestrian", "ped_crash_type"]:
             df = ctx.unit[table]
             df = df[df["year"] == year]
@@ -586,31 +637,33 @@ def s_validate_records(ctx: Ctx) -> None:
             "check_name, column_name, failure_value, raw_record) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
             (ctx.run_id, r["year"], r["file_name"], r["member"], r["line"], r["target"], r["key"], r["check"],
              r["column"], r["value"], json.dumps(r["raw"])))
-        key = "<key masked>" if ctx.args.redact_keys else r["key"]
-        ctx.log.error(f"REJECT {r['target']} {key} ({r['file_name']}:{r['member']} line {r['line']}): "
-                      f"{r['check']}" + (f" [{r['column']}={r['value']}]" if r["column"] else ""))
+        if ctx.args.redact_keys:                     # real data: no key, line or value in the published log
+            ctx.log.error(f"REJECT {r['target']} ({r['file_name']}:{r['member']}): {r['check']}"
+                          + (f" [{r['column']}]" if r["column"] else ""))
+        else:
+            ctx.log.error(f"REJECT {r['target']} {r['key']} ({r['file_name']}:{r['member']} line {r['line']}): "
+                          f"{r['check']}" + (f" [{r['column']}={r['value']}]" if r["column"] else ""))
+    records = len({(r["file_name"], r["member"], r["line"], r["target"]) for r in rejects})
     rows_checked = sum(len(ctx.raw[y][m]) for y in YEARS for m in REQUIRED) + sum(len(d) for d in ctx.unit.values())
-    for layer, targets in [("raw keys", list(REQUIRED)),
+    for layer, targets in [("raw file", list(REQUIRED)),
                            ("record rules", ["crash", "vehicle", "pedestrian", "ped_crash_type", "county_population"])]:
         for target in targets:
             bad = per_table.get((layer, target), [])
             check(ctx, f"G4 {layer} {target}", not bad,
-                  "0 rejected" if not bad else f"{len(bad)} rejected: " + "; ".join(sorted(set(bad)))[:400])
-    ctx.log.step(f"record-level rules applied to {rows_checked:,} rows; {len(rejects)} rejected into rejected_record",
-                 status="ok" if not rejects else "error", rows_in=rows_checked, rows_out=rows_checked - len(rejects))
-    gate(ctx, f"G4 record rules ({len(rejects)} record(s) in rejected_record, run {ctx.run_id})")
+                  "0 failures" if not bad else f"{len(bad)} failure(s): " + "; ".join(sorted(set(bad)))[:400])
+    ctx.log.step(f"record-level rules applied to {rows_checked:,} rows; {records} record(s) rejected "
+                 f"({len(rejects)} rule failure(s)) into rejected_record",
+                 status="ok" if not rejects else "error", rows_in=rows_checked, rows_out=rows_checked - records)
+    gate(ctx, f"G4 record rules ({records} record(s) in rejected_record, run {ctx.run_id})")
 
 
 def s_reconcile_unit(ctx: Ctx) -> None:
     for year in YEARS:
         for measure, table, fn in [("ped_fatalities", "pedestrian", len),
                                    ("crashes_with_ped_fatality", "crash", len)]:
-            exp = ctx.expected.get(("FARS", year, measure))
+            exp = ctx.expected[("FARS", year, measure)]
             got = int((ctx.unit[table]["year"] == year).sum())
-            if exp is None:
-                ctx.log.step(f"no published total for {year} {measure}; not reconciled", status="warning")
-                continue
-            check(ctx, f"G5 {year} {measure}", got == exp, f"published/profiled {exp:,}, derived {got:,}")
+            check(ctx, f"G5 {year} {measure}", got == exp, f"expected (Week 6 profile / published) {exp:,}, derived {got:,}")
     gate(ctx, "G5 unit reconciliation")
 
 
@@ -649,15 +702,16 @@ def s_verify_load(ctx: Ctx) -> None:
         dup = q(f"SELECT count(*) - count(DISTINCT ({TABLE_KEYS[table]})) FROM {table}")
         check(ctx, f"G6 {table} no duplicate keys", dup == 0, f"{dup} duplicate key(s)")
     for year in YEARS:
-        exp = ctx.expected.get(("FARS", year, "ped_fatalities"))
-        if exp is not None:
-            got = q("SELECT count(*) FROM pedestrian WHERE year = %s", year)
-            check(ctx, f"G6 {year} pedestrian rows = published total", got == exp, f"expected {exp:,}, table {got:,}")
+        exp = ctx.expected[("FARS", year, "ped_fatalities")]
+        got = q("SELECT count(*) FROM pedestrian WHERE year = %s", year)
+        check(ctx, f"G6 {year} pedestrian rows = expected total", got == exp, f"expected {exp:,}, table {got:,}")
     for view, blocking in [("v_dq_count_mismatch", True), ("v_dq_unlabeled_code", True), ("v_dq_population_gap", True),
                            ("v_dq_county_block_group_mismatch", True), ("v_dq_missing_typing", False),
                            ("v_dq_no_striking_vehicle", False)]:
         n = q(f"SELECT count(*) FROM {view}")
-        check(ctx, f"G6 {view} returns no rows", n == 0, f"{n} row(s)", blocking=blocking)
+        sample = ctx.db.execute(f"SELECT * FROM {view} LIMIT 5").fetchall() if n else []
+        check(ctx, f"G6 {view} returns no rows", n == 0,
+              f"{n} row(s)" + (f"; first: {sample}" if sample else ""), blocking=blocking)
     n = q("SELECT count(*) FROM crash c WHERE NOT EXISTS (SELECT 1 FROM pedestrian p WHERE (p.year, p.st_case) = (c.year, c.st_case)) "
           "OR NOT EXISTS (SELECT 1 FROM vehicle v WHERE (v.year, v.st_case) = (c.year, c.st_case))")
     check(ctx, "G6 every crash has >= 1 pedestrian and >= 1 vehicle", n == 0, f"{n} crash(es) without")
@@ -678,8 +732,12 @@ def s_verify_load(ctx: Ctx) -> None:
         ctx.db.rollback()
         ctx.log.step("post-load checks failed: load transaction ROLLED BACK", status="error")
         gate(ctx, "G6 post-load verification")
+    # The run's status changes inside the load transaction, so data and status commit together:
+    # a crash after this point leaves a 'succeeded' run, never a committed load marked 'running'.
+    ctx.db.execute("UPDATE etl_run SET status = 'succeeded', finished_at = now() WHERE run_id = %s", (ctx.run_id,))
     ctx.db.commit()
-    ctx.log.step("all post-load checks passed: load transaction COMMITTED")
+    ctx.committed = True
+    ctx.log.step("all post-load checks passed: load transaction COMMITTED, etl_run status = succeeded")
 
 
 def s_finalize(ctx: Ctx) -> None:
@@ -715,16 +773,16 @@ STAGES = [
 # ---------------------------------------------------------------------------
 def read_expected(path: Path) -> dict:
     out = {}
-    if path and Path(path).exists():
-        with open(path, newline="", encoding="utf-8") as f:
-            for r in csv.DictReader(f):
-                out[(r["source"], int(r["data_year"]) if r["data_year"] else None, r["measure"])] = int(r["expected"])
+    with open(path, newline="", encoding="utf-8") as f:
+        for r in csv.DictReader(f):
+            out[(r["source"], int(r["data_year"]) if r["data_year"] else None, r["measure"])] = int(r["expected"])
     return out
 
 
 def run(args) -> int:
     log = RunLog(Path(args.log_dir))
-    ctx = Ctx(args=args, log=log, expected=read_expected(args.expected))
+    log.redact = bool(getattr(args, "redact_keys", False))
+    ctx = Ctx(args=args, log=log)
     done: set[str] = set()
     current = None
     try:
@@ -743,39 +801,58 @@ def run(args) -> int:
                          status="warning" if result == "skipped" else "ok")
             if args.simulate_crash_after == st.name:
                 log.error(f"SIMULATED CRASH after stage {st.name}: the process exits now without cleaning up "
-                          "(an open load transaction is rolled back by PostgreSQL when the connection drops)")
+                          + ("(the load is already committed, together with status 'succeeded')" if ctx.committed else
+                             "(PostgreSQL rolls back any open load transaction when the connection drops)"))
                 os._exit(70)
-        ctx.bk.execute("UPDATE etl_run SET status = 'succeeded', finished_at = now() WHERE run_id = %s", (ctx.run_id,))
         log.stage = "end"
         log.info(f"RUN {ctx.run_id} SUCCEEDED; log file {log.path}")
         return 0
     except SystemExit as e:
         return int(e.code or 1)
-    except Exception as e:  # noqa: BLE001 - every failure must end the run cleanly
+    except BaseException as e:  # noqa: BLE001 - every failure, Ctrl-C included, must end the run cleanly
+        stage = current.name if current else "-"
+        if ctx.committed:
+            # Only reporting can fail after the COMMIT; the load and its 'succeeded' status are already permanent.
+            log.warn(f"{type(e).__name__} after the load was committed (stage {stage}): {e}. The data and the run "
+                     f"status 'succeeded' are already committed; only the report lines after this point are missing.")
+            return 0
         kind = "gate failed" if isinstance(e, GateFailed) else f"error ({type(e).__name__})"
-        if ctx.db is not None and not ctx.db.closed:
-            ctx.db.rollback()
+        try:
+            if ctx.db is not None and not ctx.db.closed:
+                ctx.db.rollback()
+        except Exception:  # noqa: BLE001 - a dead connection has rolled back already
+            pass
         if not isinstance(e, GateFailed):
             for ln in traceback.format_exc().rstrip().splitlines():
                 log.error(ln)
         if ctx.bk is None or ctx.run_id is None:
             log.error(f"run could not start: {e}")
             return 2
-        log.step(f"{kind} at stage {current.name}: {e}", status="error")
-        counts, after = fingerprint(ctx.bk)
-        last = ctx.bk.execute("SELECT max(run_id) FROM etl_run WHERE status = 'succeeded'").fetchone()[0]
-        log.step(f"data tables unchanged by this run: {after == ctx.fingerprint_before} (fingerprint {after[:12]}); "
-                 f"they still hold the load of run {last if last else '(none yet)'}", step="rollback-check")
-        ctx.bk.execute("UPDATE etl_run SET status = 'failed', finished_at = now() WHERE run_id = %s", (ctx.run_id,))
+        try:
+            if ctx.bk.closed or ctx.bk.broken:            # the bookkeeping connection itself died: open a new one
+                ctx.bk = psycopg.connect(conninfo(ctx.args), autocommit=True)
+                ctx.log.bk = ctx.bk
+            log.step(f"{kind} at stage {stage}: {e}", status="error")
+            counts, after = fingerprint(ctx.bk)
+            last = ctx.bk.execute("SELECT max(run_id) FROM etl_run WHERE status = 'succeeded'").fetchone()[0]
+            same = (after == ctx.fingerprint_before) if ctx.fingerprint_before else None
+            log.step(f"data tables unchanged by this run: {same if same is not None else 'not measured'} "
+                     f"(fingerprint {after[:12]}); they hold the load of run {last if last else '(none yet)'}",
+                     step="rollback-check")
+            ctx.bk.execute("UPDATE etl_run SET status = 'failed', finished_at = now() WHERE run_id = %s", (ctx.run_id,))
+        except Exception as e2:  # noqa: BLE001
+            log.error(f"could not record the failure in the database ({type(e2).__name__}: {e2}); "
+                      f"run {ctx.run_id} stays 'running' and the next run will close it as abandoned")
         log.stage = "end"
-        log.error(f"RUN {ctx.run_id} FAILED at stage {current.name}; see docs/Week7_Pipeline_Shkirpan.md, section 6 (recovery)")
+        log.error(f"RUN {ctx.run_id} FAILED at stage {stage}; see docs/Week7_Pipeline_Shkirpan.md, section 6 (recovery)")
         return 1
     finally:
-        if ctx.bk is not None and not ctx.bk.closed:
-            ctx.bk.execute("SELECT pg_advisory_unlock_all()")
-            ctx.bk.close()
-        if ctx.db is not None and not ctx.db.closed:
-            ctx.db.close()
+        for conn in (ctx.db, ctx.bk):                     # closing the session also releases the advisory lock
+            try:
+                if conn is not None and not conn.closed:
+                    conn.close()
+            except Exception:  # noqa: BLE001
+                pass
 
 
 # ---------------------------------------------------------------------------
@@ -824,8 +901,8 @@ def cmd_rejected(args) -> int:
         rows = c.execute("SELECT reject_id, data_year, file_name || ':' || member, source_line, target_table, record_key, "
                          "check_name, column_name, failure_value FROM rejected_record WHERE run_id = %s ORDER BY reject_id",
                          (rid,)).fetchall()
-        if args.redact_keys:
-            rows = [r[:5] + ("<masked>",) + r[6:] for r in rows]
+        if args.redact_keys:                         # key, CSV line and value would point to one real record
+            rows = [r[:3] + ("-",) + r[4:5] + ("<masked>",) + r[6:8] + ("<masked>",) for r in rows]
         print(f"run {rid}: {len(rows)} rejected record(s)")
         print(table(rows, ["id", "year", "file:member", "line", "target", "key", "check", "column", "value"]))
     return 0

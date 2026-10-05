@@ -5,8 +5,10 @@ run_scenarios.py - Week 7 evidence: runs the pipeline through six scenarios and 
     python pipeline/run_scenarios.py --synthetic   # synthetic inputs (tools/make_synthetic_raw.py) -> docs/evidence/week7_synthetic/
     python pipeline/run_scenarios.py               # the real files in data/raw/ (pipeline/sources.csv) -> docs/evidence/week7/
 
-THE DATABASE IS REBUILT FIRST (sql/00_build_all.sql drops the public schema). Point it only at
-the project database. Connection settings: PG* environment variables, as for etl.py.
+The scenarios run in their own database, ped_safety_week7 (created if missing, rebuilt every time with
+sql/00_build_all.sql), so the project database ped_safety is never touched. Connection settings:
+PGHOST, PGPORT, PGUSER, or ~/.pgpass, as for etl.py. Every scenario ends with CHECK lines that compare
+what happened with what was expected; the script exits 1 if any check fails.
 
   1  first run on an empty database                          -> must succeed
   2  rerun with the same inputs                              -> must succeed, tables byte-for-byte identical
@@ -26,6 +28,7 @@ import argparse
 import csv
 import io
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -145,7 +148,6 @@ def inject_defects(src: Path, dst: Path) -> list[str]:
 
 
 def redact(text: str) -> str:
-    import re
     return re.sub(r"\b12\d{4}\b", "12xxxx", text)
 
 
@@ -153,9 +155,16 @@ def redact(text: str) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--synthetic", action="store_true", help="generate and use synthetic inputs")
+    ap.add_argument("--db", default="ped_safety_week7",
+                    help="database to (re)build for the scenarios (default ped_safety_week7, created if missing; "
+                         "kept apart from ped_safety so the project database is never overwritten)")
     ap.add_argument("--psql", default="psql", help="path to psql (Windows: e.g. C:/Program Files/PostgreSQL/16/bin/psql.exe)")
     args = ap.parse_args()
-    os.environ.setdefault("PGDATABASE", "ped_safety")
+    import psycopg
+    with psycopg.connect("dbname=postgres", autocommit=True) as c:
+        if not c.execute("SELECT 1 FROM pg_database WHERE datname = %s", (args.db,)).fetchone():
+            c.execute(f'CREATE DATABASE "{args.db}"')
+    os.environ["PGDATABASE"] = args.db                         # etl.py and psql below use this database
 
     if args.synthetic:
         raw = ROOT / "data" / "synthetic" / "clean"
@@ -165,8 +174,12 @@ def main() -> int:
         extra = []
     else:
         raw, sources, expected = ROOT / "data" / "raw", ROOT / "pipeline" / "sources.csv", ROOT / "pipeline" / "expected_counts.csv"
-        out_dir, label = ROOT / "docs" / "evidence" / "week7", "REAL files in data/raw/, pinned by pipeline/sources.csv (case numbers masked)"
+        out_dir, label = ROOT / "docs" / "evidence" / "week7", "REAL files in data/raw/, pinned by pipeline/sources.csv (case numbers, lines and values masked)"
         extra = ["--redact-keys"]
+    real = bool(extra)
+
+    # 0. clean database first; the old evidence is removed only once the rebuild has worked
+    sh([args.psql, "-X", "-q", "-v", "ON_ERROR_STOP=1", "-f", "sql/00_build_all.sql"])
     interim = ROOT / "data" / "interim" / "week7"
     shutil.rmtree(interim, ignore_errors=True)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -176,36 +189,55 @@ def main() -> int:
     log_dir = interim / "logs"
     rel = lambda p: os.path.relpath(p, ROOT)                 # etl.py runs from the repository root
     base = ["run", "--raw-dir", rel(raw), "--sources", rel(sources), "--expected", rel(expected), "--log-dir", rel(log_dir)] + extra
+    checks: list[tuple[str, bool, str]] = []
+    db = psycopg.connect("", autocommit=True)
+    q = lambda sql, *a: db.execute(sql, a or None).fetchone()[0]
 
-    def scenario(fname: str, title: str, expect: str, steps) -> None:
+    def expect(name: str, ok: bool, detail: str, buf) -> None:
+        checks.append((name, ok, detail))
+        buf.write(f"CHECK {'PASS' if ok else 'FAIL'}  {name}: {detail}\n")
+
+    def scenario(fname: str, title: str, expect_text: str, steps) -> None:
         buf = io.StringIO()
-        buf.write(f"# {title}\n# input: {label}\n# expected outcome: {expect}\n"
+        buf.write(f"# {title}\n# input: {label}\n# expected outcome: {expect_text}\n"
                   f"# recorded {datetime.now().astimezone().isoformat(timespec='seconds')}\n\n")
         steps(buf)
         text = buf.getvalue().replace(str(ROOT) + os.sep, "").replace(str(ROOT), ".")
-        (out_dir / fname).write_text(redact(text) if extra else text, encoding="utf-8")
+        (out_dir / fname).write_text(redact(text) if real else text, encoding="utf-8")
         print(f"wrote {out_dir / fname}")
 
     def etl(buf, argv, note=""):
-        cmd = ETL + argv
         shown = " ".join(["python pipeline/etl.py"] + [str(a).replace(str(ROOT) + os.sep, "") for a in argv])
         buf.write(f"$ {shown}{note}\n")
-        rc = sh(cmd, buf, check=False)
-        buf.write(f"[exit code {rc}]\n\n")
-        return rc
+        out = io.StringIO()
+        rc = sh(ETL + argv, out, check=False)
+        buf.write(out.getvalue() + f"[exit code {rc}]\n\n")
+        return rc, out.getvalue()
 
-    def snap(buf, title="tables after this scenario"):
+    def snap(buf, title="tables after this scenario") -> str:
         buf.write(f"--- {title} ---\n")
-        etl(buf, ["snapshot"])
+        _, out = etl(buf, ["snapshot"])
+        return out.rsplit("fingerprint of all data tables: ", 1)[-1].strip()
 
-    # 0. clean database
-    sh([args.psql, "-X", "-q", "-v", "ON_ERROR_STOP=1", "-f", "sql/00_build_all.sql"])
+    state = {}
 
-    scenario("01_first_run.log", "Scenario 1: first end-to-end run on an empty database", "exit 0, all gates pass",
-             lambda b: (etl(b, base), snap(b)))
+    def s1(b):
+        rc, _ = etl(b, base)
+        state["fp"] = snap(b)
+        expect("exit code 0", rc == 0, f"exit {rc}", b)
+        expect("run 1 recorded as succeeded", q("SELECT status FROM etl_run WHERE run_id = 1") == "succeeded", "etl_run 1", b)
+    scenario("01_first_run.log", "Scenario 1: first end-to-end run on an empty database", "exit 0, all gates pass", s1)
+
+    def s2(b):
+        before = snap(b, "tables before the rerun")
+        rc, out = etl(b, base)
+        after = snap(b, "tables after the rerun")
+        expect("exit code 0", rc == 0, f"exit {rc}", b)
+        expect("content fingerprint identical to scenario 1", before == after == state["fp"], f"{after}", b)
+        expect("every table and year replaced, not appended", out.count("deleted ") == out.count("inserted ") > 0,
+               f"{out.count('deleted ')} delete/insert lines", b)
     scenario("02_rerun_same_inputs.log", "Scenario 2: rerun with exactly the same inputs (duplicate prevention)",
-             "exit 0; every year deleted and re-inserted; counts and content fingerprints identical to scenario 1",
-             lambda b: (snap(b, "tables before the rerun"), etl(b, base), snap(b, "tables after the rerun")))
+             "exit 0; every year deleted and re-inserted; counts and content fingerprints identical to scenario 1", s2)
 
     def f1(b):
         dst = interim / "tampered"
@@ -214,9 +246,13 @@ def main() -> int:
         tmp = target.with_suffix(".tmp")
         note = tamper(target, tmp)
         tmp.replace(target)
+        note = f"{target.name}: one AGE value in person.csv changed and the zip re-written" if real else note
         b.write(f"fault injected: {note}\n(sources.csv is NOT updated: the pinned hash no longer matches)\n\n")
-        etl(b, base[:2] + [rel(dst)] + base[3:])
-        snap(b)
+        rc, out = etl(b, base[:2] + [rel(dst)] + base[3:])
+        fp = snap(b)
+        expect("exit code 1", rc == 1, f"exit {rc}", b)
+        expect("stopped by G1 at verify_sources", "FAIL  G1 sha256 FARS2022" in out and "FAILED at stage verify_sources" in out, "log lines", b)
+        expect("tables unchanged (fingerprint of scenario 1)", fp == state["fp"], fp, b)
     scenario("03_failure_tampered_file.log", "Scenario 3 (deliberate failure A): a raw file edited after it was pinned",
              "exit 1 at stage verify_sources (gate G1); nothing read, nothing loaded; tables unchanged", f1)
 
@@ -227,6 +263,10 @@ def main() -> int:
         tmp = target.with_suffix(".tmp")
         notes = inject_defects(target, tmp)
         tmp.replace(target)
+        if real:                                       # keep keys and original values of real records out of the evidence
+            notes = [f"({c}) {d}" for c, d in zip("abcd", [
+                "duplicate of a pedestrian-fatality person row", "LGT_COND set to 42 (no label in code_lookup)",
+                "COUNTY set to 999 (FARS 'unknown')", "orphan person + pbtype rows (case not in accident.csv)"])]
         # the new version is accepted into a copy of the manifest, as a re-download would be
         rows = list(csv.DictReader(open(sources, newline="", encoding="utf-8")))
         for r in rows:
@@ -248,46 +288,74 @@ def main() -> int:
         b.write("faults injected into " + target.name + ":\n  " + "\n  ".join(notes) +
                 "\n(the file's new hash and row inventory are accepted into a copy of sources.csv / expected_counts.csv,"
                 "\n so gates G1-G3 pass and the record-level gate G4 has to catch the defects)\n\n")
-        etl(b, ["run", "--raw-dir", rel(dst), "--sources", rel(dst / "sources.csv"),
-                "--expected", rel(dst / "expected_counts.csv"), "--log-dir", rel(log_dir)] + extra)
+        rc, out = etl(b, ["run", "--raw-dir", rel(dst), "--sources", rel(dst / "sources.csv"),
+                          "--expected", rel(dst / "expected_counts.csv"), "--log-dir", rel(log_dir)] + extra)
         b.write("--- quarantine ---\n")
         etl(b, ["rejected"] + extra)
-        snap(b)
+        fp = snap(b)
+        rid = q("SELECT max(run_id) FROM etl_run")
+        n = q("SELECT count(*) FROM rejected_record WHERE run_id = %s", rid)
+        kinds = {r[0] for r in db.execute("SELECT check_name FROM rejected_record WHERE run_id = %s", (rid,)).fetchall()}
+        expect("exit code 1", rc == 1, f"exit {rc}", b)
+        expect("stopped by G4 at validate_records", "FAILED at stage validate_records" in out, "log line", b)
+        expect("all four defects quarantined (5 records: the orphan death brings its typing record)", n == 5 and len(kinds) == 4,
+               f"{n} rejected_record rows, {len(kinds)} distinct rules", b)
+        expect("tables unchanged (fingerprint of scenario 1)", fp == state["fp"], fp, b)
     scenario("04_failure_bad_records.log", "Scenario 4 (deliberate failure B): a new file version with four bad records",
              "exit 1 at stage validate_records (gate G4); bad records in rejected_record; nothing published", f2)
 
+    def s5(b):
+        rc, _ = etl(b, base + ["--simulate-crash-after", "load"], "   # fault injection")
+        fp = snap(b)
+        etl(b, ["status"])
+        rid = q("SELECT max(run_id) FROM etl_run")
+        expect("exit code 70 (process killed)", rc == 70, f"exit {rc}", b)
+        expect("uncommitted load rolled back: tables unchanged", fp == state["fp"], fp, b)
+        expect("etl_run row left 'running'", q("SELECT status FROM etl_run WHERE run_id = %s", rid) == "running", f"run {rid}", b)
+        state["killed"] = rid
     scenario("05_interrupted_run.log", "Scenario 5: the process dies inside the load transaction",
-             "exit 70 after stage load (before COMMIT); PostgreSQL rolls back; etl_run row left 'running'; tables unchanged",
-             lambda b: (etl(b, base + ["--simulate-crash-after", "load"], "   # fault injection"), snap(b),
-                        etl(b, ["status"])))
+             "exit 70 after stage load (before COMMIT); PostgreSQL rolls back; etl_run row left 'running'; tables unchanged", s5)
+
+    def s6(b):
+        rc, out = etl(b, base)
+        fp = snap(b)
+        expect("exit code 0", rc == 0, f"exit {rc}", b)
+        expect("abandoned run closed as failed", "recovered abandoned run" in out and
+               q("SELECT status FROM etl_run WHERE run_id = %s", state["killed"]) == "failed", f"run {state['killed']}", b)
+        expect("tables identical to scenarios 1-2", fp == state["fp"], fp, b)
     scenario("06_restart_after_interrupt.log", "Scenario 6: restart = the same command again",
-             "exit 0; the abandoned run is closed as failed; tables identical to scenarios 1-2",
-             lambda b: (etl(b, base), snap(b)))
+             "exit 0; the abandoned run is closed as failed; tables identical to scenarios 1-2", s6)
 
     def history(b):
         etl(b, ["status"])
         b.write("--- every run: steps with row counts (etl_log) and checks (validation_result) ---\n")
-        q = ("SELECT r.run_id, r.status, r.started_at::timestamp(0) AS started, r.finished_at::timestamp(0) AS finished, "
-             "(SELECT count(*) FROM etl_log l WHERE l.run_id = r.run_id) AS log_rows, "
-             "(SELECT count(*) FROM etl_log l WHERE l.run_id = r.run_id AND l.status = 'error') AS errors, "
-             "(SELECT count(*) FROM validation_result v WHERE v.run_id = r.run_id AND v.passed) AS checks_passed, "
-             "(SELECT count(*) FROM validation_result v WHERE v.run_id = r.run_id AND NOT v.passed) AS checks_failed, "
-             "(SELECT count(*) FROM rejected_record x WHERE x.run_id = r.run_id) AS rejected, "
-             "(SELECT count(*) FROM source_file s WHERE s.run_id = r.run_id) AS files "
-             "FROM etl_run r ORDER BY r.run_id")
-        b.write(subprocess.run([args.psql, "-X", "-c", q], cwd=ROOT, capture_output=True, text=True).stdout + "\n")
+        sq = ("SELECT r.run_id, r.status, r.started_at::timestamp(0) AS started, r.finished_at::timestamp(0) AS finished, "
+              "(SELECT count(*) FROM etl_log l WHERE l.run_id = r.run_id) AS log_rows, "
+              "(SELECT count(*) FROM etl_log l WHERE l.run_id = r.run_id AND l.status = 'error') AS errors, "
+              "(SELECT count(*) FROM validation_result v WHERE v.run_id = r.run_id AND v.passed) AS checks_passed, "
+              "(SELECT count(*) FROM validation_result v WHERE v.run_id = r.run_id AND NOT v.passed) AS checks_failed, "
+              "(SELECT count(*) FROM rejected_record x WHERE x.run_id = r.run_id) AS rejected, "
+              "(SELECT count(*) FROM source_file s WHERE s.run_id = r.run_id) AS files "
+              "FROM etl_run r ORDER BY r.run_id")
+        b.write(subprocess.run([args.psql, "-X", "-c", sq], cwd=ROOT, capture_output=True, text=True).stdout + "\n")
         q2 = ("SELECT run_id, to_char(logged_at, 'HH24:MI:SS.MS') AS at, step, rows_in, rows_out, status, left(message, 120) AS message "
               "FROM etl_log WHERE status <> 'ok' OR step IN ('load', 'finalize') ORDER BY log_id")
         b.write(subprocess.run([args.psql, "-X", "-c", q2], cwd=ROOT, capture_output=True, text=True).stdout)
+        st = [r[0] for r in db.execute("SELECT status FROM etl_run ORDER BY run_id").fetchall()]
+        expect("run statuses", st == ["succeeded", "succeeded", "failed", "failed", "failed", "succeeded"], ", ".join(st), b)
+        b.write("\n--- all scenario checks ---\n" + "".join(f"CHECK {'PASS' if ok else 'FAIL'}  {n}: {d}\n" for n, ok, d in checks))
     scenario("07_run_history.log", "Run history from the bookkeeping tables (etl_run, etl_log, validation_result, rejected_record)",
              "runs 1, 2, 6 succeeded; 3, 4, 5 failed (5 closed by run 6)", history)
 
     (out_dir / "runs").mkdir(exist_ok=True)
     for f in sorted(log_dir.glob("run_*.log")):
         text = f.read_text(encoding="utf-8").replace(str(ROOT) + os.sep, "")
-        (out_dir / "runs" / f.name).write_text(redact(text) if extra else text, encoding="utf-8")
+        stable = re.sub(r"^(run_\d{4})_.*\.log$", r"\1.log", f.name)      # drop the start time from the name
+        (out_dir / "runs" / stable).write_text(redact(text) if real else text, encoding="utf-8")
     print(f"per-run log files copied to {out_dir / 'runs'}")
-    return 0
+    failed = [n for n, ok, _ in checks if not ok]
+    print(f"scenario checks: {len(checks) - len(failed)} passed, {len(failed)} failed" + (f": {failed}" if failed else ""))
+    return 1 if failed else 0
 
 
 if __name__ == "__main__":
