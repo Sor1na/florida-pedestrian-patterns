@@ -734,7 +734,7 @@ def s_verify_load(ctx: Ctx) -> None:
         gate(ctx, "G6 post-load verification")
     # The run's status changes inside the load transaction, so data and status commit together:
     # a crash after this point leaves a 'succeeded' run, never a committed load marked 'running'.
-    ctx.db.execute("UPDATE etl_run SET status = 'succeeded', finished_at = now() WHERE run_id = %s", (ctx.run_id,))
+    ctx.db.execute("UPDATE etl_run SET status = 'succeeded', finished_at = clock_timestamp() WHERE run_id = %s", (ctx.run_id,))
     ctx.db.commit()
     ctx.committed = True
     ctx.log.step("all post-load checks passed: load transaction COMMITTED, etl_run status = succeeded")
