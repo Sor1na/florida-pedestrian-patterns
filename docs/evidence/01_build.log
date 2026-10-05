@@ -2,19 +2,19 @@
 Build finished. Objects created:
  objects | how_many 
 ---------+----------
- indexes |       28
- tables  |       15
+ indexes |       29
+ tables  |       16
  views   |       10
 (3 rows)
 
      constraints      | how_many 
 ----------------------+----------
- 1 PRIMARY KEY        |       15
- 2 FOREIGN KEY        |       13
+ 1 PRIMARY KEY        |       16
+ 2 FOREIGN KEY        |       14
  3 UNIQUE             |        5
- 4 CHECK              |       58
+ 4 CHECK              |       61
  5 EXCLUDE            |        1
  6 constraint trigger |        3
- 7 NOT NULL columns   |       86
+ 7 NOT NULL columns   |       95
 (7 rows)
 

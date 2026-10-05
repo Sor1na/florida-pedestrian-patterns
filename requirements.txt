@@ -1,0 +1,6 @@
+# Python packages for pipeline/profile_raw.py (Week 6) and pipeline/etl.py (Week 7).
+# Install: pip install -r requirements.txt   (PostgreSQL 16 with psql is installed separately)
+numpy>=1.26
+pandas>=2.2
+pandera>=0.24
+psycopg[binary]>=3.2

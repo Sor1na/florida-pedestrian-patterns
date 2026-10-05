@@ -12,11 +12,32 @@ This repository holds the capstone deliverables as they are built: the PostgreSQ
 
 | Week | Deliverable | Where |
 |---|---|---|
+| 7 | **Pipeline runs and recovery**: stage order with dependencies and six validation gates, a successful end-to-end run, a rerun with duplicate-prevention evidence, two deliberate failures, a killed run and its restart, logs with run ID / timestamps / row counts / errors, restart, recovery and rejected-record instructions | [`docs/Week7_Pipeline_Shkirpan.pdf`](docs/Week7_Pipeline_Shkirpan.pdf) ([Markdown](docs/Week7_Pipeline_Shkirpan.md)), [`pipeline/etl.py`](pipeline/etl.py), [`pipeline/run_scenarios.py`](pipeline/run_scenarios.py), [`docs/evidence/week7_synthetic/`](docs/evidence/week7_synthetic) |
 | 6 | **Data cleaning plan**: measured profile of the raw FARS 2020–2024 and Census files, five quality issues with detection rules, actions, rationale and verification tests, bias statement, raw-preservation and logging plan | [`docs/Week6_Data_Cleaning_Plan_Shkirpan.pdf`](docs/Week6_Data_Cleaning_Plan_Shkirpan.pdf) ([Markdown](docs/Week6_Data_Cleaning_Plan_Shkirpan.md)), [`pipeline/profile_raw.py`](pipeline/profile_raw.py), [`docs/profile/`](docs/profile), [`tests/verify_cleaning_rules.sql`](tests/verify_cleaning_rules.sql) |
 | 5 | **Database design**: conceptual and logical model, SQL scripts, data dictionary, constraint tests, sample queries | [`docs/Week5_Database_Design_Shkirpan.pdf`](docs/Week5_Database_Design_Shkirpan.pdf), [`sql/`](sql), [`tests/`](tests), [`queries/`](queries), [`docs/data_dictionary.md`](docs/data_dictionary.md) |
 | 4 | First-pass conceptual data model | [the section below](#week-4-first-pass-conceptual-data-model), [`docs/Week4_Conceptual_Data_Model_Shkirpan.pdf`](docs/Week4_Conceptual_Data_Model_Shkirpan.pdf), commit `cd0e009` |
 
-No real FARS rows are in this repository. FARS describes real deaths, and the proposal keeps person-level rows in the local database. Every record under `tests/` and `samples/` is synthetic. The repository holds no passwords, tokens, or keys; `.gitignore` keeps `.env` files, raw data, and database dumps out.
+No real FARS rows are in this repository. FARS describes real deaths, and the proposal keeps person-level rows in the local database. Every record under `tests/` and `samples/`, and every input behind `docs/evidence/week7_synthetic/`, is synthetic. The repository holds no passwords, tokens, or keys; `.gitignore` keeps `.env` files, raw data, and database dumps out.
+
+---
+
+## Week 7: pipeline runs, reruns, failures, and recovery
+
+The write-up is [`docs/Week7_Pipeline_Shkirpan.pdf`](docs/Week7_Pipeline_Shkirpan.pdf) (Markdown source: [`docs/Week7_Pipeline_Shkirpan.md`](docs/Week7_Pipeline_Shkirpan.md)). The pipeline is one command:
+
+```
+pip install -r requirements.txt
+createdb ped_safety
+psql -d ped_safety -v ON_ERROR_STOP=1 -f sql/00_build_all.sql
+python pipeline/etl.py run        # data/raw/ pinned by pipeline/sources.csv; safe to run again at any time
+python pipeline/etl.py status     # the last runs, the steps of one run with row counts, failed checks, rejects
+```
+
+![Pipeline stages](docs/pipeline.png)
+
+Eleven stages run in a fixed order (`python pipeline/etl.py stages`); six gates stop the run before anything is published: **G1** SHA-256 of every raw file against `pipeline/sources.csv`, **G2** required members and columns, **G3** Florida rows per file against the Week 6 profile, **G4** pandera record rules (unique keys, no orphans, code lists valid for the year, reference tables; failures go to the new table `rejected_record`), **G5** deaths and crashes per year against the published totals, **G6** post-load checks inside the load transaction, which commits only if they all pass. The load deletes and re-inserts 2020–2024 in that one transaction, so a rerun replaces rows instead of adding them, and a failure or a killed process leaves the tables as they were. The run's status becomes `succeeded` inside that same transaction, so data and status always commit together. Every run writes `etl_run`, `etl_log` (rows in and out per step), `validation_result` (one row per check) and `logs/run_NNNN_<start>.log` (timestamp, run ID and stage on every line; rows in and out where rows move); once G1 passes it also writes one `source_file` row per input file, and G4 writes the records it rejects to `rejected_record`.
+
+GitHub Actions ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs the Week 4–5 tests and all Week 7 scenarios on every pull request, against a fresh PostgreSQL 16. `python pipeline/run_scenarios.py --synthetic` rebuilds its own database (`ped_safety_week7`; `ped_safety` is never touched) and records six scenarios, each ending with automatic CHECK lines (19 of 19 pass), in [`docs/evidence/week7_synthetic/`](docs/evidence/week7_synthetic): first run, rerun (identical content fingerprint), a tampered raw file stopped by G1, four bad records quarantined by G4, a process killed inside the load, and the restart that recovers it. The committed evidence uses synthetic inputs that copy the layout features of the FARS and Census downloads the pipeline depends on ([`tools/make_synthetic_raw.py`](tools/make_synthetic_raw.py)); without `--synthetic` the same scenarios run on the real files in `data/raw/` and write `docs/evidence/week7/` (not committed) with case numbers, lines and values masked. Without the real files, a single run on the synthetic ones is `python tools/make_synthetic_raw.py` followed by `python pipeline/etl.py run --raw-dir data/synthetic/clean --sources data/synthetic/clean/sources.csv --expected data/synthetic/clean/expected_counts.csv`.
 
 ---
 
@@ -45,7 +66,7 @@ The full write-up is [`docs/Week5_Database_Design_Shkirpan.pdf`](docs/Week5_Data
 
 ![Conceptual ER diagram](docs/erd_conceptual.png)
 
-Nine entities (source: [`docs/erd_conceptual.mmd`](docs/erd_conceptual.mmd)). The unit of observation is one pedestrian fatality, a row of `pedestrian`. The physical schema has 15 tables: the nine above, `code_lookup`, four pipeline tables (`etl_run`, `source_file`, `etl_log`, `validation_result`), and `data_dictionary`. Logical diagrams: [`docs/erd_logical.png`](docs/erd_logical.png) and [`docs/erd_logical_pipeline.png`](docs/erd_logical_pipeline.png).
+Nine entities (source: [`docs/erd_conceptual.mmd`](docs/erd_conceptual.mmd)). The unit of observation is one pedestrian fatality, a row of `pedestrian`. The physical schema has 15 tables: the nine above, `code_lookup`, four pipeline tables (`etl_run`, `source_file`, `etl_log`, `validation_result`), and `data_dictionary`. Week 7 added a sixteenth, `rejected_record`, the quarantine of the record-level gate. Logical diagrams: [`docs/erd_logical.png`](docs/erd_logical.png) and [`docs/erd_logical_pipeline.png`](docs/erd_logical_pipeline.png).
 
 ### Build it and test it
 
@@ -80,7 +101,7 @@ On Windows add `-U postgres` to each command (the installer creates that user an
 
 ```
 sql/00_build_all.sql               one command: rebuilds everything in one transaction
-sql/01_schema.sql                  15 tables, keys, NOT NULL, CHECK, EXCLUDE
+sql/01_schema.sql                  16 tables (rejected_record added in Week 7), keys, NOT NULL, CHECK, EXCLUDE
 sql/02_cardinality_triggers.sql    deferred triggers for the two "one or more" rules
 sql/03_indexes.sql                 7 indexes beyond the 21 created by key constraints
 sql/04_views.sql                   v_ped_transactions, v_county_rate, v_dash_pattern_county, 7 data-quality views
@@ -94,7 +115,7 @@ tests/check_code_domains.py        compares CHECK lists with code labels (no dat
 tests/run_all.sh                   build + fixture + tests + queries, writes docs/evidence/
 queries/sample_queries.sql         six queries tied to the project question
 tools/export_data_dictionary.sql   writes docs/data_dictionary.md from the live database
-docs/data_dictionary.csv / .md     the complete data dictionary (135 columns)
+docs/data_dictionary.csv / .md     the complete data dictionary (148 columns since Week 7)
 docs/erd_conceptual.*              conceptual ER diagram (Mermaid source, SVG, PNG)
 docs/erd_logical*.*                logical schema diagrams
 docs/evidence/                     logs of the build, fixture load, tests, queries, code-list check
