@@ -1,0 +1,89 @@
+# CI: rebuilds the database from nothing and runs every test and scenario on each pull request.
+# Inputs are synthetic only (no real FARS rows exist in the repository). The PostgreSQL service is a
+# throwaway container with trust authentication, so no password is stored anywhere.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      PGHOST: localhost
+      PGPORT: "5432"
+      PGUSER: postgres
+      PGDATABASE: ped_safety
+      TZ: America/New_York
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install Python packages and the PostgreSQL client
+        run: |
+          pip install -r requirements.txt
+          command -v psql || (sudo apt-get update && sudo apt-get install -y postgresql-client)
+          psql -X -At -c "SELECT version()" postgres
+
+      - name: Week 4 sample records keep the business rules
+        run: python tests/check_samples.py
+
+      - name: CHECK lists match the code labels
+        run: python tests/check_code_domains.py
+
+      - name: Pinned real inputs match the Week 6 manifest
+        run: |
+          python - <<'EOF'
+          import csv, sys
+          pins = {r["file_name"]: (r["sha256"], r["bytes"]) for r in csv.DictReader(open("pipeline/sources.csv"))}
+          man = {r["file_name"]: (r["sha256"], r["bytes"]) for r in csv.DictReader(open("docs/profile/00_manifest_sha256.csv"))}
+          print("pipeline/sources.csv matches docs/profile/00_manifest_sha256.csv:", pins == man)
+          sys.exit(0 if pins == man else 1)
+          EOF
+
+      - name: Week 5 build, fixture, 56 constraint tests, sample queries
+        run: |
+          createdb ped_safety
+          bash tests/run_all.sh
+          python - <<'EOF'
+          import re, sys
+          log = open("docs/evidence/03_constraint_tests.log").read()
+          m = re.search(r"===== Summary =====\s*\n[^\n]*\n[-+]+\n\s*(\d+)\s*\|\s*(\d+)\s*\|\s*(\d+)", log)
+          if not m:
+              sys.exit("constraint test summary not found")
+          tests, passed, failed = map(int, m.groups())
+          print(f"constraint tests: {tests}, passed {passed}, failed {failed}")
+          sys.exit(0 if failed == 0 and passed == tests else 1)
+          EOF
+
+      - name: Week 7 pipeline scenarios on synthetic inputs (exits 1 if any scenario check fails)
+        run: python pipeline/run_scenarios.py --synthetic
+
+      - name: Keep the logs of this run
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidence
+          path: |
+            docs/evidence/
+            data/interim/week7/logs/
+          if-no-files-found: ignore
