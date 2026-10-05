@@ -1,121 +1,121 @@
 # Run history from the bookkeeping tables (etl_run, etl_log, validation_result, rejected_record)
 # input: SYNTHETIC files from tools/make_synthetic_raw.py (not real FARS rows)
 # expected outcome: runs 1, 2, 6 succeeded; 3, 4, 5 failed (5 closed by run 6)
-# recorded 2026-10-04T22:16:38-04:00
+# recorded 2026-10-04T22:27:06-04:00
 
 $ python pipeline/etl.py status
 run_id | status    | started_at          | finished_at         | commit 
 -------+-----------+---------------------+---------------------+--------
-6      | succeeded | 2026-10-04 22:16:36 | 2026-10-04 22:16:37 | 914e18e
-5      | failed    | 2026-10-04 22:16:32 | 2026-10-04 22:16:36 | 914e18e
-4      | failed    | 2026-10-04 22:16:28 | 2026-10-04 22:16:29 | 914e18e
-3      | failed    | 2026-10-04 22:16:26 | 2026-10-04 22:16:26 | 914e18e
-2      | succeeded | 2026-10-04 22:16:23 | 2026-10-04 22:16:24 | 914e18e
-1      | succeeded | 2026-10-04 22:16:19 | 2026-10-04 22:16:21 | 914e18e
+6      | succeeded | 2026-10-04 22:27:04 | 2026-10-04 22:27:05 | b24aa7b
+5      | failed    | 2026-10-04 22:27:00 | 2026-10-04 22:27:04 | b24aa7b
+4      | failed    | 2026-10-04 22:26:56 | 2026-10-04 22:26:57 | b24aa7b
+3      | failed    | 2026-10-04 22:26:54 | 2026-10-04 22:26:54 | b24aa7b
+2      | succeeded | 2026-10-04 22:26:51 | 2026-10-04 22:26:52 | b24aa7b
+1      | succeeded | 2026-10-04 22:26:47 | 2026-10-04 22:26:48 | b24aa7b
 
 run 6: etl_log
 log_id | time     | step                | rows_in | rows_out | status  | message                                                                                                       
 -------+----------+---------------------+---------+----------+---------+---------------------------------------------------------------------------------------------------------------
-348    | 22:16:36 | preflight           |         |          | warning | recovered abandoned run 5 (started 2026-10-04T22:16:31-04:00): status set to failed; its load transaction was 
-349    | 22:16:36 | preflight           |         |          | ok      | run 6 started 2026-10-04T22:16:35-04:00; git commit 914e18eada1a2d532a4801007ac0a4f50f9d6b62                  
-350    | 22:16:36 | preflight           |         |          | ok      | inputs: raw dir data/synthetic/clean; sources data/synthetic/clean/sources.csv; expected counts data/synthetic
-351    | 22:16:36 | preflight           |         |          | ok      | data tables before the run: crash=547, vehicle=630, pedestrian=596, ped_crash_type=596, county_population=335;
-352    | 22:16:36 | preflight           |         |          | ok      | stage preflight finished in 0.03s                                                                             
-353    | 22:16:36 | verify_sources      | 6       | 6        | ok      | 6 input files verified against sources.csv and recorded in source_file                                        
-354    | 22:16:36 | verify_sources      |         |          | ok      | stage verify_sources finished in 0.01s; gate G1 passed                                                        
-355    | 22:16:36 | extract             | 460     | 263      | ok      | 2020 accident.csv: kept STATE = 12 (encoding cp1252)                                                          
-356    | 22:16:36 | extract             | 651     | 363      | ok      | 2020 vehicle.csv: kept STATE = 12 (encoding utf-8)                                                            
-357    | 22:16:36 | extract             | 1220    | 718      | ok      | 2020 person.csv: kept STATE = 12 (encoding utf-8)                                                             
-358    | 22:16:36 | extract             | 290     | 188      | ok      | 2020 pbtype.csv: kept STATE = 12 (encoding cp1252)                                                            
-359    | 22:16:36 | extract             | 469     | 272      | ok      | 2021 accident.csv: kept STATE = 12 (encoding utf-8)                                                           
-360    | 22:16:36 | extract             | 667     | 375      | ok      | 2021 vehicle.csv: kept STATE = 12 (encoding utf-8)                                                            
-361    | 22:16:36 | extract             | 1205    | 707      | ok      | 2021 person.csv: kept STATE = 12 (encoding utf-8)                                                             
-362    | 22:16:36 | extract             | 278     | 185      | ok      | 2021 pbtype.csv: kept STATE = 12 (encoding utf-8)                                                             
-363    | 22:16:36 | extract             | 445     | 246      | ok      | 2022 accident.csv: kept STATE = 12 (encoding utf-8)                                                           
-364    | 22:16:36 | extract             | 617     | 330      | ok      | 2022 vehicle.csv: kept STATE = 12 (encoding utf-8)                                                            
-365    | 22:16:36 | extract             | 1102    | 608      | ok      | 2022 person.csv: kept STATE = 12 (encoding utf-8)                                                             
-366    | 22:16:36 | extract             | 253     | 162      | ok      | 2022 pbtype.csv: kept STATE = 12 (encoding utf-8)                                                             
-367    | 22:16:36 | extract             | 479     | 278      | ok      | 2023 accident.csv: kept STATE = 12 (encoding utf-8)                                                           
-368    | 22:16:36 | extract             | 692     | 397      | ok      | 2023 vehicle.csv: kept STATE = 12 (encoding utf-8)                                                            
-369    | 22:16:36 | extract             | 1209    | 730      | ok      | 2023 person.csv: kept STATE = 12 (encoding utf-8)                                                             
-370    | 22:16:36 | extract             | 265     | 182      | ok      | 2023 pbtype.csv: kept STATE = 12 (encoding utf-8)                                                             
-371    | 22:16:36 | extract             | 452     | 245      | ok      | 2024 accident.csv: kept STATE = 12 (encoding utf-8)                                                           
-372    | 22:16:36 | extract             | 618     | 325      | ok      | 2024 vehicle.csv: kept STATE = 12 (encoding utf-8)                                                            
-373    | 22:16:36 | extract             | 1114    | 631      | ok      | 2024 person.csv: kept STATE = 12 (encoding utf-8)                                                             
-374    | 22:16:36 | extract             | 245     | 159      | ok      | 2024 pbtype.csv: kept STATE = 12 (encoding utf-8)                                                             
-375    | 22:16:36 | extract             | 79      | 67       | ok      | census: kept SUMLEV 050 and STATE 12 (encoding latin-1; the state summary row is dropped)                     
-376    | 22:16:36 | extract             |         |          | ok      | stage extract finished in 0.24s; gate G2 passed                                                               
-377    | 22:16:36 | reconcile_inventory |         |          | ok      | stage reconcile_inventory finished in 0.01s; gate G3 passed                                                   
-378    | 22:16:36 | transform           | 718     | 130      | ok      | 2020 person -> pedestrian: PER_TYP = 5 and INJ_SEV = 4                                                        
-379    | 22:16:36 | transform           | 263     | 120      | ok      | 2020 accident -> crash: crashes with at least one pedestrian fatality; 1 filler coordinate pair(s) (77.7777 / 
-380    | 22:16:36 | transform           | 363     | 137      | ok      | 2020 vehicle -> vehicle: in-transport vehicles of those crashes                                               
-381    | 22:16:36 | transform           | 188     | 130      | ok      | 2020 pbtype -> ped_crash_type: typing records of the pedestrian fatalities                                    
-382    | 22:16:36 | transform           | 707     | 120      | ok      | 2021 person -> pedestrian: PER_TYP = 5 and INJ_SEV = 4                                                        
-383    | 22:16:36 | transform           | 272     | 112      | ok      | 2021 accident -> crash: crashes with at least one pedestrian fatality; 1 filler coordinate pair(s) (77.7777 / 
-384    | 22:16:36 | transform           | 375     | 128      | ok      | 2021 vehicle -> vehicle: in-transport vehicles of those crashes                                               
-385    | 22:16:36 | transform           | 185     | 120      | ok      | 2021 pbtype -> ped_crash_type: typing records of the pedestrian fatalities                                    
-386    | 22:16:36 | transform           | 608     | 104      | ok      | 2022 person -> pedestrian: PER_TYP = 5 and INJ_SEV = 4                                                        
-387    | 22:16:36 | transform           | 246     | 94       | ok      | 2022 accident -> crash: crashes with at least one pedestrian fatality; 2 filler coordinate pair(s) (77.7777 / 
-388    | 22:16:36 | transform           | 330     | 104      | ok      | 2022 vehicle -> vehicle: in-transport vehicles of those crashes                                               
-389    | 22:16:36 | transform           | 162     | 104      | ok      | 2022 pbtype -> ped_crash_type: typing records of the pedestrian fatalities                                    
-390    | 22:16:36 | transform           | 730     | 132      | ok      | 2023 person -> pedestrian: PER_TYP = 5 and INJ_SEV = 4                                                        
-391    | 22:16:36 | transform           | 278     | 122      | ok      | 2023 accident -> crash: crashes with at least one pedestrian fatality; 1 filler coordinate pair(s) (77.7777 / 
-392    | 22:16:36 | transform           | 397     | 148      | ok      | 2023 vehicle -> vehicle: in-transport vehicles of those crashes                                               
-393    | 22:16:36 | transform           | 182     | 132      | ok      | 2023 pbtype -> ped_crash_type: typing records of the pedestrian fatalities                                    
-394    | 22:16:36 | transform           | 631     | 110      | ok      | 2024 person -> pedestrian: PER_TYP = 5 and INJ_SEV = 4                                                        
-395    | 22:16:36 | transform           | 245     | 99       | ok      | 2024 accident -> crash: crashes with at least one pedestrian fatality; 1 filler coordinate pair(s) (77.7777 / 
-396    | 22:16:36 | transform           | 325     | 113      | ok      | 2024 vehicle -> vehicle: in-transport vehicles of those crashes                                               
-397    | 22:16:36 | transform           | 159     | 110      | ok      | 2024 pbtype -> ped_crash_type: typing records of the pedestrian fatalities                                    
-398    | 22:16:36 | transform           | 67      | 335      | ok      | census -> county_population: one row per county and year (vintage 2025)                                       
-399    | 22:16:36 | transform           |         |          | ok      | unit totals: crash=547, vehicle=630, pedestrian=596, ped_crash_type=596, county_population=335                
-400    | 22:16:36 | transform           |         |          | ok      | stage transform finished in 0.25s                                                                             
-401    | 22:16:36 | join_block_groups   | 547     | 0        | warning | skipped: the EPA Smart Location Database is not in sources.csv yet, so crash.geoid10 stays NULL for all 547 cr
-402    | 22:16:36 | join_block_groups   |         |          | warning | stage join_block_groups skipped in 0.00s                                                                      
-403    | 22:16:37 | validate_records    | 10068   | 10068    | ok      | record-level rules applied to 10,068 rows; 0 record(s) rejected (0 rule failure(s)) into rejected_record      
-404    | 22:16:37 | validate_records    |         |          | ok      | stage validate_records finished in 0.61s; gate G4 passed                                                      
-405    | 22:16:37 | reconcile_unit      |         |          | ok      | stage reconcile_unit finished in 0.01s; gate G5 passed                                                        
-406    | 22:16:37 | load                | 120     | 120      | ok      | 2020 crash: deleted 120 row(s) of the previous load, inserted 120                                             
-407    | 22:16:37 | load                | 112     | 112      | ok      | 2021 crash: deleted 112 row(s) of the previous load, inserted 112                                             
-408    | 22:16:37 | load                | 94      | 94       | ok      | 2022 crash: deleted 94 row(s) of the previous load, inserted 94                                               
-409    | 22:16:37 | load                | 122     | 122      | ok      | 2023 crash: deleted 122 row(s) of the previous load, inserted 122                                             
-410    | 22:16:37 | load                | 99      | 99       | ok      | 2024 crash: deleted 99 row(s) of the previous load, inserted 99                                               
-411    | 22:16:37 | load                | 137     | 137      | ok      | 2020 vehicle: deleted 137 row(s) of the previous load, inserted 137                                           
-412    | 22:16:37 | load                | 128     | 128      | ok      | 2021 vehicle: deleted 128 row(s) of the previous load, inserted 128                                           
-413    | 22:16:37 | load                | 104     | 104      | ok      | 2022 vehicle: deleted 104 row(s) of the previous load, inserted 104                                           
-414    | 22:16:37 | load                | 148     | 148      | ok      | 2023 vehicle: deleted 148 row(s) of the previous load, inserted 148                                           
-415    | 22:16:37 | load                | 113     | 113      | ok      | 2024 vehicle: deleted 113 row(s) of the previous load, inserted 113                                           
-416    | 22:16:37 | load                | 130     | 130      | ok      | 2020 pedestrian: deleted 130 row(s) of the previous load, inserted 130                                        
-417    | 22:16:37 | load                | 120     | 120      | ok      | 2021 pedestrian: deleted 120 row(s) of the previous load, inserted 120                                        
-418    | 22:16:37 | load                | 104     | 104      | ok      | 2022 pedestrian: deleted 104 row(s) of the previous load, inserted 104                                        
-419    | 22:16:37 | load                | 132     | 132      | ok      | 2023 pedestrian: deleted 132 row(s) of the previous load, inserted 132                                        
-420    | 22:16:37 | load                | 110     | 110      | ok      | 2024 pedestrian: deleted 110 row(s) of the previous load, inserted 110                                        
-421    | 22:16:37 | load                | 130     | 130      | ok      | 2020 ped_crash_type: deleted 130 row(s) of the previous load, inserted 130                                    
-422    | 22:16:37 | load                | 120     | 120      | ok      | 2021 ped_crash_type: deleted 120 row(s) of the previous load, inserted 120                                    
-423    | 22:16:37 | load                | 104     | 104      | ok      | 2022 ped_crash_type: deleted 104 row(s) of the previous load, inserted 104                                    
-424    | 22:16:37 | load                | 132     | 132      | ok      | 2023 ped_crash_type: deleted 132 row(s) of the previous load, inserted 132                                    
-425    | 22:16:37 | load                | 110     | 110      | ok      | 2024 ped_crash_type: deleted 110 row(s) of the previous load, inserted 110                                    
-426    | 22:16:37 | load                | 67      | 67       | ok      | 2020 county_population: deleted 67 row(s) of the previous load, inserted 67                                   
-427    | 22:16:37 | load                | 67      | 67       | ok      | 2021 county_population: deleted 67 row(s) of the previous load, inserted 67                                   
-428    | 22:16:37 | load                | 67      | 67       | ok      | 2022 county_population: deleted 67 row(s) of the previous load, inserted 67                                   
-429    | 22:16:37 | load                | 67      | 67       | ok      | 2023 county_population: deleted 67 row(s) of the previous load, inserted 67                                   
-430    | 22:16:37 | load                | 67      | 67       | ok      | 2024 county_population: deleted 67 row(s) of the previous load, inserted 67                                   
-431    | 22:16:37 | load                |         |          | ok      | deferred cardinality triggers passed (every crash has a pedestrian and a vehicle); transaction still open     
-432    | 22:16:37 | load                |         |          | ok      | stage load finished in 0.21s                                                                                  
-433    | 22:16:37 | verify_load         |         |          | ok      | RUR_URB not reported, % of deaths by year (cleaning plan, issue 2): 2020: 0.8, 2021: 0.0, 2022: 0.0, 2023: 2.3
-434    | 22:16:37 | verify_load         |         |          | ok      | all post-load checks passed: load transaction COMMITTED, etl_run status = succeeded                           
-435    | 22:16:37 | verify_load         |         |          | ok      | stage verify_load finished in 0.06s; gate G6 passed                                                           
-436    | 22:16:37 | finalize            |         | 547      | ok      | crash: 547 rows, content md5 2e8235061c968b2a8c1f5658e4a9b21a                                                 
-437    | 22:16:37 | finalize            |         | 630      | ok      | vehicle: 630 rows, content md5 8ec4676fa910156705a67022a36c1537                                               
-438    | 22:16:37 | finalize            |         | 596      | ok      | pedestrian: 596 rows, content md5 52d6d56c153e98ce122e76add60d8b50                                            
-439    | 22:16:37 | finalize            |         | 596      | ok      | ped_crash_type: 596 rows, content md5 f58bd3ea79b8c504cffe29dbe8a85ccc                                        
-440    | 22:16:37 | finalize            |         | 335      | ok      | county_population: 335 rows, content md5 84cbd56a35e4499105a8db9b4d138635                                     
-441    | 22:16:37 | finalize            |         |          | ok      | fingerprint of the data tables after the run: c0656528b64a4e34ba381d7f356635ef (identical to before the run: t
-442    | 22:16:37 | finalize            |         |          | ok      | lineage 2020: FARS2020NationalCSV.zip sha256 ee66bdb47ab1 (Final) -> person 1,220 national -> 718 Florida -> 1
-443    | 22:16:37 | finalize            |         |          | ok      | lineage 2021: FARS2021NationalCSV.zip sha256 cb71e777efb4 (Final) -> person 1,205 national -> 707 Florida -> 1
-444    | 22:16:37 | finalize            |         |          | ok      | lineage 2022: FARS2022NationalCSV.zip sha256 e543adcea0c6 (Final) -> person 1,102 national -> 608 Florida -> 1
-445    | 22:16:37 | finalize            |         |          | ok      | lineage 2023: FARS2023NationalCSV.zip sha256 beee2e3bb577 (Final) -> person 1,209 national -> 730 Florida -> 1
-446    | 22:16:37 | finalize            |         |          | ok      | lineage 2024: FARS2024NationalCSV.zip sha256 6532260bed84 (Annual Report File) -> person 1,114 national -> 631
-447    | 22:16:37 | finalize            |         |          | ok      | stage finalize finished in 0.02s                                                                              
+348    | 22:27:04 | preflight           |         |          | warning | recovered abandoned run 5 (started 2026-10-04T22:26:59-04:00): status set to failed; its load transaction was 
+349    | 22:27:04 | preflight           |         |          | ok      | run 6 started 2026-10-04T22:27:03-04:00; git commit b24aa7b06a816bb39457168d5729cdaa829f7338                  
+350    | 22:27:04 | preflight           |         |          | ok      | inputs: raw dir data/synthetic/clean; sources data/synthetic/clean/sources.csv; expected counts data/synthetic
+351    | 22:27:04 | preflight           |         |          | ok      | data tables before the run: crash=547, vehicle=630, pedestrian=596, ped_crash_type=596, county_population=335;
+352    | 22:27:04 | preflight           |         |          | ok      | stage preflight finished in 0.03s                                                                             
+353    | 22:27:04 | verify_sources      | 6       | 6        | ok      | 6 input files verified against sources.csv and recorded in source_file                                        
+354    | 22:27:04 | verify_sources      |         |          | ok      | stage verify_sources finished in 0.02s; gate G1 passed                                                        
+355    | 22:27:04 | extract             | 460     | 263      | ok      | 2020 accident.csv: kept STATE = 12 (encoding cp1252)                                                          
+356    | 22:27:04 | extract             | 651     | 363      | ok      | 2020 vehicle.csv: kept STATE = 12 (encoding utf-8)                                                            
+357    | 22:27:04 | extract             | 1220    | 718      | ok      | 2020 person.csv: kept STATE = 12 (encoding utf-8)                                                             
+358    | 22:27:04 | extract             | 290     | 188      | ok      | 2020 pbtype.csv: kept STATE = 12 (encoding cp1252)                                                            
+359    | 22:27:04 | extract             | 469     | 272      | ok      | 2021 accident.csv: kept STATE = 12 (encoding utf-8)                                                           
+360    | 22:27:04 | extract             | 667     | 375      | ok      | 2021 vehicle.csv: kept STATE = 12 (encoding utf-8)                                                            
+361    | 22:27:04 | extract             | 1205    | 707      | ok      | 2021 person.csv: kept STATE = 12 (encoding utf-8)                                                             
+362    | 22:27:04 | extract             | 278     | 185      | ok      | 2021 pbtype.csv: kept STATE = 12 (encoding utf-8)                                                             
+363    | 22:27:04 | extract             | 445     | 246      | ok      | 2022 accident.csv: kept STATE = 12 (encoding utf-8)                                                           
+364    | 22:27:04 | extract             | 617     | 330      | ok      | 2022 vehicle.csv: kept STATE = 12 (encoding utf-8)                                                            
+365    | 22:27:04 | extract             | 1102    | 608      | ok      | 2022 person.csv: kept STATE = 12 (encoding utf-8)                                                             
+366    | 22:27:04 | extract             | 253     | 162      | ok      | 2022 pbtype.csv: kept STATE = 12 (encoding utf-8)                                                             
+367    | 22:27:04 | extract             | 479     | 278      | ok      | 2023 accident.csv: kept STATE = 12 (encoding utf-8)                                                           
+368    | 22:27:04 | extract             | 692     | 397      | ok      | 2023 vehicle.csv: kept STATE = 12 (encoding utf-8)                                                            
+369    | 22:27:04 | extract             | 1209    | 730      | ok      | 2023 person.csv: kept STATE = 12 (encoding utf-8)                                                             
+370    | 22:27:04 | extract             | 265     | 182      | ok      | 2023 pbtype.csv: kept STATE = 12 (encoding utf-8)                                                             
+371    | 22:27:04 | extract             | 452     | 245      | ok      | 2024 accident.csv: kept STATE = 12 (encoding utf-8)                                                           
+372    | 22:27:04 | extract             | 618     | 325      | ok      | 2024 vehicle.csv: kept STATE = 12 (encoding utf-8)                                                            
+373    | 22:27:04 | extract             | 1114    | 631      | ok      | 2024 person.csv: kept STATE = 12 (encoding utf-8)                                                             
+374    | 22:27:04 | extract             | 245     | 159      | ok      | 2024 pbtype.csv: kept STATE = 12 (encoding utf-8)                                                             
+375    | 22:27:04 | extract             | 79      | 67       | ok      | census: kept SUMLEV 050 and STATE 12 (encoding latin-1; the state summary row is dropped)                     
+376    | 22:27:04 | extract             |         |          | ok      | stage extract finished in 0.25s; gate G2 passed                                                               
+377    | 22:27:04 | reconcile_inventory |         |          | ok      | stage reconcile_inventory finished in 0.02s; gate G3 passed                                                   
+378    | 22:27:04 | transform           | 718     | 130      | ok      | 2020 person -> pedestrian: PER_TYP = 5 and INJ_SEV = 4                                                        
+379    | 22:27:04 | transform           | 263     | 120      | ok      | 2020 accident -> crash: crashes with at least one pedestrian fatality; 1 filler coordinate pair(s) (77.7777 / 
+380    | 22:27:04 | transform           | 363     | 137      | ok      | 2020 vehicle -> vehicle: in-transport vehicles of those crashes                                               
+381    | 22:27:04 | transform           | 188     | 130      | ok      | 2020 pbtype -> ped_crash_type: typing records of the pedestrian fatalities                                    
+382    | 22:27:04 | transform           | 707     | 120      | ok      | 2021 person -> pedestrian: PER_TYP = 5 and INJ_SEV = 4                                                        
+383    | 22:27:04 | transform           | 272     | 112      | ok      | 2021 accident -> crash: crashes with at least one pedestrian fatality; 1 filler coordinate pair(s) (77.7777 / 
+384    | 22:27:04 | transform           | 375     | 128      | ok      | 2021 vehicle -> vehicle: in-transport vehicles of those crashes                                               
+385    | 22:27:04 | transform           | 185     | 120      | ok      | 2021 pbtype -> ped_crash_type: typing records of the pedestrian fatalities                                    
+386    | 22:27:04 | transform           | 608     | 104      | ok      | 2022 person -> pedestrian: PER_TYP = 5 and INJ_SEV = 4                                                        
+387    | 22:27:04 | transform           | 246     | 94       | ok      | 2022 accident -> crash: crashes with at least one pedestrian fatality; 2 filler coordinate pair(s) (77.7777 / 
+388    | 22:27:04 | transform           | 330     | 104      | ok      | 2022 vehicle -> vehicle: in-transport vehicles of those crashes                                               
+389    | 22:27:04 | transform           | 162     | 104      | ok      | 2022 pbtype -> ped_crash_type: typing records of the pedestrian fatalities                                    
+390    | 22:27:04 | transform           | 730     | 132      | ok      | 2023 person -> pedestrian: PER_TYP = 5 and INJ_SEV = 4                                                        
+391    | 22:27:04 | transform           | 278     | 122      | ok      | 2023 accident -> crash: crashes with at least one pedestrian fatality; 1 filler coordinate pair(s) (77.7777 / 
+392    | 22:27:04 | transform           | 397     | 148      | ok      | 2023 vehicle -> vehicle: in-transport vehicles of those crashes                                               
+393    | 22:27:04 | transform           | 182     | 132      | ok      | 2023 pbtype -> ped_crash_type: typing records of the pedestrian fatalities                                    
+394    | 22:27:04 | transform           | 631     | 110      | ok      | 2024 person -> pedestrian: PER_TYP = 5 and INJ_SEV = 4                                                        
+395    | 22:27:04 | transform           | 245     | 99       | ok      | 2024 accident -> crash: crashes with at least one pedestrian fatality; 1 filler coordinate pair(s) (77.7777 / 
+396    | 22:27:04 | transform           | 325     | 113      | ok      | 2024 vehicle -> vehicle: in-transport vehicles of those crashes                                               
+397    | 22:27:04 | transform           | 159     | 110      | ok      | 2024 pbtype -> ped_crash_type: typing records of the pedestrian fatalities                                    
+398    | 22:27:04 | transform           | 67      | 335      | ok      | census -> county_population: one row per county and year (vintage 2025)                                       
+399    | 22:27:04 | transform           |         |          | ok      | unit totals: crash=547, vehicle=630, pedestrian=596, ped_crash_type=596, county_population=335                
+400    | 22:27:04 | transform           |         |          | ok      | stage transform finished in 0.25s                                                                             
+401    | 22:27:04 | join_block_groups   | 547     | 0        | warning | skipped: the EPA block-group join is not implemented yet, so crash.geoid10 stays NULL for all 547 crashes and 
+402    | 22:27:04 | join_block_groups   |         |          | warning | stage join_block_groups skipped in 0.00s                                                                      
+403    | 22:27:05 | validate_records    | 10068   | 10068    | ok      | record-level rules applied to 10,068 rows; 0 record(s) rejected (0 rule failure(s)) into rejected_record      
+404    | 22:27:05 | validate_records    |         |          | ok      | stage validate_records finished in 0.69s; gate G4 passed                                                      
+405    | 22:27:05 | reconcile_unit      |         |          | ok      | stage reconcile_unit finished in 0.01s; gate G5 passed                                                        
+406    | 22:27:05 | load                | 120     | 120      | ok      | 2020 crash: deleted 120 row(s) of the previous load, inserted 120                                             
+407    | 22:27:05 | load                | 112     | 112      | ok      | 2021 crash: deleted 112 row(s) of the previous load, inserted 112                                             
+408    | 22:27:05 | load                | 94      | 94       | ok      | 2022 crash: deleted 94 row(s) of the previous load, inserted 94                                               
+409    | 22:27:05 | load                | 122     | 122      | ok      | 2023 crash: deleted 122 row(s) of the previous load, inserted 122                                             
+410    | 22:27:05 | load                | 99      | 99       | ok      | 2024 crash: deleted 99 row(s) of the previous load, inserted 99                                               
+411    | 22:27:05 | load                | 137     | 137      | ok      | 2020 vehicle: deleted 137 row(s) of the previous load, inserted 137                                           
+412    | 22:27:05 | load                | 128     | 128      | ok      | 2021 vehicle: deleted 128 row(s) of the previous load, inserted 128                                           
+413    | 22:27:05 | load                | 104     | 104      | ok      | 2022 vehicle: deleted 104 row(s) of the previous load, inserted 104                                           
+414    | 22:27:05 | load                | 148     | 148      | ok      | 2023 vehicle: deleted 148 row(s) of the previous load, inserted 148                                           
+415    | 22:27:05 | load                | 113     | 113      | ok      | 2024 vehicle: deleted 113 row(s) of the previous load, inserted 113                                           
+416    | 22:27:05 | load                | 130     | 130      | ok      | 2020 pedestrian: deleted 130 row(s) of the previous load, inserted 130                                        
+417    | 22:27:05 | load                | 120     | 120      | ok      | 2021 pedestrian: deleted 120 row(s) of the previous load, inserted 120                                        
+418    | 22:27:05 | load                | 104     | 104      | ok      | 2022 pedestrian: deleted 104 row(s) of the previous load, inserted 104                                        
+419    | 22:27:05 | load                | 132     | 132      | ok      | 2023 pedestrian: deleted 132 row(s) of the previous load, inserted 132                                        
+420    | 22:27:05 | load                | 110     | 110      | ok      | 2024 pedestrian: deleted 110 row(s) of the previous load, inserted 110                                        
+421    | 22:27:05 | load                | 130     | 130      | ok      | 2020 ped_crash_type: deleted 130 row(s) of the previous load, inserted 130                                    
+422    | 22:27:05 | load                | 120     | 120      | ok      | 2021 ped_crash_type: deleted 120 row(s) of the previous load, inserted 120                                    
+423    | 22:27:05 | load                | 104     | 104      | ok      | 2022 ped_crash_type: deleted 104 row(s) of the previous load, inserted 104                                    
+424    | 22:27:05 | load                | 132     | 132      | ok      | 2023 ped_crash_type: deleted 132 row(s) of the previous load, inserted 132                                    
+425    | 22:27:05 | load                | 110     | 110      | ok      | 2024 ped_crash_type: deleted 110 row(s) of the previous load, inserted 110                                    
+426    | 22:27:05 | load                | 67      | 67       | ok      | 2020 county_population: deleted 67 row(s) of the previous load, inserted 67                                   
+427    | 22:27:05 | load                | 67      | 67       | ok      | 2021 county_population: deleted 67 row(s) of the previous load, inserted 67                                   
+428    | 22:27:05 | load                | 67      | 67       | ok      | 2022 county_population: deleted 67 row(s) of the previous load, inserted 67                                   
+429    | 22:27:05 | load                | 67      | 67       | ok      | 2023 county_population: deleted 67 row(s) of the previous load, inserted 67                                   
+430    | 22:27:05 | load                | 67      | 67       | ok      | 2024 county_population: deleted 67 row(s) of the previous load, inserted 67                                   
+431    | 22:27:05 | load                |         |          | ok      | deferred cardinality triggers passed (every crash has a pedestrian and a vehicle); transaction still open     
+432    | 22:27:05 | load                |         |          | ok      | stage load finished in 0.20s                                                                                  
+433    | 22:27:05 | verify_load         |         |          | ok      | RUR_URB not reported, % of deaths by year (cleaning plan, issue 2): 2020: 0.8, 2021: 0.0, 2022: 0.0, 2023: 2.3
+434    | 22:27:05 | verify_load         |         |          | ok      | all post-load checks passed: load transaction COMMITTED, etl_run status = succeeded                           
+435    | 22:27:05 | verify_load         |         |          | ok      | stage verify_load finished in 0.06s; gate G6 passed                                                           
+436    | 22:27:05 | finalize            |         | 547      | ok      | crash: 547 rows, content md5 2e8235061c968b2a8c1f5658e4a9b21a                                                 
+437    | 22:27:05 | finalize            |         | 630      | ok      | vehicle: 630 rows, content md5 8ec4676fa910156705a67022a36c1537                                               
+438    | 22:27:05 | finalize            |         | 596      | ok      | pedestrian: 596 rows, content md5 52d6d56c153e98ce122e76add60d8b50                                            
+439    | 22:27:05 | finalize            |         | 596      | ok      | ped_crash_type: 596 rows, content md5 f58bd3ea79b8c504cffe29dbe8a85ccc                                        
+440    | 22:27:05 | finalize            |         | 335      | ok      | county_population: 335 rows, content md5 84cbd56a35e4499105a8db9b4d138635                                     
+441    | 22:27:05 | finalize            |         |          | ok      | fingerprint of the data tables after the run: c0656528b64a4e34ba381d7f356635ef (identical to before the run: t
+442    | 22:27:05 | finalize            |         |          | ok      | lineage 2020: FARS2020NationalCSV.zip sha256 ee66bdb47ab1 (Final) -> person 1,220 national -> 718 Florida -> 1
+443    | 22:27:05 | finalize            |         |          | ok      | lineage 2021: FARS2021NationalCSV.zip sha256 cb71e777efb4 (Final) -> person 1,205 national -> 707 Florida -> 1
+444    | 22:27:05 | finalize            |         |          | ok      | lineage 2022: FARS2022NationalCSV.zip sha256 e543adcea0c6 (Final) -> person 1,102 national -> 608 Florida -> 1
+445    | 22:27:05 | finalize            |         |          | ok      | lineage 2023: FARS2023NationalCSV.zip sha256 beee2e3bb577 (Final) -> person 1,209 national -> 730 Florida -> 1
+446    | 22:27:05 | finalize            |         |          | ok      | lineage 2024: FARS2024NationalCSV.zip sha256 6532260bed84 (Annual Report File) -> person 1,114 national -> 631
+447    | 22:27:05 | finalize            |         |          | ok      | stage finalize finished in 0.02s                                                                              
 
 run 6: validation_result
 passed | failed
@@ -131,177 +131,177 @@ rejected records in run 6: 0
 --- every run: steps with row counts (etl_log) and checks (validation_result) ---
  run_id |  status   |       started       |      finished       | log_rows | errors | checks_passed | checks_failed | rejected | files 
 --------+-----------+---------------------+---------------------+----------+--------+---------------+---------------+----------+-------
-      1 | succeeded | 2026-10-04 22:16:19 | 2026-10-04 22:16:21 |       99 |      0 |            93 |             1 |        0 |     6
-      2 | succeeded | 2026-10-04 22:16:23 | 2026-10-04 22:16:24 |       99 |      0 |            93 |             1 |        0 |     6
-      3 | failed    | 2026-10-04 22:16:26 | 2026-10-04 22:16:26 |        6 |      1 |             6 |             1 |        0 |     0
-      4 | failed    | 2026-10-04 22:16:28 | 2026-10-04 22:16:29 |       58 |      2 |            56 |             3 |        5 |     6
-      5 | failed    | 2026-10-04 22:16:32 | 2026-10-04 22:16:36 |       85 |      1 |            69 |             0 |        0 |     6
-      6 | succeeded | 2026-10-04 22:16:36 | 2026-10-04 22:16:37 |      100 |      0 |            93 |             1 |        0 |     6
+      1 | succeeded | 2026-10-04 22:26:47 | 2026-10-04 22:26:48 |       99 |      0 |            93 |             1 |        0 |     6
+      2 | succeeded | 2026-10-04 22:26:51 | 2026-10-04 22:26:52 |       99 |      0 |            93 |             1 |        0 |     6
+      3 | failed    | 2026-10-04 22:26:54 | 2026-10-04 22:26:54 |        6 |      1 |             6 |             1 |        0 |     0
+      4 | failed    | 2026-10-04 22:26:56 | 2026-10-04 22:26:57 |       58 |      2 |            56 |             3 |        5 |     6
+      5 | failed    | 2026-10-04 22:27:00 | 2026-10-04 22:27:04 |       85 |      1 |            69 |             0 |        0 |     6
+      6 | succeeded | 2026-10-04 22:27:04 | 2026-10-04 22:27:05 |      100 |      0 |            93 |             1 |        0 |     6
 (6 rows)
 
 
  run_id |      at      |       step        | rows_in | rows_out | status  |                                                         message                                                          
 --------+--------------+-------------------+---------+----------+---------+--------------------------------------------------------------------------------------------------------------------------
-      1 | 22:16:19.927 | join_block_groups |     547 |        0 | warning | skipped: the EPA Smart Location Database is not in sources.csv yet, so crash.geoid10 stays NULL for all 547 crashes and 
-      1 | 22:16:19.928 | join_block_groups |         |          | warning | stage join_block_groups skipped in 0.00s
-      1 | 22:16:20.523 | load              |       0 |      120 | ok      | 2020 crash: deleted 0 row(s) of the previous load, inserted 120
-      1 | 22:16:20.527 | load              |       0 |      112 | ok      | 2021 crash: deleted 0 row(s) of the previous load, inserted 112
-      1 | 22:16:20.529 | load              |       0 |       94 | ok      | 2022 crash: deleted 0 row(s) of the previous load, inserted 94
-      1 | 22:16:20.530 | load              |       0 |      122 | ok      | 2023 crash: deleted 0 row(s) of the previous load, inserted 122
-      1 | 22:16:20.531 | load              |       0 |       99 | ok      | 2024 crash: deleted 0 row(s) of the previous load, inserted 99
-      1 | 22:16:20.544 | load              |       0 |      137 | ok      | 2020 vehicle: deleted 0 row(s) of the previous load, inserted 137
-      1 | 22:16:20.545 | load              |       0 |      128 | ok      | 2021 vehicle: deleted 0 row(s) of the previous load, inserted 128
-      1 | 22:16:20.546 | load              |       0 |      104 | ok      | 2022 vehicle: deleted 0 row(s) of the previous load, inserted 104
-      1 | 22:16:20.547 | load              |       0 |      148 | ok      | 2023 vehicle: deleted 0 row(s) of the previous load, inserted 148
-      1 | 22:16:20.548 | load              |       0 |      113 | ok      | 2024 vehicle: deleted 0 row(s) of the previous load, inserted 113
-      1 | 22:16:20.567 | load              |       0 |      130 | ok      | 2020 pedestrian: deleted 0 row(s) of the previous load, inserted 130
-      1 | 22:16:20.569 | load              |       0 |      120 | ok      | 2021 pedestrian: deleted 0 row(s) of the previous load, inserted 120
-      1 | 22:16:20.570 | load              |       0 |      104 | ok      | 2022 pedestrian: deleted 0 row(s) of the previous load, inserted 104
-      1 | 22:16:20.571 | load              |       0 |      132 | ok      | 2023 pedestrian: deleted 0 row(s) of the previous load, inserted 132
-      1 | 22:16:20.572 | load              |       0 |      110 | ok      | 2024 pedestrian: deleted 0 row(s) of the previous load, inserted 110
-      1 | 22:16:20.593 | load              |       0 |      130 | ok      | 2020 ped_crash_type: deleted 0 row(s) of the previous load, inserted 130
-      1 | 22:16:20.595 | load              |       0 |      120 | ok      | 2021 ped_crash_type: deleted 0 row(s) of the previous load, inserted 120
-      1 | 22:16:20.596 | load              |       0 |      104 | ok      | 2022 ped_crash_type: deleted 0 row(s) of the previous load, inserted 104
-      1 | 22:16:20.597 | load              |       0 |      132 | ok      | 2023 ped_crash_type: deleted 0 row(s) of the previous load, inserted 132
-      1 | 22:16:20.599 | load              |       0 |      110 | ok      | 2024 ped_crash_type: deleted 0 row(s) of the previous load, inserted 110
-      1 | 22:16:20.607 | load              |       0 |       67 | ok      | 2020 county_population: deleted 0 row(s) of the previous load, inserted 67
-      1 | 22:16:20.608 | load              |       0 |       67 | ok      | 2021 county_population: deleted 0 row(s) of the previous load, inserted 67
-      1 | 22:16:20.609 | load              |       0 |       67 | ok      | 2022 county_population: deleted 0 row(s) of the previous load, inserted 67
-      1 | 22:16:20.610 | load              |       0 |       67 | ok      | 2023 county_population: deleted 0 row(s) of the previous load, inserted 67
-      1 | 22:16:20.612 | load              |       0 |       67 | ok      | 2024 county_population: deleted 0 row(s) of the previous load, inserted 67
-      1 | 22:16:20.624 | load              |         |          | ok      | deferred cardinality triggers passed (every crash has a pedestrian and a vehicle); transaction still open
-      1 | 22:16:20.625 | load              |         |          | ok      | stage load finished in 0.13s
-      1 | 22:16:20.679 | finalize          |         |      547 | ok      | crash: 547 rows, content md5 2e8235061c968b2a8c1f5658e4a9b21a
-      1 | 22:16:20.679 | finalize          |         |      630 | ok      | vehicle: 630 rows, content md5 8ec4676fa910156705a67022a36c1537
-      1 | 22:16:20.680 | finalize          |         |      596 | ok      | pedestrian: 596 rows, content md5 52d6d56c153e98ce122e76add60d8b50
-      1 | 22:16:20.681 | finalize          |         |      596 | ok      | ped_crash_type: 596 rows, content md5 f58bd3ea79b8c504cffe29dbe8a85ccc
-      1 | 22:16:20.682 | finalize          |         |      335 | ok      | county_population: 335 rows, content md5 84cbd56a35e4499105a8db9b4d138635
-      1 | 22:16:20.682 | finalize          |         |          | ok      | fingerprint of the data tables after the run: c0656528b64a4e34ba381d7f356635ef
-      1 | 22:16:20.683 | finalize          |         |          | ok      | lineage 2020: FARS2020NationalCSV.zip sha256 ee66bdb47ab1 (Final) -> person 1,220 national -> 718 Florida -> 130 pedestr
-      1 | 22:16:20.684 | finalize          |         |          | ok      | lineage 2021: FARS2021NationalCSV.zip sha256 cb71e777efb4 (Final) -> person 1,205 national -> 707 Florida -> 120 pedestr
-      1 | 22:16:20.685 | finalize          |         |          | ok      | lineage 2022: FARS2022NationalCSV.zip sha256 e543adcea0c6 (Final) -> person 1,102 national -> 608 Florida -> 104 pedestr
-      1 | 22:16:20.691 | finalize          |         |          | ok      | lineage 2023: FARS2023NationalCSV.zip sha256 beee2e3bb577 (Final) -> person 1,209 national -> 730 Florida -> 132 pedestr
-      1 | 22:16:20.699 | finalize          |         |          | ok      | lineage 2024: FARS2024NationalCSV.zip sha256 6532260bed84 (Annual Report File) -> person 1,114 national -> 631 Florida -
-      1 | 22:16:20.700 | finalize          |         |          | ok      | stage finalize finished in 0.03s
-      2 | 22:16:23.672 | join_block_groups |     547 |        0 | warning | skipped: the EPA Smart Location Database is not in sources.csv yet, so crash.geoid10 stays NULL for all 547 crashes and 
-      2 | 22:16:23.673 | join_block_groups |         |          | warning | stage join_block_groups skipped in 0.00s
-      2 | 22:16:24.297 | load              |     120 |      120 | ok      | 2020 crash: deleted 120 row(s) of the previous load, inserted 120
-      2 | 22:16:24.298 | load              |     112 |      112 | ok      | 2021 crash: deleted 112 row(s) of the previous load, inserted 112
-      2 | 22:16:24.300 | load              |      94 |       94 | ok      | 2022 crash: deleted 94 row(s) of the previous load, inserted 94
-      2 | 22:16:24.300 | load              |     122 |      122 | ok      | 2023 crash: deleted 122 row(s) of the previous load, inserted 122
-      2 | 22:16:24.302 | load              |      99 |       99 | ok      | 2024 crash: deleted 99 row(s) of the previous load, inserted 99
-      2 | 22:16:24.317 | load              |     137 |      137 | ok      | 2020 vehicle: deleted 137 row(s) of the previous load, inserted 137
-      2 | 22:16:24.318 | load              |     128 |      128 | ok      | 2021 vehicle: deleted 128 row(s) of the previous load, inserted 128
-      2 | 22:16:24.319 | load              |     104 |      104 | ok      | 2022 vehicle: deleted 104 row(s) of the previous load, inserted 104
-      2 | 22:16:24.320 | load              |     148 |      148 | ok      | 2023 vehicle: deleted 148 row(s) of the previous load, inserted 148
-      2 | 22:16:24.321 | load              |     113 |      113 | ok      | 2024 vehicle: deleted 113 row(s) of the previous load, inserted 113
-      2 | 22:16:24.348 | load              |     130 |      130 | ok      | 2020 pedestrian: deleted 130 row(s) of the previous load, inserted 130
-      2 | 22:16:24.350 | load              |     120 |      120 | ok      | 2021 pedestrian: deleted 120 row(s) of the previous load, inserted 120
-      2 | 22:16:24.351 | load              |     104 |      104 | ok      | 2022 pedestrian: deleted 104 row(s) of the previous load, inserted 104
-      2 | 22:16:24.352 | load              |     132 |      132 | ok      | 2023 pedestrian: deleted 132 row(s) of the previous load, inserted 132
-      2 | 22:16:24.353 | load              |     110 |      110 | ok      | 2024 pedestrian: deleted 110 row(s) of the previous load, inserted 110
-      2 | 22:16:24.376 | load              |     130 |      130 | ok      | 2020 ped_crash_type: deleted 130 row(s) of the previous load, inserted 130
-      2 | 22:16:24.378 | load              |     120 |      120 | ok      | 2021 ped_crash_type: deleted 120 row(s) of the previous load, inserted 120
-      2 | 22:16:24.379 | load              |     104 |      104 | ok      | 2022 ped_crash_type: deleted 104 row(s) of the previous load, inserted 104
-      2 | 22:16:24.380 | load              |     132 |      132 | ok      | 2023 ped_crash_type: deleted 132 row(s) of the previous load, inserted 132
-      2 | 22:16:24.381 | load              |     110 |      110 | ok      | 2024 ped_crash_type: deleted 110 row(s) of the previous load, inserted 110
-      2 | 22:16:24.390 | load              |      67 |       67 | ok      | 2020 county_population: deleted 67 row(s) of the previous load, inserted 67
-      2 | 22:16:24.391 | load              |      67 |       67 | ok      | 2021 county_population: deleted 67 row(s) of the previous load, inserted 67
-      2 | 22:16:24.392 | load              |      67 |       67 | ok      | 2022 county_population: deleted 67 row(s) of the previous load, inserted 67
-      2 | 22:16:24.393 | load              |      67 |       67 | ok      | 2023 county_population: deleted 67 row(s) of the previous load, inserted 67
-      2 | 22:16:24.394 | load              |      67 |       67 | ok      | 2024 county_population: deleted 67 row(s) of the previous load, inserted 67
-      2 | 22:16:24.432 | load              |         |          | ok      | deferred cardinality triggers passed (every crash has a pedestrian and a vehicle); transaction still open
-      2 | 22:16:24.434 | load              |         |          | ok      | stage load finished in 0.19s
-      2 | 22:16:24.498 | finalize          |         |      547 | ok      | crash: 547 rows, content md5 2e8235061c968b2a8c1f5658e4a9b21a
-      2 | 22:16:24.499 | finalize          |         |      630 | ok      | vehicle: 630 rows, content md5 8ec4676fa910156705a67022a36c1537
-      2 | 22:16:24.500 | finalize          |         |      596 | ok      | pedestrian: 596 rows, content md5 52d6d56c153e98ce122e76add60d8b50
-      2 | 22:16:24.501 | finalize          |         |      596 | ok      | ped_crash_type: 596 rows, content md5 f58bd3ea79b8c504cffe29dbe8a85ccc
-      2 | 22:16:24.501 | finalize          |         |      335 | ok      | county_population: 335 rows, content md5 84cbd56a35e4499105a8db9b4d138635
-      2 | 22:16:24.502 | finalize          |         |          | ok      | fingerprint of the data tables after the run: c0656528b64a4e34ba381d7f356635ef (identical to before the run: the rerun c
-      2 | 22:16:24.503 | finalize          |         |          | ok      | lineage 2020: FARS2020NationalCSV.zip sha256 ee66bdb47ab1 (Final) -> person 1,220 national -> 718 Florida -> 130 pedestr
-      2 | 22:16:24.504 | finalize          |         |          | ok      | lineage 2021: FARS2021NationalCSV.zip sha256 cb71e777efb4 (Final) -> person 1,205 national -> 707 Florida -> 120 pedestr
-      2 | 22:16:24.505 | finalize          |         |          | ok      | lineage 2022: FARS2022NationalCSV.zip sha256 e543adcea0c6 (Final) -> person 1,102 national -> 608 Florida -> 104 pedestr
-      2 | 22:16:24.506 | finalize          |         |          | ok      | lineage 2023: FARS2023NationalCSV.zip sha256 beee2e3bb577 (Final) -> person 1,209 national -> 730 Florida -> 132 pedestr
-      2 | 22:16:24.507 | finalize          |         |          | ok      | lineage 2024: FARS2024NationalCSV.zip sha256 6532260bed84 (Annual Report File) -> person 1,114 national -> 631 Florida -
-      2 | 22:16:24.508 | finalize          |         |          | ok      | stage finalize finished in 0.02s
-      3 | 22:16:26.305 | verify_sources    |         |          | error   | gate failed at stage verify_sources: G1 integrity: 1 blocking check(s) failed: G1 sha256 FARS2022NationalCSV.zip
-      4 | 22:16:28.453 | transform         |         |          | warning | 2023 STR_VEH: 0 coded 0 and 1 without a vehicle in the same crash set to NULL (rule 2; the death is kept)
-      4 | 22:16:28.523 | join_block_groups |     547 |        0 | warning | skipped: the EPA Smart Location Database is not in sources.csv yet, so crash.geoid10 stays NULL for all 547 crashes and 
-      4 | 22:16:28.524 | join_block_groups |         |          | warning | stage join_block_groups skipped in 0.00s
-      4 | 22:16:29.172 | validate_records  |   10074 |    10069 | error   | record-level rules applied to 10,074 rows; 5 record(s) rejected (5 rule failure(s)) into rejected_record
-      4 | 22:16:29.173 | validate_records  |         |          | error   | gate failed at stage validate_records: G4 record rules (5 record(s) in rejected_record, run 4): 3 blocking check(s) fail
-      5 | 22:16:32.404 | join_block_groups |     547 |        0 | warning | skipped: the EPA Smart Location Database is not in sources.csv yet, so crash.geoid10 stays NULL for all 547 crashes and 
-      5 | 22:16:32.405 | join_block_groups |         |          | warning | stage join_block_groups skipped in 0.00s
-      5 | 22:16:33.030 | load              |     120 |      120 | ok      | 2020 crash: deleted 120 row(s) of the previous load, inserted 120
-      5 | 22:16:33.032 | load              |     112 |      112 | ok      | 2021 crash: deleted 112 row(s) of the previous load, inserted 112
-      5 | 22:16:33.033 | load              |      94 |       94 | ok      | 2022 crash: deleted 94 row(s) of the previous load, inserted 94
-      5 | 22:16:33.034 | load              |     122 |      122 | ok      | 2023 crash: deleted 122 row(s) of the previous load, inserted 122
-      5 | 22:16:33.035 | load              |      99 |       99 | ok      | 2024 crash: deleted 99 row(s) of the previous load, inserted 99
-      5 | 22:16:33.048 | load              |     137 |      137 | ok      | 2020 vehicle: deleted 137 row(s) of the previous load, inserted 137
-      5 | 22:16:33.050 | load              |     128 |      128 | ok      | 2021 vehicle: deleted 128 row(s) of the previous load, inserted 128
-      5 | 22:16:33.051 | load              |     104 |      104 | ok      | 2022 vehicle: deleted 104 row(s) of the previous load, inserted 104
-      5 | 22:16:33.052 | load              |     148 |      148 | ok      | 2023 vehicle: deleted 148 row(s) of the previous load, inserted 148
-      5 | 22:16:33.053 | load              |     113 |      113 | ok      | 2024 vehicle: deleted 113 row(s) of the previous load, inserted 113
-      5 | 22:16:33.075 | load              |     130 |      130 | ok      | 2020 pedestrian: deleted 130 row(s) of the previous load, inserted 130
-      5 | 22:16:33.077 | load              |     120 |      120 | ok      | 2021 pedestrian: deleted 120 row(s) of the previous load, inserted 120
-      5 | 22:16:33.079 | load              |     104 |      104 | ok      | 2022 pedestrian: deleted 104 row(s) of the previous load, inserted 104
-      5 | 22:16:33.079 | load              |     132 |      132 | ok      | 2023 pedestrian: deleted 132 row(s) of the previous load, inserted 132
-      5 | 22:16:33.080 | load              |     110 |      110 | ok      | 2024 pedestrian: deleted 110 row(s) of the previous load, inserted 110
-      5 | 22:16:33.102 | load              |     130 |      130 | ok      | 2020 ped_crash_type: deleted 130 row(s) of the previous load, inserted 130
-      5 | 22:16:33.103 | load              |     120 |      120 | ok      | 2021 ped_crash_type: deleted 120 row(s) of the previous load, inserted 120
-      5 | 22:16:33.104 | load              |     104 |      104 | ok      | 2022 ped_crash_type: deleted 104 row(s) of the previous load, inserted 104
-      5 | 22:16:33.105 | load              |     132 |      132 | ok      | 2023 ped_crash_type: deleted 132 row(s) of the previous load, inserted 132
-      5 | 22:16:33.106 | load              |     110 |      110 | ok      | 2024 ped_crash_type: deleted 110 row(s) of the previous load, inserted 110
-      5 | 22:16:33.114 | load              |      67 |       67 | ok      | 2020 county_population: deleted 67 row(s) of the previous load, inserted 67
-      5 | 22:16:33.115 | load              |      67 |       67 | ok      | 2021 county_population: deleted 67 row(s) of the previous load, inserted 67
-      5 | 22:16:33.116 | load              |      67 |       67 | ok      | 2022 county_population: deleted 67 row(s) of the previous load, inserted 67
-      5 | 22:16:33.117 | load              |      67 |       67 | ok      | 2023 county_population: deleted 67 row(s) of the previous load, inserted 67
-      5 | 22:16:33.118 | load              |      67 |       67 | ok      | 2024 county_population: deleted 67 row(s) of the previous load, inserted 67
-      5 | 22:16:33.160 | load              |         |          | ok      | deferred cardinality triggers passed (every crash has a pedestrian and a vehicle); transaction still open
-      5 | 22:16:33.161 | load              |         |          | ok      | stage load finished in 0.18s
-      5 | 22:16:35.584 | recovery          |         |          | error   | abandoned: the process ended without closing the run; closed by run 6
-      6 | 22:16:35.585 | preflight         |         |          | warning | recovered abandoned run 5 (started 2026-10-04T22:16:31-04:00): status set to failed; its load transaction was never comm
-      6 | 22:16:36.121 | join_block_groups |     547 |        0 | warning | skipped: the EPA Smart Location Database is not in sources.csv yet, so crash.geoid10 stays NULL for all 547 crashes and 
-      6 | 22:16:36.122 | join_block_groups |         |          | warning | stage join_block_groups skipped in 0.00s
-      6 | 22:16:36.803 | load              |     120 |      120 | ok      | 2020 crash: deleted 120 row(s) of the previous load, inserted 120
-      6 | 22:16:36.806 | load              |     112 |      112 | ok      | 2021 crash: deleted 112 row(s) of the previous load, inserted 112
-      6 | 22:16:36.807 | load              |      94 |       94 | ok      | 2022 crash: deleted 94 row(s) of the previous load, inserted 94
-      6 | 22:16:36.809 | load              |     122 |      122 | ok      | 2023 crash: deleted 122 row(s) of the previous load, inserted 122
-      6 | 22:16:36.811 | load              |      99 |       99 | ok      | 2024 crash: deleted 99 row(s) of the previous load, inserted 99
-      6 | 22:16:36.826 | load              |     137 |      137 | ok      | 2020 vehicle: deleted 137 row(s) of the previous load, inserted 137
-      6 | 22:16:36.828 | load              |     128 |      128 | ok      | 2021 vehicle: deleted 128 row(s) of the previous load, inserted 128
-      6 | 22:16:36.830 | load              |     104 |      104 | ok      | 2022 vehicle: deleted 104 row(s) of the previous load, inserted 104
-      6 | 22:16:36.832 | load              |     148 |      148 | ok      | 2023 vehicle: deleted 148 row(s) of the previous load, inserted 148
-      6 | 22:16:36.833 | load              |     113 |      113 | ok      | 2024 vehicle: deleted 113 row(s) of the previous load, inserted 113
-      6 | 22:16:36.863 | load              |     130 |      130 | ok      | 2020 pedestrian: deleted 130 row(s) of the previous load, inserted 130
-      6 | 22:16:36.866 | load              |     120 |      120 | ok      | 2021 pedestrian: deleted 120 row(s) of the previous load, inserted 120
-      6 | 22:16:36.868 | load              |     104 |      104 | ok      | 2022 pedestrian: deleted 104 row(s) of the previous load, inserted 104
-      6 | 22:16:36.869 | load              |     132 |      132 | ok      | 2023 pedestrian: deleted 132 row(s) of the previous load, inserted 132
-      6 | 22:16:36.871 | load              |     110 |      110 | ok      | 2024 pedestrian: deleted 110 row(s) of the previous load, inserted 110
-      6 | 22:16:36.893 | load              |     130 |      130 | ok      | 2020 ped_crash_type: deleted 130 row(s) of the previous load, inserted 130
-      6 | 22:16:36.895 | load              |     120 |      120 | ok      | 2021 ped_crash_type: deleted 120 row(s) of the previous load, inserted 120
-      6 | 22:16:36.896 | load              |     104 |      104 | ok      | 2022 ped_crash_type: deleted 104 row(s) of the previous load, inserted 104
-      6 | 22:16:36.898 | load              |     132 |      132 | ok      | 2023 ped_crash_type: deleted 132 row(s) of the previous load, inserted 132
-      6 | 22:16:36.899 | load              |     110 |      110 | ok      | 2024 ped_crash_type: deleted 110 row(s) of the previous load, inserted 110
-      6 | 22:16:36.908 | load              |      67 |       67 | ok      | 2020 county_population: deleted 67 row(s) of the previous load, inserted 67
-      6 | 22:16:36.910 | load              |      67 |       67 | ok      | 2021 county_population: deleted 67 row(s) of the previous load, inserted 67
-      6 | 22:16:36.911 | load              |      67 |       67 | ok      | 2022 county_population: deleted 67 row(s) of the previous load, inserted 67
-      6 | 22:16:36.913 | load              |      67 |       67 | ok      | 2023 county_population: deleted 67 row(s) of the previous load, inserted 67
-      6 | 22:16:36.914 | load              |      67 |       67 | ok      | 2024 county_population: deleted 67 row(s) of the previous load, inserted 67
-      6 | 22:16:36.955 | load              |         |          | ok      | deferred cardinality triggers passed (every crash has a pedestrian and a vehicle); transaction still open
-      6 | 22:16:36.958 | load              |         |          | ok      | stage load finished in 0.21s
-      6 | 22:16:37.032 | finalize          |         |      547 | ok      | crash: 547 rows, content md5 2e8235061c968b2a8c1f5658e4a9b21a
-      6 | 22:16:37.033 | finalize          |         |      630 | ok      | vehicle: 630 rows, content md5 8ec4676fa910156705a67022a36c1537
-      6 | 22:16:37.034 | finalize          |         |      596 | ok      | pedestrian: 596 rows, content md5 52d6d56c153e98ce122e76add60d8b50
-      6 | 22:16:37.035 | finalize          |         |      596 | ok      | ped_crash_type: 596 rows, content md5 f58bd3ea79b8c504cffe29dbe8a85ccc
-      6 | 22:16:37.035 | finalize          |         |      335 | ok      | county_population: 335 rows, content md5 84cbd56a35e4499105a8db9b4d138635
-      6 | 22:16:37.036 | finalize          |         |          | ok      | fingerprint of the data tables after the run: c0656528b64a4e34ba381d7f356635ef (identical to before the run: the rerun c
-      6 | 22:16:37.037 | finalize          |         |          | ok      | lineage 2020: FARS2020NationalCSV.zip sha256 ee66bdb47ab1 (Final) -> person 1,220 national -> 718 Florida -> 130 pedestr
-      6 | 22:16:37.038 | finalize          |         |          | ok      | lineage 2021: FARS2021NationalCSV.zip sha256 cb71e777efb4 (Final) -> person 1,205 national -> 707 Florida -> 120 pedestr
-      6 | 22:16:37.040 | finalize          |         |          | ok      | lineage 2022: FARS2022NationalCSV.zip sha256 e543adcea0c6 (Final) -> person 1,102 national -> 608 Florida -> 104 pedestr
-      6 | 22:16:37.041 | finalize          |         |          | ok      | lineage 2023: FARS2023NationalCSV.zip sha256 beee2e3bb577 (Final) -> person 1,209 national -> 730 Florida -> 132 pedestr
-      6 | 22:16:37.042 | finalize          |         |          | ok      | lineage 2024: FARS2024NationalCSV.zip sha256 6532260bed84 (Annual Report File) -> person 1,114 national -> 631 Florida -
-      6 | 22:16:37.043 | finalize          |         |          | ok      | stage finalize finished in 0.02s
+      1 | 22:26:47.471 | join_block_groups |     547 |        0 | warning | skipped: the EPA block-group join is not implemented yet, so crash.geoid10 stays NULL for all 547 crashes and the walkab
+      1 | 22:26:47.472 | join_block_groups |         |          | warning | stage join_block_groups skipped in 0.00s
+      1 | 22:26:48.142 | load              |       0 |      120 | ok      | 2020 crash: deleted 0 row(s) of the previous load, inserted 120
+      1 | 22:26:48.145 | load              |       0 |      112 | ok      | 2021 crash: deleted 0 row(s) of the previous load, inserted 112
+      1 | 22:26:48.147 | load              |       0 |       94 | ok      | 2022 crash: deleted 0 row(s) of the previous load, inserted 94
+      1 | 22:26:48.148 | load              |       0 |      122 | ok      | 2023 crash: deleted 0 row(s) of the previous load, inserted 122
+      1 | 22:26:48.149 | load              |       0 |       99 | ok      | 2024 crash: deleted 0 row(s) of the previous load, inserted 99
+      1 | 22:26:48.163 | load              |       0 |      137 | ok      | 2020 vehicle: deleted 0 row(s) of the previous load, inserted 137
+      1 | 22:26:48.164 | load              |       0 |      128 | ok      | 2021 vehicle: deleted 0 row(s) of the previous load, inserted 128
+      1 | 22:26:48.166 | load              |       0 |      104 | ok      | 2022 vehicle: deleted 0 row(s) of the previous load, inserted 104
+      1 | 22:26:48.167 | load              |       0 |      148 | ok      | 2023 vehicle: deleted 0 row(s) of the previous load, inserted 148
+      1 | 22:26:48.167 | load              |       0 |      113 | ok      | 2024 vehicle: deleted 0 row(s) of the previous load, inserted 113
+      1 | 22:26:48.188 | load              |       0 |      130 | ok      | 2020 pedestrian: deleted 0 row(s) of the previous load, inserted 130
+      1 | 22:26:48.191 | load              |       0 |      120 | ok      | 2021 pedestrian: deleted 0 row(s) of the previous load, inserted 120
+      1 | 22:26:48.192 | load              |       0 |      104 | ok      | 2022 pedestrian: deleted 0 row(s) of the previous load, inserted 104
+      1 | 22:26:48.193 | load              |       0 |      132 | ok      | 2023 pedestrian: deleted 0 row(s) of the previous load, inserted 132
+      1 | 22:26:48.194 | load              |       0 |      110 | ok      | 2024 pedestrian: deleted 0 row(s) of the previous load, inserted 110
+      1 | 22:26:48.214 | load              |       0 |      130 | ok      | 2020 ped_crash_type: deleted 0 row(s) of the previous load, inserted 130
+      1 | 22:26:48.217 | load              |       0 |      120 | ok      | 2021 ped_crash_type: deleted 0 row(s) of the previous load, inserted 120
+      1 | 22:26:48.218 | load              |       0 |      104 | ok      | 2022 ped_crash_type: deleted 0 row(s) of the previous load, inserted 104
+      1 | 22:26:48.220 | load              |       0 |      132 | ok      | 2023 ped_crash_type: deleted 0 row(s) of the previous load, inserted 132
+      1 | 22:26:48.221 | load              |       0 |      110 | ok      | 2024 ped_crash_type: deleted 0 row(s) of the previous load, inserted 110
+      1 | 22:26:48.229 | load              |       0 |       67 | ok      | 2020 county_population: deleted 0 row(s) of the previous load, inserted 67
+      1 | 22:26:48.231 | load              |       0 |       67 | ok      | 2021 county_population: deleted 0 row(s) of the previous load, inserted 67
+      1 | 22:26:48.232 | load              |       0 |       67 | ok      | 2022 county_population: deleted 0 row(s) of the previous load, inserted 67
+      1 | 22:26:48.233 | load              |       0 |       67 | ok      | 2023 county_population: deleted 0 row(s) of the previous load, inserted 67
+      1 | 22:26:48.234 | load              |       0 |       67 | ok      | 2024 county_population: deleted 0 row(s) of the previous load, inserted 67
+      1 | 22:26:48.249 | load              |         |          | ok      | deferred cardinality triggers passed (every crash has a pedestrian and a vehicle); transaction still open
+      1 | 22:26:48.250 | load              |         |          | ok      | stage load finished in 0.14s
+      1 | 22:26:48.319 | finalize          |         |      547 | ok      | crash: 547 rows, content md5 2e8235061c968b2a8c1f5658e4a9b21a
+      1 | 22:26:48.320 | finalize          |         |      630 | ok      | vehicle: 630 rows, content md5 8ec4676fa910156705a67022a36c1537
+      1 | 22:26:48.321 | finalize          |         |      596 | ok      | pedestrian: 596 rows, content md5 52d6d56c153e98ce122e76add60d8b50
+      1 | 22:26:48.322 | finalize          |         |      596 | ok      | ped_crash_type: 596 rows, content md5 f58bd3ea79b8c504cffe29dbe8a85ccc
+      1 | 22:26:48.323 | finalize          |         |      335 | ok      | county_population: 335 rows, content md5 84cbd56a35e4499105a8db9b4d138635
+      1 | 22:26:48.324 | finalize          |         |          | ok      | fingerprint of the data tables after the run: c0656528b64a4e34ba381d7f356635ef
+      1 | 22:26:48.325 | finalize          |         |          | ok      | lineage 2020: FARS2020NationalCSV.zip sha256 ee66bdb47ab1 (Final) -> person 1,220 national -> 718 Florida -> 130 pedestr
+      1 | 22:26:48.326 | finalize          |         |          | ok      | lineage 2021: FARS2021NationalCSV.zip sha256 cb71e777efb4 (Final) -> person 1,205 national -> 707 Florida -> 120 pedestr
+      1 | 22:26:48.327 | finalize          |         |          | ok      | lineage 2022: FARS2022NationalCSV.zip sha256 e543adcea0c6 (Final) -> person 1,102 national -> 608 Florida -> 104 pedestr
+      1 | 22:26:48.328 | finalize          |         |          | ok      | lineage 2023: FARS2023NationalCSV.zip sha256 beee2e3bb577 (Final) -> person 1,209 national -> 730 Florida -> 132 pedestr
+      1 | 22:26:48.330 | finalize          |         |          | ok      | lineage 2024: FARS2024NationalCSV.zip sha256 6532260bed84 (Annual Report File) -> person 1,114 national -> 631 Florida -
+      1 | 22:26:48.331 | finalize          |         |          | ok      | stage finalize finished in 0.02s
+      2 | 22:26:51.539 | join_block_groups |     547 |        0 | warning | skipped: the EPA block-group join is not implemented yet, so crash.geoid10 stays NULL for all 547 crashes and the walkab
+      2 | 22:26:51.539 | join_block_groups |         |          | warning | stage join_block_groups skipped in 0.00s
+      2 | 22:26:52.251 | load              |     120 |      120 | ok      | 2020 crash: deleted 120 row(s) of the previous load, inserted 120
+      2 | 22:26:52.253 | load              |     112 |      112 | ok      | 2021 crash: deleted 112 row(s) of the previous load, inserted 112
+      2 | 22:26:52.255 | load              |      94 |       94 | ok      | 2022 crash: deleted 94 row(s) of the previous load, inserted 94
+      2 | 22:26:52.255 | load              |     122 |      122 | ok      | 2023 crash: deleted 122 row(s) of the previous load, inserted 122
+      2 | 22:26:52.256 | load              |      99 |       99 | ok      | 2024 crash: deleted 99 row(s) of the previous load, inserted 99
+      2 | 22:26:52.272 | load              |     137 |      137 | ok      | 2020 vehicle: deleted 137 row(s) of the previous load, inserted 137
+      2 | 22:26:52.274 | load              |     128 |      128 | ok      | 2021 vehicle: deleted 128 row(s) of the previous load, inserted 128
+      2 | 22:26:52.275 | load              |     104 |      104 | ok      | 2022 vehicle: deleted 104 row(s) of the previous load, inserted 104
+      2 | 22:26:52.277 | load              |     148 |      148 | ok      | 2023 vehicle: deleted 148 row(s) of the previous load, inserted 148
+      2 | 22:26:52.278 | load              |     113 |      113 | ok      | 2024 vehicle: deleted 113 row(s) of the previous load, inserted 113
+      2 | 22:26:52.298 | load              |     130 |      130 | ok      | 2020 pedestrian: deleted 130 row(s) of the previous load, inserted 130
+      2 | 22:26:52.301 | load              |     120 |      120 | ok      | 2021 pedestrian: deleted 120 row(s) of the previous load, inserted 120
+      2 | 22:26:52.303 | load              |     104 |      104 | ok      | 2022 pedestrian: deleted 104 row(s) of the previous load, inserted 104
+      2 | 22:26:52.306 | load              |     132 |      132 | ok      | 2023 pedestrian: deleted 132 row(s) of the previous load, inserted 132
+      2 | 22:26:52.307 | load              |     110 |      110 | ok      | 2024 pedestrian: deleted 110 row(s) of the previous load, inserted 110
+      2 | 22:26:52.329 | load              |     130 |      130 | ok      | 2020 ped_crash_type: deleted 130 row(s) of the previous load, inserted 130
+      2 | 22:26:52.332 | load              |     120 |      120 | ok      | 2021 ped_crash_type: deleted 120 row(s) of the previous load, inserted 120
+      2 | 22:26:52.333 | load              |     104 |      104 | ok      | 2022 ped_crash_type: deleted 104 row(s) of the previous load, inserted 104
+      2 | 22:26:52.334 | load              |     132 |      132 | ok      | 2023 ped_crash_type: deleted 132 row(s) of the previous load, inserted 132
+      2 | 22:26:52.335 | load              |     110 |      110 | ok      | 2024 ped_crash_type: deleted 110 row(s) of the previous load, inserted 110
+      2 | 22:26:52.344 | load              |      67 |       67 | ok      | 2020 county_population: deleted 67 row(s) of the previous load, inserted 67
+      2 | 22:26:52.345 | load              |      67 |       67 | ok      | 2021 county_population: deleted 67 row(s) of the previous load, inserted 67
+      2 | 22:26:52.346 | load              |      67 |       67 | ok      | 2022 county_population: deleted 67 row(s) of the previous load, inserted 67
+      2 | 22:26:52.347 | load              |      67 |       67 | ok      | 2023 county_population: deleted 67 row(s) of the previous load, inserted 67
+      2 | 22:26:52.348 | load              |      67 |       67 | ok      | 2024 county_population: deleted 67 row(s) of the previous load, inserted 67
+      2 | 22:26:52.388 | load              |         |          | ok      | deferred cardinality triggers passed (every crash has a pedestrian and a vehicle); transaction still open
+      2 | 22:26:52.390 | load              |         |          | ok      | stage load finished in 0.19s
+      2 | 22:26:52.463 | finalize          |         |      547 | ok      | crash: 547 rows, content md5 2e8235061c968b2a8c1f5658e4a9b21a
+      2 | 22:26:52.464 | finalize          |         |      630 | ok      | vehicle: 630 rows, content md5 8ec4676fa910156705a67022a36c1537
+      2 | 22:26:52.464 | finalize          |         |      596 | ok      | pedestrian: 596 rows, content md5 52d6d56c153e98ce122e76add60d8b50
+      2 | 22:26:52.465 | finalize          |         |      596 | ok      | ped_crash_type: 596 rows, content md5 f58bd3ea79b8c504cffe29dbe8a85ccc
+      2 | 22:26:52.466 | finalize          |         |      335 | ok      | county_population: 335 rows, content md5 84cbd56a35e4499105a8db9b4d138635
+      2 | 22:26:52.467 | finalize          |         |          | ok      | fingerprint of the data tables after the run: c0656528b64a4e34ba381d7f356635ef (identical to before the run: the rerun c
+      2 | 22:26:52.468 | finalize          |         |          | ok      | lineage 2020: FARS2020NationalCSV.zip sha256 ee66bdb47ab1 (Final) -> person 1,220 national -> 718 Florida -> 130 pedestr
+      2 | 22:26:52.469 | finalize          |         |          | ok      | lineage 2021: FARS2021NationalCSV.zip sha256 cb71e777efb4 (Final) -> person 1,205 national -> 707 Florida -> 120 pedestr
+      2 | 22:26:52.470 | finalize          |         |          | ok      | lineage 2022: FARS2022NationalCSV.zip sha256 e543adcea0c6 (Final) -> person 1,102 national -> 608 Florida -> 104 pedestr
+      2 | 22:26:52.471 | finalize          |         |          | ok      | lineage 2023: FARS2023NationalCSV.zip sha256 beee2e3bb577 (Final) -> person 1,209 national -> 730 Florida -> 132 pedestr
+      2 | 22:26:52.472 | finalize          |         |          | ok      | lineage 2024: FARS2024NationalCSV.zip sha256 6532260bed84 (Annual Report File) -> person 1,114 national -> 631 Florida -
+      2 | 22:26:52.473 | finalize          |         |          | ok      | stage finalize finished in 0.02s
+      3 | 22:26:54.208 | verify_sources    |         |          | error   | gate failed at stage verify_sources: G1 integrity: 1 blocking check(s) failed: G1 sha256 FARS2022NationalCSV.zip
+      4 | 22:26:56.432 | transform         |         |          | warning | 2023 STR_VEH: 0 coded 0 and 1 without a vehicle in the same crash set to NULL (rule 2; the death is kept)
+      4 | 22:26:56.503 | join_block_groups |     547 |        0 | warning | skipped: the EPA block-group join is not implemented yet, so crash.geoid10 stays NULL for all 547 crashes and the walkab
+      4 | 22:26:56.504 | join_block_groups |         |          | warning | stage join_block_groups skipped in 0.00s
+      4 | 22:26:57.158 | validate_records  |   10074 |    10069 | error   | record-level rules applied to 10,074 rows; 5 record(s) rejected (5 rule failure(s)) into rejected_record
+      4 | 22:26:57.158 | validate_records  |         |          | error   | gate failed at stage validate_records: G4 record rules (5 record(s) in rejected_record, run 4): 3 blocking check(s) fail
+      5 | 22:27:00.437 | join_block_groups |     547 |        0 | warning | skipped: the EPA block-group join is not implemented yet, so crash.geoid10 stays NULL for all 547 crashes and the walkab
+      5 | 22:27:00.438 | join_block_groups |         |          | warning | stage join_block_groups skipped in 0.00s
+      5 | 22:27:01.201 | load              |     120 |      120 | ok      | 2020 crash: deleted 120 row(s) of the previous load, inserted 120
+      5 | 22:27:01.203 | load              |     112 |      112 | ok      | 2021 crash: deleted 112 row(s) of the previous load, inserted 112
+      5 | 22:27:01.204 | load              |      94 |       94 | ok      | 2022 crash: deleted 94 row(s) of the previous load, inserted 94
+      5 | 22:27:01.205 | load              |     122 |      122 | ok      | 2023 crash: deleted 122 row(s) of the previous load, inserted 122
+      5 | 22:27:01.206 | load              |      99 |       99 | ok      | 2024 crash: deleted 99 row(s) of the previous load, inserted 99
+      5 | 22:27:01.219 | load              |     137 |      137 | ok      | 2020 vehicle: deleted 137 row(s) of the previous load, inserted 137
+      5 | 22:27:01.221 | load              |     128 |      128 | ok      | 2021 vehicle: deleted 128 row(s) of the previous load, inserted 128
+      5 | 22:27:01.222 | load              |     104 |      104 | ok      | 2022 vehicle: deleted 104 row(s) of the previous load, inserted 104
+      5 | 22:27:01.223 | load              |     148 |      148 | ok      | 2023 vehicle: deleted 148 row(s) of the previous load, inserted 148
+      5 | 22:27:01.224 | load              |     113 |      113 | ok      | 2024 vehicle: deleted 113 row(s) of the previous load, inserted 113
+      5 | 22:27:01.244 | load              |     130 |      130 | ok      | 2020 pedestrian: deleted 130 row(s) of the previous load, inserted 130
+      5 | 22:27:01.247 | load              |     120 |      120 | ok      | 2021 pedestrian: deleted 120 row(s) of the previous load, inserted 120
+      5 | 22:27:01.249 | load              |     104 |      104 | ok      | 2022 pedestrian: deleted 104 row(s) of the previous load, inserted 104
+      5 | 22:27:01.250 | load              |     132 |      132 | ok      | 2023 pedestrian: deleted 132 row(s) of the previous load, inserted 132
+      5 | 22:27:01.251 | load              |     110 |      110 | ok      | 2024 pedestrian: deleted 110 row(s) of the previous load, inserted 110
+      5 | 22:27:01.271 | load              |     130 |      130 | ok      | 2020 ped_crash_type: deleted 130 row(s) of the previous load, inserted 130
+      5 | 22:27:01.273 | load              |     120 |      120 | ok      | 2021 ped_crash_type: deleted 120 row(s) of the previous load, inserted 120
+      5 | 22:27:01.274 | load              |     104 |      104 | ok      | 2022 ped_crash_type: deleted 104 row(s) of the previous load, inserted 104
+      5 | 22:27:01.275 | load              |     132 |      132 | ok      | 2023 ped_crash_type: deleted 132 row(s) of the previous load, inserted 132
+      5 | 22:27:01.276 | load              |     110 |      110 | ok      | 2024 ped_crash_type: deleted 110 row(s) of the previous load, inserted 110
+      5 | 22:27:01.285 | load              |      67 |       67 | ok      | 2020 county_population: deleted 67 row(s) of the previous load, inserted 67
+      5 | 22:27:01.287 | load              |      67 |       67 | ok      | 2021 county_population: deleted 67 row(s) of the previous load, inserted 67
+      5 | 22:27:01.289 | load              |      67 |       67 | ok      | 2022 county_population: deleted 67 row(s) of the previous load, inserted 67
+      5 | 22:27:01.290 | load              |      67 |       67 | ok      | 2023 county_population: deleted 67 row(s) of the previous load, inserted 67
+      5 | 22:27:01.291 | load              |      67 |       67 | ok      | 2024 county_population: deleted 67 row(s) of the previous load, inserted 67
+      5 | 22:27:01.336 | load              |         |          | ok      | deferred cardinality triggers passed (every crash has a pedestrian and a vehicle); transaction still open
+      5 | 22:27:01.338 | load              |         |          | ok      | stage load finished in 0.19s
+      5 | 22:27:03.742 | recovery          |         |          | error   | abandoned: the process ended without closing the run; closed by run 6
+      6 | 22:27:03.744 | preflight         |         |          | warning | recovered abandoned run 5 (started 2026-10-04T22:26:59-04:00): status set to failed; its load transaction was never comm
+      6 | 22:27:04.288 | join_block_groups |     547 |        0 | warning | skipped: the EPA block-group join is not implemented yet, so crash.geoid10 stays NULL for all 547 crashes and the walkab
+      6 | 22:27:04.288 | join_block_groups |         |          | warning | stage join_block_groups skipped in 0.00s
+      6 | 22:27:05.044 | load              |     120 |      120 | ok      | 2020 crash: deleted 120 row(s) of the previous load, inserted 120
+      6 | 22:27:05.046 | load              |     112 |      112 | ok      | 2021 crash: deleted 112 row(s) of the previous load, inserted 112
+      6 | 22:27:05.047 | load              |      94 |       94 | ok      | 2022 crash: deleted 94 row(s) of the previous load, inserted 94
+      6 | 22:27:05.048 | load              |     122 |      122 | ok      | 2023 crash: deleted 122 row(s) of the previous load, inserted 122
+      6 | 22:27:05.050 | load              |      99 |       99 | ok      | 2024 crash: deleted 99 row(s) of the previous load, inserted 99
+      6 | 22:27:05.064 | load              |     137 |      137 | ok      | 2020 vehicle: deleted 137 row(s) of the previous load, inserted 137
+      6 | 22:27:05.066 | load              |     128 |      128 | ok      | 2021 vehicle: deleted 128 row(s) of the previous load, inserted 128
+      6 | 22:27:05.067 | load              |     104 |      104 | ok      | 2022 vehicle: deleted 104 row(s) of the previous load, inserted 104
+      6 | 22:27:05.068 | load              |     148 |      148 | ok      | 2023 vehicle: deleted 148 row(s) of the previous load, inserted 148
+      6 | 22:27:05.069 | load              |     113 |      113 | ok      | 2024 vehicle: deleted 113 row(s) of the previous load, inserted 113
+      6 | 22:27:05.095 | load              |     130 |      130 | ok      | 2020 pedestrian: deleted 130 row(s) of the previous load, inserted 130
+      6 | 22:27:05.098 | load              |     120 |      120 | ok      | 2021 pedestrian: deleted 120 row(s) of the previous load, inserted 120
+      6 | 22:27:05.099 | load              |     104 |      104 | ok      | 2022 pedestrian: deleted 104 row(s) of the previous load, inserted 104
+      6 | 22:27:05.101 | load              |     132 |      132 | ok      | 2023 pedestrian: deleted 132 row(s) of the previous load, inserted 132
+      6 | 22:27:05.102 | load              |     110 |      110 | ok      | 2024 pedestrian: deleted 110 row(s) of the previous load, inserted 110
+      6 | 22:27:05.123 | load              |     130 |      130 | ok      | 2020 ped_crash_type: deleted 130 row(s) of the previous load, inserted 130
+      6 | 22:27:05.126 | load              |     120 |      120 | ok      | 2021 ped_crash_type: deleted 120 row(s) of the previous load, inserted 120
+      6 | 22:27:05.127 | load              |     104 |      104 | ok      | 2022 ped_crash_type: deleted 104 row(s) of the previous load, inserted 104
+      6 | 22:27:05.128 | load              |     132 |      132 | ok      | 2023 ped_crash_type: deleted 132 row(s) of the previous load, inserted 132
+      6 | 22:27:05.129 | load              |     110 |      110 | ok      | 2024 ped_crash_type: deleted 110 row(s) of the previous load, inserted 110
+      6 | 22:27:05.141 | load              |      67 |       67 | ok      | 2020 county_population: deleted 67 row(s) of the previous load, inserted 67
+      6 | 22:27:05.143 | load              |      67 |       67 | ok      | 2021 county_population: deleted 67 row(s) of the previous load, inserted 67
+      6 | 22:27:05.144 | load              |      67 |       67 | ok      | 2022 county_population: deleted 67 row(s) of the previous load, inserted 67
+      6 | 22:27:05.145 | load              |      67 |       67 | ok      | 2023 county_population: deleted 67 row(s) of the previous load, inserted 67
+      6 | 22:27:05.147 | load              |      67 |       67 | ok      | 2024 county_population: deleted 67 row(s) of the previous load, inserted 67
+      6 | 22:27:05.185 | load              |         |          | ok      | deferred cardinality triggers passed (every crash has a pedestrian and a vehicle); transaction still open
+      6 | 22:27:05.186 | load              |         |          | ok      | stage load finished in 0.20s
+      6 | 22:27:05.251 | finalize          |         |      547 | ok      | crash: 547 rows, content md5 2e8235061c968b2a8c1f5658e4a9b21a
+      6 | 22:27:05.252 | finalize          |         |      630 | ok      | vehicle: 630 rows, content md5 8ec4676fa910156705a67022a36c1537
+      6 | 22:27:05.253 | finalize          |         |      596 | ok      | pedestrian: 596 rows, content md5 52d6d56c153e98ce122e76add60d8b50
+      6 | 22:27:05.254 | finalize          |         |      596 | ok      | ped_crash_type: 596 rows, content md5 f58bd3ea79b8c504cffe29dbe8a85ccc
+      6 | 22:27:05.254 | finalize          |         |      335 | ok      | county_population: 335 rows, content md5 84cbd56a35e4499105a8db9b4d138635
+      6 | 22:27:05.255 | finalize          |         |          | ok      | fingerprint of the data tables after the run: c0656528b64a4e34ba381d7f356635ef (identical to before the run: the rerun c
+      6 | 22:27:05.256 | finalize          |         |          | ok      | lineage 2020: FARS2020NationalCSV.zip sha256 ee66bdb47ab1 (Final) -> person 1,220 national -> 718 Florida -> 130 pedestr
+      6 | 22:27:05.257 | finalize          |         |          | ok      | lineage 2021: FARS2021NationalCSV.zip sha256 cb71e777efb4 (Final) -> person 1,205 national -> 707 Florida -> 120 pedestr
+      6 | 22:27:05.258 | finalize          |         |          | ok      | lineage 2022: FARS2022NationalCSV.zip sha256 e543adcea0c6 (Final) -> person 1,102 national -> 608 Florida -> 104 pedestr
+      6 | 22:27:05.259 | finalize          |         |          | ok      | lineage 2023: FARS2023NationalCSV.zip sha256 beee2e3bb577 (Final) -> person 1,209 national -> 730 Florida -> 132 pedestr
+      6 | 22:27:05.260 | finalize          |         |          | ok      | lineage 2024: FARS2024NationalCSV.zip sha256 6532260bed84 (Annual Report File) -> person 1,114 national -> 631 Florida -
+      6 | 22:27:05.261 | finalize          |         |          | ok      | stage finalize finished in 0.02s
 (160 rows)
 
 CHECK PASS  run statuses: succeeded, succeeded, failed, failed, failed, succeeded

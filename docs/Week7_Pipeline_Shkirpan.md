@@ -8,6 +8,8 @@ Repository: https://github.com/Sor1na/florida-pedestrian-patterns
 
 **What this week adds.** Weeks 4–6 designed the database and fixed the cleaning rules. This week the rules run. `pipeline/etl.py` takes the pinned raw files to the tables of the Week 5 schema through eleven stages and six validation gates. It logs every step with its run ID, time, and row counts, and it can be run again at any time without changing a correct database. `pipeline/run_scenarios.py` exercises it end to end and keeps the evidence: a first run, a rerun of the same inputs, two deliberate failures, and a process killed in the middle of the load followed by a restart. Each scenario ends with automatic checks that compare what happened with what should have happened.
 
+**Terms used below.** "Rule 1–3" are the business rules of the Week 4 model ([README](../README.md#3-business-rules-the-diagram-must-preserve)): one crash per year and case number, at most one striking vehicle from the same crash, and a mandatory county. "Issue 1–5" are the five quality issues of the [Week 6 cleaning plan](Week6_Data_Cleaning_Plan_Shkirpan.md#4-rules-for-each-issue). The `v_dq_*` views (`sql/04_views.sql`) each return the rows that break one data-quality rule, so a good load leaves them empty. A **fingerprint** is an md5 hash over every row of the five data tables: two equal fingerprints mean byte-identical content.
+
 **Reproduce everything in this document.** You need PostgreSQL 16 and Python 3.11 with `pip install -r requirements.txt`. Run from the repository root:
 
 ```
@@ -15,19 +17,31 @@ python pipeline/run_scenarios.py --synthetic     # synthetic inputs -> docs/evid
 python pipeline/run_scenarios.py                 # the real files in data/raw/ -> docs/evidence/week7/
 ```
 
-The scenarios run in their own database, `ped_safety_week7`, which is created if missing and rebuilt every time, so the project database `ped_safety` is never touched. The script exits with code 1 if any scenario check fails. The committed run: **19 checks passed, 0 failed**, on PostgreSQL 16.14, code commit `914e18e`.
+The scenarios run in their own database, `ped_safety_week7`, which is created if missing and rebuilt every time, so the project database `ped_safety` is never touched. The script exits with code 1 if any scenario check fails. The committed run: **19 checks passed, 0 failed**, on PostgreSQL 16.14 (the server version is the first line of `01_first_run.log`), code commit `b24aa7b` (on every run's first log line).
 
-**Which inputs the evidence comes from.** FARS rows describe real deaths, and the proposal keeps person-level rows out of the public repository. The logs committed here therefore come from **synthetic input files** made by `tools/make_synthetic_raw.py`. These files have the exact layout of the real downloads:
+**Which inputs the evidence comes from.** FARS rows describe real deaths, and the proposal keeps person-level rows out of the public repository. The logs committed here therefore come from **synthetic input files** made by `tools/make_synthetic_raw.py`. These files copy the features of the real downloads that the pipeline depends on:
 
 - the same zip and member names, in upper and lower case, with and without a folder;
-- the same column names;
+- the same names for the columns they contain (the required columns plus a few others, for example 27 of the 80 accident columns; 7 of the 34 members);
 - the cp1252 encoding of three 2020 members;
 - the Census file in latin-1, with its state summary row;
 - coded unknowns, filler coordinates, multi-victim crashes, and case numbers reused across years.
 
 Every row in them is made up. The generator is deterministic, so the SHA-256 values in the logs can be reproduced.
 
-The real files are pinned in `pipeline/sources.csv` with the checksums measured in Week 6 (`docs/profile/00_manifest_sha256.csv`). The reconciliation totals in `pipeline/expected_counts.csv` are the Week 6 profile numbers: 3,736 deaths in 3,690 crashes. The second command above runs the same scenarios on the real files and writes `docs/evidence/week7/`. In that evidence, case numbers, CSV line numbers, and record values are masked.
+For the synthetic evidence, the pinned file list and the reconciliation totals are the `sources.csv` and `expected_counts.csv` that the generator writes next to its files in `data/synthetic/clean/` (ignored by Git, reproducible). In those logs, the G5 label "expected (Week 6 profile / published)" therefore means the generator's totals (130 / 120 / 104 / 132 / 110 deaths), not the real Week 6 numbers.
+
+The real files are pinned in `pipeline/sources.csv` with the checksums measured in Week 6 (`docs/profile/00_manifest_sha256.csv`). The reconciliation totals in `pipeline/expected_counts.csv` are the Week 6 profile numbers: 3,736 deaths in 3,690 crashes. The second command above runs the same scenarios on the real files and writes `docs/evidence/week7/`. That folder is not committed, because it can only be produced where the real files exist; its logs mask case numbers, CSV line numbers, and record values.
+
+| Scenario = run ID | What happens | Evidence | Section | Outcome |
+|---|---|---|---|---|
+| 1 | first run on an empty database | [`01_first_run.log`](evidence/week7_synthetic/01_first_run.log), [`runs/run_0001.log`](evidence/week7_synthetic/runs/run_0001.log) | 2 | exit 0, succeeded |
+| 2 | rerun with the same inputs | [`02_rerun_same_inputs.log`](evidence/week7_synthetic/02_rerun_same_inputs.log), [`runs/run_0002.log`](evidence/week7_synthetic/runs/run_0002.log) | 3 | exit 0, identical fingerprint |
+| 3 | failure A: tampered raw file | [`03_failure_tampered_file.log`](evidence/week7_synthetic/03_failure_tampered_file.log), [`runs/run_0003.log`](evidence/week7_synthetic/runs/run_0003.log) | 4 | exit 1 at G1, tables unchanged |
+| 4 | failure B: four bad records | [`04_failure_bad_records.log`](evidence/week7_synthetic/04_failure_bad_records.log), [`runs/run_0004.log`](evidence/week7_synthetic/runs/run_0004.log) | 4 | exit 1 at G4, 5 rejected records, tables unchanged |
+| 5 | process killed inside the load | [`05_interrupted_run.log`](evidence/week7_synthetic/05_interrupted_run.log), [`runs/run_0005.log`](evidence/week7_synthetic/runs/run_0005.log) | 4 | exit 70, rolled back, run left `running` |
+| 6 | restart: the same command | [`06_restart_after_interrupt.log`](evidence/week7_synthetic/06_restart_after_interrupt.log), [`runs/run_0006.log`](evidence/week7_synthetic/runs/run_0006.log) | 4 | exit 0, run 5 closed, identical fingerprint |
+| — | history of all six runs | [`07_run_history.log`](evidence/week7_synthetic/07_run_history.log) | 5 | all 19 scenario checks |
 
 ---
 
@@ -44,7 +58,7 @@ Diagram source: [`docs/pipeline.mmd`](pipeline.mmd) (Mermaid; also [`pipeline.sv
 | 3 | `extract` | 2 | **G2 structure** | Reads `accident`, `vehicle`, `person`, and `pbtype` from each zip by name (case and folder do not matter). Decodes UTF-8 with a cp1252 fallback, checks that every required column exists, and keeps STATE = 12. Reads the Census file (latin-1) and keeps the 67 county rows. An unreadable member becomes a failed check that names the file. | A member or a required column is missing, or a member cannot be read. |
 | 4 | `reconcile_inventory` | 3 | **G3** | `expected_counts.csv` must be present and complete; a missing file fails the gate rather than switching it off. Florida rows per member and year must equal it (for the real files: the Week 6 profile, `docs/profile/01_inventory.csv`). | The file is not the one that was profiled. |
 | 5 | `transform` | 4 | — | Builds the unit of observation (PER_TYP 5 and INJ_SEV 4), its crashes, their in-transport vehicles, and the typing records. Filler coordinates (77.7777 / 88.8888 / 99.9999) become NULL. A STR_VEH of 0, or one with no vehicle in the same crash, becomes NULL with a warning (rule 2: the death is kept). Census becomes one row per county and year. Every step logs rows in and out. | (no gate) |
-| 6 | `join_block_groups` | 5 | — | EPA spatial join for `crash.geoid10`. **Skipped with a logged warning** until the EPA file is pinned in `sources.csv` (cleaning plan, issue 5). | (no gate) |
+| 6 | `join_block_groups` | 5 | — | Place of the EPA spatial join for `crash.geoid10` (cleaning plan, issue 5). **Not implemented yet**: the stage always logs itself as skipped with a warning, so `crash.geoid10` stays NULL. | (no gate) |
 | 7 | `validate_records` | 5 | **G4 record rules** | Applies pandera schemas, as the proposal planned. Raw-file layer, on every Florida row: every coded cell is a number; keys are unique within the year; no orphans (vehicle, person, and pbtype rows need their crash; pbtype rows need their person). Record layer: the schema's CHECK ranges, codes with a label **valid for that year** in `code_lookup`, county in the 67, PEDCTYPE in `pbcat_type`, at least one vehicle per crash, one population per county and year. Each failing record goes to `rejected_record` with file, member, CSV line, key, rule, column, value, and the raw source values. | One or more records rejected. Nothing is published. |
 | 8 | `reconcile_unit` | 7 | **G5** | Pedestrian fatalities and crashes per year must equal the expected totals (real files: 695 / 819 / 780 / 774 / 668 deaths). | Rows were lost or gained between file and unit. |
 | 9 | `load` | 6, 8 | — | **One transaction.** Deletes 2020–2024 from `crash` (cascading to vehicle, pedestrian, ped_crash_type) and from `county_population`, inserts with COPY, then runs the deferred "one or more" triggers. Logs, per year and table, the rows deleted from the previous load and the rows inserted. | A constraint or trigger refuses a row: rollback. |
@@ -60,16 +74,16 @@ Each check is one `validation_result` row. Checks marked "warning only" are repo
 
 ### Data lineage
 
-| Raw source (pinned) | Member / rows used | Stage that filters it | Target | Real files (Week 6 profile) |
-|---|---|---|---|---|
-| `FARS{year}NationalCSV.zip` | `accident.csv`, STATE = 12 | extract → transform (crashes with a pedestrian death) | `crash` | 15,959 Florida rows → 3,690 crashes |
-| same | `vehicle.csv`, STATE = 12 | extract → transform (vehicles of those crashes) | `vehicle` | 25,203 Florida rows |
-| same | `person.csv`, STATE = 12 | extract → transform (PER_TYP 5, INJ_SEV 4) | `pedestrian` | 41,133 Florida rows → 3,736 deaths |
-| same | `pbtype.csv`, STATE = 12 | extract → transform (records of those deaths) | `ped_crash_type` | 5,193 Florida rows → 3,736 |
-| `co-est2025-alldata.csv` | SUMLEV 050, STATE 12 | extract → transform (county × year) | `county_population` | 67 counties × 5 years = 335 |
-| (EPA SLD, not yet pinned) | — | join_block_groups (skipped) | `block_group`, `crash.geoid10` | — |
+| Raw source (pinned) | Member / rows used | Stage that filters it | Target | Real files (Week 6 profile) | Synthetic run 1 (section 2) |
+|---|---|---|---|---|---|
+| `FARS{year}NationalCSV.zip` | `accident.csv`, STATE = 12 | extract → transform (crashes with a pedestrian death) | `crash` | 15,959 Florida rows → 3,690 crashes | 1,304 → 547 |
+| same | `vehicle.csv`, STATE = 12 | extract → transform (vehicles of those crashes) | `vehicle` | 25,203 Florida rows → the in-transport vehicles of the 3,690 crashes (count not profiled in Week 6; logged per year by the load) | 1,790 → 630 |
+| same | `person.csv`, STATE = 12 | extract → transform (PER_TYP 5, INJ_SEV 4) | `pedestrian` | 41,133 Florida rows → 3,736 deaths | 3,394 → 596 |
+| same | `pbtype.csv`, STATE = 12 | extract → transform (records of those deaths) | `ped_crash_type` | 5,193 Florida rows → 3,736 | 876 → 596 |
+| `co-est2025-alldata.csv` | SUMLEV 050, STATE 12 | extract → transform (county × year) | `county_population` | 67 counties × 5 years = 335 | 67 → 335 |
+| (EPA SLD, not yet pinned) | — | join_block_groups (skipped) | `block_group`, `crash.geoid10` | — | — |
 
-Every run records this chain in four places:
+Every successful run records this chain in four places (a failed run records it up to the stage where it stopped):
 
 - `source_file` ties the run to the exact files, by SHA-256 and release.
 - `etl_log` holds the rows in and out of every filter.
@@ -86,7 +100,7 @@ lineage 2024: FARS2024NationalCSV.zip sha256 6532260bed84 (Annual Report File) -
 
 Evidence: [`docs/evidence/week7_synthetic/01_first_run.log`](evidence/week7_synthetic/01_first_run.log) and the full run log [`runs/run_0001.log`](evidence/week7_synthetic/runs/run_0001.log) (205 lines).
 
-Run 1 started on an empty database; the fingerprint of the empty tables was `6891cd577154`. It passed all six gates with **93 checks passed, 0 blocking failures, and 1 warning**. The warning is the block-group share of 0%, because the EPA join has not run yet. The run committed in under 1.5 seconds on the synthetic files.
+Run 1 started on an empty database; the fingerprint of the empty tables was `6891cd577154`. It passed all six gates with **93 checks passed, 0 blocking failures, and 1 warning**. The warning is the block-group share of 0%, because the EPA join has not run yet. `validation_result` stores a warning-only check that does not hold with `passed = false` and the suffix "(warning only)", so `etl.py status` lists it among the failed checks and the history table counts it as `checks_failed = 1`; it does not block. The run committed in under 1.5 seconds on the synthetic files.
 
 | Stage | Rows in → out (2020–2024 together) |
 |---|---|
@@ -130,7 +144,7 @@ CHECK PASS  every table and year replaced, not appended: 25 delete/insert lines
 
 The snapshots before and after the rerun are identical: the same row counts per table and year, the same md5 of every table's content, and the same combined fingerprint. Four mechanisms make this hold, and each one leaves evidence:
 
-1. **Composite keys.** `crash (year, st_case)`, `vehicle (year, st_case, veh_no)`, `pedestrian` and `ped_crash_type (year, st_case, veh_no, per_no)`, and `county_population (county_fips, year)`. A second copy of a row cannot be stored, and a 2021 case cannot collide with the 2023 case that reuses its number.
+1. **Composite keys.** `crash (year, st_case)`, `vehicle (year, st_case, veh_no)`, `pedestrian` and `ped_crash_type (year, st_case, veh_no, per_no)`, and `county_population (county_fips, year)`. A second copy of a row cannot be stored, and a 2021 case cannot collide with the 2023 case that reuses its number. The Week 5 constraint tests A1–A6 ([`03_constraint_tests.log`](evidence/03_constraint_tests.log)) show each key refusing a second copy, and a duplicate that arrives in an input file is stopped even earlier, by G4 (failure B, defect a, in section 4).
 2. **Replace by year in one transaction.** The load deletes the five years and inserts them again before anyone can see the result. The log shows "deleted N, inserted N" for every table and year.
 3. **G6 checks the result before COMMIT.** Rows per year must equal the rows prepared, `count(*)` must equal `count(DISTINCT key)` in every table, and pedestrian rows per year must equal the expected totals.
 4. **Content fingerprint.** `preflight` and `finalize` compute an md5 over every row of the five data tables. Equal fingerprints mean the rerun changed nothing.
@@ -155,19 +169,19 @@ run=3 stage=end ERROR | RUN 3 FAILED at stage verify_sources; see docs/Week7_Pip
 Response:
 
 - exit code 1, and `etl_run` 3 is `failed`;
-- no member was read, and no `source_file` row was written for the run;
+- no member was read, and no `source_file` row was written for the run (`07_run_history.log`: run 3 `failed`, `files = 0`);
 - the data tables are unchanged: the fingerprint is the same as after scenario 1, and the scenario's three checks pass.
 
 ### Failure B: a new file version with four bad records (gate G4)
 
 Evidence: [`04_failure_bad_records.log`](evidence/week7_synthetic/04_failure_bad_records.log). The scenario writes a new version of the 2023 zip with four defects, one for each kind of problem the cleaning plan says must stop a load. It then accepts the new file's hash and row inventory into a copy of `sources.csv` and `expected_counts.csv`, the way a re-download would be accepted. Gates G1–G3 therefore pass, and the record-level gate has to find the defects:
 
-| Injected defect | Cleaning-plan reference | Caught by | Rejected record (`etl.py rejected --run 4`) |
+| Injected defect | Reference | Caught by | Rejected record (`etl.py rejected`, which lists the latest run with rejects: run 4) |
 |---|---|---|---|
 | (a) exact duplicate of a pedestrian-fatality person row | issue 3 (a duplicate is a pipeline error) | G4 raw file `person` | `person 120002/0/1`, person.csv line 124: duplicate key within the year |
 | (b) LGT_COND = 42 on a crash | issue 4 (an unlabelled code stops the load) | G4 record rules `crash` | `crash 2023/120003`, accident.csv line 54, `lgt_cond = 42`: code with a 2023 label in code_lookup |
-| (c) COUNTY = 999 on a crash | rule 3 (county mandatory and one of the 67) | G4 record rules `crash` | `crash 2023/120004`, line 55, `county = 999`: one of the 67 Florida counties |
-| (d) a pedestrian death and its typing record whose crash is not in accident.csv | rule 1 (no orphans) | G4 raw file `person`, `pbtype` | `person 129999/0/1` (line 1212) and `pbtype 129999/0/1` (line 267): ST_CASE exists in accident.csv (no orphan) |
+| (c) COUNTY = 999 on a crash | business rule 3 (county mandatory and one of the 67) | G4 record rules `crash` | `crash 2023/120004`, line 55, `county = 999`: one of the 67 Florida counties |
+| (d) a pedestrian death and its typing record whose crash is not in accident.csv | issue 3 and business rule 1 (every child row needs its crash) | G4 raw file `person`, `pbtype` | `person 129999/0/1` (line 1212) and `pbtype 129999/0/1` (line 267): ST_CASE exists in accident.csv (no orphan) |
 
 ```
 run=4 stage=validate_records ERROR rows_in=10074 rows_out=10069 | record-level rules applied to 10,074 rows; 5 record(s) rejected (5 rule failure(s)) into rejected_record
@@ -184,21 +198,21 @@ Response:
 
 The orphan death also produced the rule-2 warning in `transform`, because its striking vehicle cannot be resolved. That is the behaviour the plan asks for: a warning, not a silent drop.
 
-### Additional: a process killed inside the load, then restarted
+### Restart after a killed run (scenarios 5 and 6)
 
 Evidence: [`05_interrupted_run.log`](evidence/week7_synthetic/05_interrupted_run.log) and [`06_restart_after_interrupt.log`](evidence/week7_synthetic/06_restart_after_interrupt.log). Run 5 was started with `--simulate-crash-after load`. That ends the process with `os._exit(70)` after all rows had been inserted but before COMMIT, as a power cut or a killed terminal would. PostgreSQL rolled the open transaction back when the connection dropped. The snapshot is unchanged, and `etl_run` 5 is left `running`. Run 6, the same command again, found it:
 
 ```
-run=6 stage=preflight WARN | recovered abandoned run 5 (started 2026-10-04T22:16:31-04:00): status set to failed; its load transaction was never committed, so no rows of it exist
-run=6 stage=end INFO | RUN 6 SUCCEEDED
+run=6 stage=preflight WARN | recovered abandoned run 5 (started 2026-10-04T22:26:59-04:00): status set to failed; its load transaction was never committed, so no rows of it exist
+run=6 stage=end INFO | RUN 6 SUCCEEDED; log file data/interim/week7/logs/run_0006_20261004T222703.log
 CHECK PASS  tables identical to scenarios 1-2: c0656528b64a4e34ba381d7f356635ef
 ```
 
-A crash one step later, right after COMMIT (`--simulate-crash-after verify_load`), leaves a consistent state too. The run is already `succeeded`, because its status committed with its data, so the next run has nothing to recover.
+A crash one step later, right after COMMIT (`--simulate-crash-after verify_load`), leaves a consistent state too: the run is already `succeeded`, because its status committed with its data, so the next run has nothing to recover. This case was checked during development and is not part of the committed evidence.
 
-### Other failure paths tested
+### Other failure paths checked during development (not in the committed evidence)
 
-During an independent review of the pipeline, each of these was injected into a copy of the synthetic inputs. Each is now stopped by the gate named:
+During the AI-assisted adversarial review described under "Sources and AI assistance" (fixes in commit `83c9bc3`), each of these was injected by hand into a copy of the synthetic inputs. As in scenario 4, the changed file's hash and row inventory were accepted into a copy of `sources.csv` and `expected_counts.csv`, so that the defect had to be caught by the gate named rather than by G1 or G3. `run_scenarios.py` does not reproduce these cases.
 
 | Defect | Gate |
 |---|---|
@@ -220,7 +234,7 @@ Every run leaves the same evidence in five places:
 
 | Where | What one record holds | How to read it |
 |---|---|---|
-| `logs/run_NNNN_<start time>.log` (ignored by Git; the cited runs are copied to `docs/evidence/week7_synthetic/runs/run_NNNN.log`) | ISO timestamp with UTC offset, `run=`, `stage=`, level, `rows_in=` / `rows_out=` where rows move, message | any text editor; `grep "ERROR\|WARN" logs/run_0004_*.log` |
+| `logs/run_NNNN_<start time>.log` for `etl.py run` (the default `--log-dir`); the scenario runner writes to `data/interim/week7/logs/`. Both are ignored by Git; the cited runs are copied to [`runs/run_NNNN.log`](evidence/week7_synthetic/runs/) | ISO timestamp with UTC offset and milliseconds, `run=`, `stage=`, level, `rows_in=` / `rows_out=` where rows move, message | any text editor; `grep "ERROR\|WARN" docs/evidence/week7_synthetic/runs/run_0004.log` |
 | `etl_run` | run ID, start, finish, git commit, status running / succeeded / failed | `python pipeline/etl.py status` |
 | `etl_log` | run ID, step, rows in, rows out, ok / warning / error, message, logged_at | `python pipeline/etl.py status --run N` |
 | `validation_result` | run ID, check name with its gate (G1–G6), passed, detail with expected and actual values, checked_at | the same command lists the failed checks |
@@ -230,25 +244,26 @@ Excerpts from the synthetic runs (full files under `docs/evidence/week7_syntheti
 
 ```
 # a row-count line (stage transform, run 1)
-2026-10-04T22:16:19.668-04:00 run=1 stage=transform INFO rows_in=718 rows_out=130 | 2020 person -> pedestrian: PER_TYP = 5 and INJ_SEV = 4
+2026-10-04T22:26:47.227-04:00 run=1 stage=transform INFO rows_in=718 rows_out=130 | 2020 person -> pedestrian: PER_TYP = 5 and INJ_SEV = 4
 
 # a gate passing, with expected and actual values (run 1)
-2026-10-04T22:16:20.493-04:00 run=1 stage=reconcile_unit INFO | PASS  G5 2024 ped_fatalities: expected (Week 6 profile / published) 110, derived 110
+2026-10-04T22:26:48.106-04:00 run=1 stage=reconcile_unit INFO | PASS  G5 2024 ped_fatalities: expected (Week 6 profile / published) 110, derived 110
 
 # an error with the record that caused it (run 4)
-2026-10-04T22:16:29.167-04:00 run=4 stage=validate_records ERROR | REJECT crash 2023/120004 (FARS2023NationalCSV.zip:accident.csv line 55): one of the 67 Florida counties [county=999]
+2026-10-04T22:26:57.151-04:00 run=4 stage=validate_records ERROR | REJECT crash 2023/120004 (FARS2023NationalCSV.zip:accident.csv line 55): one of the 67 Florida counties [county=999]
 
 # the run outcome (run 3)
-2026-10-04T22:16:26.320-04:00 run=3 stage=end ERROR | RUN 3 FAILED at stage verify_sources; see docs/Week7_Pipeline_Shkirpan.md, section 6 (recovery)
+2026-10-04T22:26:54.217-04:00 run=3 stage=end ERROR | RUN 3 FAILED at stage verify_sources; see docs/Week7_Pipeline_Shkirpan.md, section 6 (recovery)
 ```
 
 [`07_run_history.log`](evidence/week7_synthetic/07_run_history.log) holds the history of all six runs, read back from the database:
 
-- runs 1, 2, and 6 succeeded with 93 checks passed each;
+- runs 1, 2, and 6 succeeded with 93 checks passed each, plus the one warning-only check (counted as `checks_failed = 1`, see section 2);
 - run 3 failed at G1, run 4 at G4, and run 5 was killed and then closed by run 6;
-- the error and warning lines of every run follow, then the load and finalize lines with their row counts, then all 19 scenario checks.
+- then one table of every run's error, warning, load and finalize lines, in log order, with their row counts;
+- then all 19 scenario checks.
 
-The synthetic run was recorded in the America/New_York time zone, which is Florida's. Log lines and database timestamps carry the same offset (−04:00).
+The synthetic run was recorded in the America/New_York time zone (−04:00, Florida's). Log lines carry the offset and milliseconds. `etl.py status` prints database times in the same zone but rounded to whole seconds and without the offset, so a start logged at 22:27:03.744 can show as 22:27:04.
 
 ---
 
@@ -261,7 +276,16 @@ python pipeline/etl.py run          # defaults: data/raw/, pipeline/sources.csv,
 python pipeline/etl.py status       # did it succeed? which stage failed? which checks?
 ```
 
-A rerun is always safe. It either replaces 2020–2024 completely, after passing every gate, or it changes nothing. There is no partial state to clean up and no "resume from stage N" step: to restart, run the same command again. The whole run takes seconds on the synthetic files and well under a minute on the real ones; the Week 6 profile read the same zips in about 30 seconds.
+A rerun is always safe. It either replaces 2020–2024 completely, after passing every gate, or it changes nothing. There is no partial state to clean up and no "resume from stage N" step: to restart, run the same command again. The whole run takes about 1.5 seconds on the synthetic files. It has not been timed on the real files; the Week 6 profile read the same zips in about 30 seconds.
+
+The database is chosen with `PGDATABASE` (default `ped_safety`) or `--dsn`. Without the real files, the same commands work on the synthetic ones:
+
+```
+python tools/make_synthetic_raw.py                       # writes data/synthetic/clean/
+python pipeline/etl.py run --raw-dir data/synthetic/clean --sources data/synthetic/clean/sources.csv --expected data/synthetic/clean/expected_counts.csv
+```
+
+Running the second command again shows a rerun replacing the rows.
 
 | Exit code | Meaning | What to do |
 |---|---|---|
@@ -282,14 +306,14 @@ A rerun is always safe. It either replaces 2020–2024 completely, after passing
 
 | Failed at | Typical cause | Recovery |
 |---|---|---|
-| G1 `verify_sources` | a raw file was changed, replaced, truncated, or is missing | Never edit a raw file to make it pass. Restore the original from the backup, or download it again from the URL in `sources.csv`. Check that `sha256sum` equals the pinned value, then rerun. If NHTSA really published a new version, follow 6.5. |
+| G1 `verify_sources` | a raw file was changed, replaced, truncated, or is missing | Never edit a raw file to make it pass. Download it again from the URL in `sources.csv` (or restore your own unmodified copy). Check that `sha256sum` equals the pinned value, then rerun. If NHTSA really published a new version, follow 6.5. |
 | G2 `extract` | NHTSA renamed or dropped a column, a member is missing, or a member cannot be decoded | Confirm in the FARS manual. Map the new name in `REQUIRED` in `etl.py` in a reviewed commit, or download the file again; then rerun. |
 | G3 `reconcile_inventory` | `expected_counts.csv` is missing or incomplete, or the file is not the one profiled (a different release) | Restore `expected_counts.csv` from Git. For a new release, run `pipeline/profile_raw.py` on it and compare with `docs/profile/`; only then update the expected counts (6.5). |
 | G4 `validate_records` | bad or unexpected records | Follow 6.4. |
 | G5 `reconcile_unit` | deaths lost or gained between file and unit | Compare the transform lines of `etl_log` with the profile. A difference is a code defect; fix it before rerunning. |
-| G6 `verify_load`, or a constraint error in `load` | the load would break a rule the earlier gates did not see | The transaction was rolled back. Read the failed check (`status --run N`); its detail lists the first offending keys. Fix the rule or the data source, then rerun. |
+| G6 `verify_load`, or a constraint error in `load` | the load would break a rule the earlier gates did not see | The transaction was rolled back. For a failed check, read its full detail with `SELECT check_name, detail FROM validation_result WHERE run_id = N AND NOT passed;` (`status` shortens details to 100 characters); a failed `v_dq_*` check lists its first offending rows. A constraint error has no check row: read its error line in `etl_log` or in the run log. Fix the rule or the data source, then rerun. |
 | process killed, machine restarted, connection lost | — | Run the same command. The next run closes the abandoned `etl_run` row as `failed`. Its load was never committed: a run becomes `succeeded` only in the same transaction as its data. |
-| exit 3 (lock held) | a run is in progress, or a crashed session still holds its connection | Wait. If no run is active, the lock disappears when the old connection ends; `SELECT pid, state FROM pg_stat_activity` shows it. |
+| exit 3 (lock held) | a run is in progress, or a crashed session still holds its connection | Wait. If no run is active, find the holder with `SELECT a.pid, a.state, a.query_start FROM pg_locks l JOIN pg_stat_activity a USING (pid) WHERE l.locktype = 'advisory';` The lock disappears when that connection ends (`SELECT pg_terminate_backend(<pid>);` ends it). |
 
 To roll back to an earlier good load, rerun with the earlier inputs. Check out the `sources.csv` and `expected_counts.csv` of that commit, keep the matching raw files, and run. The load replaces 2020–2024, so no manual delete is needed.
 
@@ -297,20 +321,20 @@ To roll back to an earlier good load, rerun with the earlier inputs. Check out t
 
 1. **Read them.** `python pipeline/etl.py rejected --run N` lists file, member, CSV line, key, rule, column, and value. `SELECT raw_record FROM rejected_record WHERE run_id = N` shows the source values as read. Nothing in a raw file is ever edited, and nothing was published.
 2. **Decide what each record is.** Every rejection is one of three cases:
-   - **The record is right and the rule is incomplete.** An example is a new FARS code documented in the current Analytical User's Manual. Add the label to `sql/07_seed_codes.sql` (with `year_from`) so that a future rebuild has it, and add the same row to the live database with an `INSERT INTO code_lookup ...` in a reviewed migration file. If the column's CHECK must change, do it with `ALTER TABLE ... DROP CONSTRAINT ..., ADD CONSTRAINT ...` in the same file. Commit, apply the migration, and rerun. Do not rebuild the database for this: a rebuild would erase the run history, including the rejected records.
+   - **The record is right and the rule is incomplete.** An example is a new FARS code documented in the current Analytical User's Manual. Add the label to `sql/07_seed_codes.sql` (with `year_from`) so that a future rebuild has it, and add the same row to the live database with an `INSERT INTO code_lookup ...` in a reviewed migration file (for example `sql/migrations/2026-10-12_new_code.sql`, applied with `psql -d ped_safety -v ON_ERROR_STOP=1 -f <file>`). If the column's CHECK must change, do it with `ALTER TABLE ... DROP CONSTRAINT ..., ADD CONSTRAINT ...` in the same file. Commit, apply the migration, and rerun. Do not rebuild the database for this: a rebuild would erase the run history, including the rejected records.
    - **The file is wrong.** Examples are duplicates, orphans, and a truncated or corrupted download. Download it again, verify the checksum, and rerun. Report a defect in an official file to NHTSA rather than patching it.
    - **The record is real but outside the rules on purpose.** An example is COUNTY 999 (unknown). The plan keeps every death in a county rate, so this needs a written decision, recorded in the cleaning plan before the rule changes: either an `unknown county` reference row, or an exclusion with a count in the report. It is never dropped silently.
 3. **Rerun.** When the rerun passes G4, the death is loaded with all the others. The old `rejected_record` rows stay as the history of the failed run. They are removed only together with their `etl_run` row (`ON DELETE CASCADE`).
 4. **Privacy.** `rejected_record.raw_record`, `record_key`, and `failure_value` hold case-level values. The data dictionary marks them Restricted, and they stay in the local database. Evidence published from real files uses `--redact-keys`. It masks case numbers in every log line and hides the key, CSV line, and value of each rejected record. `run_scenarios.py` also leaves the original values out of the descriptions of the injected defects.
 
-The gate tolerates **zero** rejected records. The raw files profiled in Week 6 contain no duplicates, orphans, or unlabelled codes, so a rejected record signals that the input or the rules changed. Loading the rest would quietly change the count of deaths, which is the unit of the project.
+The gate tolerates **zero** rejected records. The raw files profiled in Week 6 contain no duplicates or orphans, so a rejected record signals that the input or the rules changed. Loading the rest would quietly change the count of deaths, which is the unit of the project.
 
 ### 6.5 Accepting a new source version (the 2024 Final file)
 
 1. Download it to `data/raw/` under a new name and make it read-only. Keep the Annual Report File until the end of the project.
 2. Run `python pipeline/profile_raw.py` against it and review the differences from the profile (cleaning plan, issue 2).
 3. Update the 2024 row in `pipeline/sources.csv` (file name, bytes, SHA-256, `release = Final`, retrieval date) and the 2024 rows of `pipeline/expected_counts.csv`, then commit.
-4. Run `python pipeline/etl.py run`. The 2024 rows are replaced, not added. The load log shows the old and new 2024 row counts, `source_file` records the new release, and G6 confirms that 2020–2023 are unchanged.
+4. Run `python pipeline/etl.py run`. The 2024 rows are replaced, not added. The load log shows the old and new 2024 row counts, `source_file` records the new release, and G6 confirms that the 2020–2023 counts still equal their expected totals.
 
 ---
 
@@ -353,4 +377,4 @@ The aggregation and discretization that prepare the transactions for association
 - U.S. Census Bureau. (2026). *County population totals: 2020–2025, Vintage 2025* (CO-EST2025-ALLDATA). https://www.census.gov/data/tables/time-series/demo/popest/2020s-counties-total.html
 - pandera (data validation for pandas), psycopg 3, and the PostgreSQL 16 documentation on transactions and advisory locks.
 
-I used Claude (Anthropic), an AI assistant, to help write the pipeline, the scenario runner, the synthetic-data generator, and the wording of this document, and to run an adversarial review of the pipeline whose findings were fixed before the evidence was recorded. The logs in `docs/evidence/week7_synthetic/` come from a run on PostgreSQL 16.14 in the assistant's Linux environment, on synthetic files only. The question, scope, rules, and design decisions come from my approved proposal and my Week 4–6 work. I reviewed the generated material and I am responsible for the content.
+I used Claude (Anthropic), an AI assistant, to help write the pipeline, the scenario runner, the synthetic-data generator, and the wording of this document, and to run an adversarial review of the pipeline whose findings were fixed before the evidence was recorded. The logs in `docs/evidence/week7_synthetic/` come from a run on PostgreSQL 16.14 (recorded at the top of `01_first_run.log`) in the assistant's Linux environment, on synthetic files only. The question, scope, rules, and design decisions come from my approved proposal and my Week 4–6 work. I reviewed the generated material and I am responsible for the content.
