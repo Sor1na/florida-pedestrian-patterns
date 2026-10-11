@@ -24,7 +24,7 @@ No real FARS rows are in this repository. FARS describes real deaths, and the pr
 
 ## Week 8: midpoint demonstration
 
-The write-up is [`docs/Week8_Midpoint_Shkirpan.pdf`](docs/Week8_Midpoint_Shkirpan.pdf): the demonstration script, the mapping of every required midpoint item to its evidence, progress against the proposal, the risk register, and the revised Weeks 9–14 schedule. New tool: [`pipeline/trace.py`](pipeline/trace.py) follows one record from its CSV line inside the zip, through every cleaning rule, to the stored rows, the analysis view and the county rate — `--pick normal` / `--pick edge` choose a typical death and a filler-coordinate edge case; committed traces are in [`docs/evidence/week8/`](docs/evidence/week8), and CI re-runs both on every change.
+The write-up is [`docs/Week8_Midpoint_Shkirpan.pdf`](docs/Week8_Midpoint_Shkirpan.pdf): the demonstration script, the mapping of every required midpoint item to its evidence, progress against the proposal, the risk register, and the revised Weeks 9–14 schedule. New tool: [`pipeline/trace.py`](pipeline/trace.py) follows one record from its CSV line inside the zip, through every cleaning rule, to the stored rows, the analysis view and the county rate — `--pick normal` / `--pick edge` choose a typical death and a filler-coordinate edge case; committed traces are in [`docs/evidence/week8/`](docs/evidence/week8), and CI re-runs both on every pull request and push to `main`.
 
 ---
 

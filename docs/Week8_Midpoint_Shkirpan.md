@@ -24,7 +24,7 @@ Repository: https://github.com/Sor1na/florida-pedestrian-patterns
 
 ## 1. State of the pipeline at midpoint
 
-Eleven stages, six validation gates, one-transaction loads, rerun-safe by design; merged to `main` in [PR #1](https://github.com/Sor1na/florida-pedestrian-patterns/pull/1) with the tag `week7-pipeline`. Evidence recorded from the committed code: six scenarios, 19 of 19 automatic scenario checks pass (`docs/evidence/week7_synthetic/`); GitHub Actions re-runs the Week 4–5 tests, all six scenarios and both record traces on every change ([`ci.yml`](../.github/workflows/ci.yml), latest run green).
+Eleven stages, six validation gates, one-transaction loads, rerun-safe by design; merged to `main` in [PR #1](https://github.com/Sor1na/florida-pedestrian-patterns/pull/1) and tagged `week7-pipeline` (the tag is pushed in the setup step below). Evidence recorded from the committed code: six scenarios, 19 of 19 automatic scenario checks pass (`docs/evidence/week7_synthetic/`); GitHub Actions re-runs the Week 4–5 tests, all six scenarios and, from this submission on, both record traces, on every pull request and every push to `main` ([`ci.yml`](../.github/workflows/ci.yml)); the Week 7 run is green, and this package's pull request runs the suite again, traces included.
 
 Committed evidence uses **synthetic inputs** in the FARS layout, because real FARS rows describe real deaths and stay out of the public repository (proposal, ethics section). The real 2020–2024 files are pinned by SHA-256 in [`pipeline/sources.csv`](../pipeline/sources.csv); the recorded demonstration runs the pipeline on them locally, which is the first real-data execution, and the same commands write masked evidence to `docs/evidence/week7/`.
 
@@ -41,6 +41,9 @@ $PSQL = "C:\Program Files\PostgreSQL\16\bin\psql.exe"
 & $PSQL -d ped_safety -v ON_ERROR_STOP=1 -f sql/00_build_all.sql
 # failure scenarios take minutes, so they are recorded as logs beforehand, not live:
 python pipeline/run_scenarios.py --raw-dir "E:\College\Data Management\raw" --psql $PSQL
+# commit the masked real-data evidence and the Week 7 milestone tag with the submission:
+git add docs/evidence/week7; git commit -m "Week 8: masked evidence of the real-data scenarios"; git push
+git tag -a week7-pipeline ac581fb -m "Week 7 milestone: validated, logged, rerunnable ETL pipeline"; git push origin week7-pipeline
 ```
 
 The last command rebuilds its own database (`ped_safety_week7`), runs all six scenarios on the **real** files and writes `docs/evidence/week7/` with case numbers, CSV lines and record values masked.
@@ -53,8 +56,8 @@ The last command rebuilds its own database (`ped_safety_week7`), runs all six sc
 | 0:40–1:10 | `type pipeline\sources.csv`, then `certutil -hashfile "E:\College\Data Management\raw\FARS2023NationalCSV.zip" SHA256` | Provenance: every input is pinned by SHA-256 from the Week 6 manifest; gate G1 recomputes this before reading a byte. |
 | 1:10–2:40 | `python pipeline\etl.py run --raw-dir "E:\College\Data Management\raw"` | The end-to-end run on the real files, live. Point at: G1 PASS lines, rows in→out per file (41,133 Florida person rows → 3,736 pedestrian fatalities), G5 totals per year, "COMMITTED, status = succeeded", the per-year lineage lines. |
 | 2:40–3:20 | the same command again, then `python pipeline\etl.py snapshot` | Rerun safety: every year reads "deleted N, inserted N"; the content fingerprint is identical, so the rerun changed nothing. |
-| 3:20–4:10 | `notepad docs\evidence\week7\03_failure_tampered_file.log` and `04_failure_bad_records.log`; live: `python pipeline\etl.py status` and `python pipeline\etl.py rejected --redact-keys` (against `ped_safety_week7`: `$env:PGDATABASE="ped_safety_week7"`) | Failure behaviour, recorded from the same real files: an edited zip dies at G1 with nothing read; four injected bad records are quarantined in `rejected_record` at G4 with file, line and rule; the tables keep the previous load both times. |
-| 4:10–5:10 | `$env:PGDATABASE="ped_safety"`; `python pipeline\trace.py --pick normal --raw-dir "E:\College\Data Management\raw"` then `--pick edge` | One record end to end: the CSV line in the zip, each cleaning rule next to its effect, the stored rows, the items it contributes to the analysis view, the county rate it is counted in. The edge case shows FARS filler coordinates becoming NULL while the death is kept. |
+| 3:20–4:10 | `notepad docs\evidence\week7\03_failure_tampered_file.log` and `04_failure_bad_records.log`; live: `python pipeline\etl.py status` and `python pipeline\etl.py rejected --redact-keys` (against `ped_safety_week7`: `$env:PGDATABASE="ped_safety_week7"`) | Failure behaviour, recorded from the same real files: an edited zip dies at G1 with nothing read; four injected defects are quarantined as **five** `rejected_record` rows at G4 (the orphan death brings its typing record), each with file, line and rule; the tables keep the previous load both times. |
+| 4:10–5:10 | `$env:PGDATABASE="ped_safety"`; `python pipeline\trace.py --pick normal --redact --raw-dir "E:\College\Data Management\raw"` then `--pick edge --redact` | One record end to end: the CSV line in the zip, each cleaning rule next to its effect, the stored rows, the items it contributes to the analysis view, the county rate it is counted in. The edge case shows FARS filler coordinates becoming NULL while the death is kept. |
 | 5:10–6:10 | this document, sections 8–10 | Progress against the proposal, the top risks, the revised Weeks 9–14 plan. |
 | 6:10–6:40 | the repository on GitHub: README, green CI badge/run, `docs/evidence/` | Everything shown is in the repository; CI re-runs the tests, all six scenarios and both traces on every change. |
 
@@ -66,7 +69,7 @@ The last command rebuilds its own database (`ped_safety_week7`), runs all six sc
 4. Do one full dry run with a stopwatch; the live `etl.py run` on the real files takes well under a minute, so the timing above holds.
 5. Record audio in one take with a headset mic; a 10-second test clip first.
 6. Name the file `Week8_Midpoint_Demo_Shkirpan.mp4`. After uploading to Canvas, download it back and play it to the end: the submission requirements ask for every uploaded file to be verified.
-7. Nothing sensitive appears on screen: the password is typed before recording and never echoed; FARS is public-domain data, and the quarantine listing is shown with `--redact-keys`.
+7. Nothing in the recording identifies a person or exposes a secret: the password is typed before recording and never echoed; FARS is public-domain data, and both the quarantine listing (`--redact-keys`) and the traces (`--redact`) mask case numbers, so no single record is identifiable from the video.
 
 ## 3. Architecture and lineage
 
@@ -97,12 +100,12 @@ Source → database in one picture (source: [`pipeline.mmd`](pipeline.mmd)): pin
 | deaths → analysis view (urban, non-freeway) | 3,736 → 3,053 | 596 → 499 |
 | load, rerun | every year "deleted N, inserted N", fingerprint unchanged | same, `c0656528b64a…` |
 
-**Quality checks:** 93 named checks per successful run in `validation_result`, each with expected and actual values (one warning-only check open: block-group share, EPA join pending). **Rejected records:** scenario 4 quarantined 5 records with file, member, CSV line, key, rule, column and value ([`04_failure_bad_records.log`](evidence/week7_synthetic/04_failure_bad_records.log)); zero rejected on clean inputs, and the gate tolerates zero. **Transformation log:** every step writes `rows_in`/`rows_out` to `etl_log` and the run log; the trace of section 7 shows the same rules applied to one record.
+**Quality checks:** 94 named checks per successful run in `validation_result`, each with expected and actual values; 93 pass, and the one open check is warning-only (block-group share, EPA join pending). **Rejected records:** scenario 4 quarantined 5 records with file, member, CSV line, key, rule, column and value ([`04_failure_bad_records.log`](evidence/week7_synthetic/04_failure_bad_records.log)); zero rejected on clean inputs, and the gate tolerates zero. **Transformation log:** every step writes `rows_in`/`rows_out` to `etl_log` and the run log; the trace of section 7 shows the same rules applied to one record.
 
 ## 6. Execution, scheduling, run identifiers, rerun, recovery
 
 - **Execution** is one command (`python pipeline/etl.py run`), safe to repeat at any time; `status`, `rejected`, `snapshot` read the state back. Exit codes and per-gate recovery: Week 7 §6.
-- **Scheduling.** The sources change at most once a year (the 2024 Final file), so the pipeline is run on demand rather than on a timer, and that is a documented decision (Week 7 §9). Automation exists where change actually happens: **GitHub Actions runs the whole test-and-scenario suite, plus both record traces, on every push and pull request.** If a schedule is ever wanted, the one-liner for Windows Task Scheduler is `schtasks /Create /SC MONTHLY /TN ped_safety_etl /TR "python <repo>\pipeline\etl.py run"`.
+- **Scheduling.** The sources change at most once a year (the 2024 Final file), so the pipeline is run on demand rather than on a timer, and that is a documented decision (Week 7 §9). Automation exists where change actually happens: **GitHub Actions runs the whole test-and-scenario suite, plus both record traces, on every pull request and every push to `main`.** If a schedule is ever wanted, the one-liner for Windows Task Scheduler is `schtasks /Create /SC MONTHLY /TN ped_safety_etl /TR "python <repo>\pipeline\etl.py run"`.
 - **Run identifiers and logs:** every run gets `run_id` in `etl_run`, carried on every line of `logs/run_NNNN_<start>.log`, every `etl_log`, `validation_result`, `source_file` and `rejected_record` row.
 - **Rerun and recovery tests:** scenarios 2 (rerun, identical fingerprint), 3 and 4 (two deliberate failures, tables unchanged), 5 and 6 (kill inside the load; restart closes the abandoned run) — recorded in `docs/evidence/week7_synthetic/` and re-run by CI.
 
@@ -110,7 +113,7 @@ Source → database in one picture (source: [`pipeline.mmd`](pipeline.mmd)): pin
 
 New this week: [`pipeline/trace.py`](../pipeline/trace.py) follows one record through every hop and quotes the evidence — lineage (run, file, SHA-256, release), the record's own CSV lines inside the zip with line numbers, each cleaning rule next to its effect on this record, the stored rows and their constraints, the items contributed to `v_ped_transactions` (or the scope reason it stays out), and the county-rate row the death is counted in. It is read-only and works unchanged on real and synthetic data; `--redact` masks case numbers.
 
-Committed traces (synthetic, against the same load as the Week 7 evidence; CI re-runs both):
+Committed traces (synthetic, against an identical rebuild of the Week 7 scenario load: same six scenarios, same content fingerprint `c0656528b64a…`; CI re-runs both):
 
 - **Normal record** — [`trace_normal.log`](evidence/week8/trace_normal.log): a single-victim urban crash; all links resolve; 1 of 2 person rows kept by the unit filter; in the view with 16 items; counted in Volusia's rate.
 - **Edge case** — [`trace_edge.log`](evidence/week8/trace_edge.log): raw `LATITUDE=77.77770000 LONGITUD=777.77770000` (the FARS "not reported" filler) → stored `NULL/NULL`, no block group possible, walkability item reads `unknown` — and the death is kept, in the view and in its county's rate, exactly as cleaning-plan issue 5 prescribes.
@@ -119,20 +122,20 @@ The video repeats both traces live on the real data (section 2, minute 4–5).
 
 ## 8. Progress against the proposal
 
-Plan of record: proposal Appendix C (Week 2/3 documents). Status at the end of course week 8:
+Plan of record: the approved proposal's Appendix C week table (Week 3 submission in Canvas), quoted verbatim in the "Planned" column. Status at the end of course week 8:
 
 | Wk | Planned (Appendix C) | Delivered | Status |
 |---|---|---|---|
 | 3 | Proposal; download all raw files; checksum manifest | Proposal approved; all six files downloaded 2026-09-27, SHA-256 manifest | ✔ done |
 | 4 | Profiling and missingness report; schema, ERD, draft dictionary | Conceptual model, ERD, sample records, business rules (profiling moved to W6) | ✔ reordered |
-| 5 | Ingestion and cleaning scripts; code_lookup; first load | Full physical design: 16 tables, code_lookup seeded, 148-column dictionary, 56 constraint tests | ✔ reordered |
+| 5 | Ingestion and cleaning scripts; code_lookup; first load | Full physical design: 15 tables (16 since W7 added `rejected_record`), code_lookup seeded, data dictionary, 56 constraint tests | ✔ reordered |
 | 6 | Validation suite, logging, reconciliation; EPA + Census loads; spatial join. **Milestone 1: database v0.1** | Measured profile of the raw files + evidence-based cleaning plan | ✔ reordered |
 | 7 | Analysis view; discretization; baseline frequency tables | Validated, logged, rerunnable pipeline + failure/recovery evidence + CI (view and discretization were already built in W5; baseline frequencies measured in W6 §2.4) | ✔ ahead/behind swap |
 | 8 | FP-Growth mining; redundancy and template filters | This midpoint package; trace tool; real-data run recorded | ◐ mining not started |
 
 **Net position.** Milestone 1 (a working, validated database and pipeline) is effectively reached, two items short of the letter of the plan: the **EPA block-group join** (deferred in W7, stage exists and logs itself skipped) and the **real-data load**, whose first execution is this week's recording. The analysis inputs the mining needs (transaction view, fixed bins, baselines) have existed since Weeks 5–6, so mining starts ~2 weeks behind Appendix C with its inputs already in place. Milestone 2 (final rule set) moves from Week 9 to Week 11.
 
-**Changes to the plan, as documented in the graded weekly submissions:** the Week 4–6 content order was rearranged to match the course's weekly deliverables (model → design → profile/cleaning plan, instead of profile → scripts → validation); direct textbook citations were removed from the Week 6 plan after instructor feedback (commit `eb78b61`) and methods grounding now sits in a dedicated section (Week 7 §8); the EPA join moved from Week 6 to Week 9 (declared in Week 7 §9, risk 2 below). The question, sources, unit of observation, ethics rules and mining design are unchanged from the approved proposal.
+**Changes to the plan, as documented in the graded weekly submissions:** the Week 4–6 content order was rearranged to match the course's weekly deliverables (model → design → profile/cleaning plan, instead of profile → scripts → validation); direct textbook citations were removed from the Week 6 plan after instructor feedback (commit `eb78b61`) and methods grounding now sits in a dedicated section (Week 7 §8); the EPA join, planned for Week 6 in Appendix C and re-dated to Week 7 by the Week 6 plan, was declared deferred in Week 7 §9 and is scheduled for Week 9 here (risk 2, §10). The question, sources, unit of observation, ethics rules and mining design are unchanged from the approved proposal.
 
 ## 9. Prioritized risk register
 
@@ -143,7 +146,7 @@ Plan of record: proposal Appendix C (Week 2/3 documents). Status at the end of c
 | 3 | Mining window compressed (starts W10, was W8) | High | Medium | View, bins and baselines ready since W5–W6, so the two lost weeks were spent making reruns safe, not on inputs | Mining W10, evaluation W11; Milestone 2 re-dated to W11; report drafting starts from the baseline tables in parallel | W10–11 |
 | 4 | Mining returns trivial or unstable rules | Medium | Medium | Not started; filters specified in the proposal | Closed itemsets, template filters, lift ranking, 4-of-5-year stability, permutation baseline, 2024 hold-out — all pre-committed, not tuned after the fact | W10–11 |
 | 5 | NHTSA publishes the 2024 Final file mid-project | Medium | Medium | 2024 tagged `Annual Report File` in `source_file`; replace-by-year proven by scenario 2 | Written acceptance procedure (Week 7 §6.5); re-run pipeline, re-run hold-out, report both ARF and Final numbers | any |
-| 6 | Weeks 12–14 compression against the strict Week 14 package deadline | Medium | High | Original buffer weeks (15–16) do not exist in the course calendar | Scope guard, decided now: corridor labels and secondary dashboard views are cut first; data quality, rule evaluation and the report are never cut | W12–14 |
+| 6 | Weeks 12–14 compression against the strict Week 14 package deadline | Medium | High | The proposal's calendar ran to Week 16 (buffer in W14, rehearsal and final submission in W15–16); the course ends at the strict W14 deadline, so the buffer is consumed by the final package | Scope guard, decided now: corridor labels and secondary dashboard views are cut first; data quality, rule evaluation and the report are never cut | W12–14 |
 | 7 | Tableau licence limits for the dashboard | Low | Medium | Not started | Plotly Dash fallback named in the proposal; county choropleth + pattern explorer are library-agnostic | W12 |
 
 ## 10. Revised schedule, Weeks 9–14

@@ -47,10 +47,17 @@ LAT_FILLERS = {"77.7777", "88.8888", "99.9999"}
 LON_FILLERS = {"777.7777", "888.8888", "999.9999"}
 
 
-def out(line: str = "", redact: bool = False) -> None:
-    if redact:
+REDACT = False
+
+
+def out(line: str = "", redact: bool | None = None) -> None:
+    if REDACT if redact is None else redact:
         line = re.sub(r"\b12\d{4}\b", "12xxxx", line)
     print(line)
+
+
+def die(msg: str) -> None:
+    sys.exit(re.sub(r"\b12\d{4}\b", "12xxxx", msg) if REDACT else msg)
 
 
 def q1(conn, sql, *args):
@@ -90,7 +97,7 @@ def pick(conn, kind: str):
                               HAVING count(*) >= 2 ORDER BY year, st_case LIMIT 1""")
             why = "an edge case: one crash, several deaths (one transaction per death, shared scene)"
     if row is None:
-        sys.exit("no matching record in the database; is it loaded?")
+        die("no matching record in the database; is it loaded?")
     return row[0], row[1], why
 
 
@@ -102,11 +109,18 @@ def find_member(zf: zipfile.ZipFile, name: str) -> str | None:
 
 
 def read_raw(zip_path: Path, st_case: int):
-    """The record's own rows in each member, with their CSV line numbers (line 1 = header)."""
-    found: dict[str, list[tuple[int, dict]]] = {}
-    with zipfile.ZipFile(zip_path) as zf:
+    """The record's own rows in each member, with their CSV line numbers (line 1 = header).
+    Returns (found, None) or (None, reason) when the zip cannot be read."""
+    found: dict[str, tuple] = {}
+    try:
+        zf = zipfile.ZipFile(zip_path)
+    except (zipfile.BadZipFile, OSError) as e:
+        return None, f"{zip_path.name} is not a readable zip ({e})"
+    with zf:
         for member in MEMBERS:
             name = find_member(zf, member)
+            if name is None:
+                return None, f"member {member}.csv not found in {zip_path.name}"
             raw = zf.read(name)
             for enc in ("utf-8", "cp1252"):
                 try:
@@ -117,6 +131,8 @@ def read_raw(zip_path: Path, st_case: int):
             rows = csv.reader(io.StringIO(text))
             header = [h.strip().upper() for h in next(rows)]
             idx = {h: i for i, h in enumerate(header)}
+            if "STATE" not in idx or "ST_CASE" not in idx:
+                return None, f"{member}.csv in {zip_path.name} has no STATE/ST_CASE column"
             hits = []
             for line_no, row in enumerate(rows, start=2):
                 if not row or len(row) < len(header):
@@ -124,7 +140,7 @@ def read_raw(zip_path: Path, st_case: int):
                 if row[idx["STATE"]].strip() == "12" and row[idx["ST_CASE"]].strip() == str(st_case):
                     hits.append((line_no, {c: row[idx[c]].strip() for c in RAW_COLS[member] if c in idx}))
             found[member] = (Path(name).name, enc, hits)
-    return found
+    return found, None
 
 
 def main() -> int:
@@ -139,14 +155,17 @@ def main() -> int:
     args = ap.parse_args()
     conninfo = args.dsn or ("" if os.environ.get("PGDATABASE") else "dbname=ped_safety")
     conn = psycopg.connect(conninfo)
-    R = args.redact
+    global REDACT
+    REDACT = R = args.redact
+    if args.pick and (args.year is not None or args.st_case is not None):
+        ap.error("--pick and --year/--st-case are mutually exclusive")
 
     if args.pick:
         year, st_case, why = pick(conn, args.pick)
-    elif args.year and args.st_case:
+    elif args.year is not None and args.st_case is not None:
         year, st_case, why = args.year, args.st_case, "chosen by the caller"
         if q1(conn, "SELECT 1 FROM crash WHERE (year, st_case) = (%s, %s)", year, st_case) is None:
-            sys.exit(f"crash ({year}, {st_case}) is not in the database")
+            die(f"crash ({year}, {st_case}) is not in the database")
     else:
         ap.error("either --pick, or --year with --st-case")
 
@@ -158,19 +177,31 @@ def main() -> int:
     out("\n== 1  LINEAGE: which run loaded it, from which file =================", R)
     run = q1(conn, "SELECT run_id, started_at, finished_at, git_commit FROM etl_run "
                    "WHERE status = 'succeeded' ORDER BY run_id DESC LIMIT 1")
+    if run is None:
+        die("no succeeded pipeline run in this database: it was not loaded by pipeline/etl.py "
+            "(is PGDATABASE pointing at the right database? the scenario load lives in ped_safety_week7)")
     src = q1(conn, "SELECT file_name, sha256, release, url, retrieved_on FROM source_file "
                    "WHERE run_id = %s AND data_year = %s", run[0], year)
-    out(f"loaded by run {run[0]} (succeeded; finished {run[2]:%Y-%m-%d %H:%M:%S%z}; code commit {run[3][:7]})", R)
+    if src is None:
+        die(f"run {run[0]} has no source_file row for year {year}: this database was not loaded by "
+            "pipeline/etl.py (is PGDATABASE pointing at the right database?)")
+    out(f"loaded by run {run[0]}: the latest succeeded run, and the load replaces every year, "
+        f"so the current rows are its rows (finished {run[2]:%Y-%m-%d %H:%M:%S%z}; code commit {run[3][:7]})", R)
     out(f"source file: {src[0]}  sha256 {src[1][:12]}...  release '{src[2]}'  retrieved {src[4]}", R)
-    out(f"gate G1 of that run verified this file's SHA-256 against the pinned manifest before reading it", R)
+    g1 = q1(conn, "SELECT passed FROM validation_result WHERE run_id = %s AND check_name = %s",
+            run[0], f"G1 sha256 {src[0]}")
+    if g1 and g1[0]:
+        out("gate G1 of that run verified this file's SHA-256 against the pinned manifest before reading it", R)
 
     # 2 raw ---------------------------------------------------------------
     raw = None
     out("\n== 2  RAW: the record's own lines inside the zip =====================", R)
     raw_dir = Path(args.raw_dir) if args.raw_dir else None
     zip_path = raw_dir / src[0] if raw_dir else None
-    if zip_path and zip_path.exists():
-        raw = read_raw(zip_path, st_case)
+    reason = None if zip_path and zip_path.exists() else "--raw-dir not given or file missing"
+    if reason is None:
+        raw, reason = read_raw(zip_path, st_case)
+    if raw is not None:
         for member in MEMBERS:
             name, enc, hits = raw[member]
             for line_no, vals in hits:
@@ -179,23 +210,28 @@ def main() -> int:
             if not hits:
                 out(f"{name}: no row for this case (case not present in this member)", R)
     else:
-        out("raw zip not available here (--raw-dir not given or file missing): the stored values below", R)
-        out("come from the database; run with --raw-dir to quote the source CSV lines and numbers", R)
+        out(f"raw zip not readable here ({reason}): the stored values below come from the", R)
+        out("database; run with --raw-dir pointing at the zips to quote the source CSV lines", R)
 
     # 3 transform ----------------------------------------------------------
     out("\n== 3  TRANSFORM: each cleaning rule next to its effect here ==========", R)
     crash = dict(zip(cols_of(conn, "crash"), q1(conn, "SELECT * FROM crash WHERE (year, st_case) = (%s, %s)", year, st_case)))
     peds = [dict(zip(cols_of(conn, "pedestrian"), r)) for r in
             qall(conn, "SELECT * FROM pedestrian WHERE (year, st_case) = (%s, %s) ORDER BY per_no", year, st_case)]
-    if args.per_no:
+    kept = len(peds)
+    if args.per_no is not None:
         peds = [p for p in peds if p["per_no"] == args.per_no]
+        if not peds:
+            die(f"crash ({year}, {st_case}) has no pedestrian row with per_no {args.per_no}; "
+                f"stored per_no values: {[p for (p,) in qall(conn, 'SELECT per_no FROM pedestrian WHERE (year, st_case) = (%s, %s) ORDER BY per_no', year, st_case)]}")
     vehs = [dict(zip(cols_of(conn, "vehicle"), r)) for r in
             qall(conn, "SELECT * FROM vehicle WHERE (year, st_case) = (%s, %s) ORDER BY veh_no", year, st_case)]
     raw_person_rows = len(raw["person"][2]) if raw else None
     raw_acc = raw["accident"][2][0][1] if raw and raw["accident"][2] else None
     out(f"unit of observation: PER_TYP = 5 and INJ_SEV = 4 kept "
-        f"{len(peds)} death(s)" + (f" out of {raw_person_rows} person row(s) of this crash"
-                                   if raw_person_rows is not None else "") + " (cleaning plan, section 1.3)", R)
+        f"{kept} death(s)" + (f" out of {raw_person_rows} person row(s) of this crash"
+                              if raw_person_rows is not None else "") + " (cleaning plan, section 1.3)"
+        + (f"; showing per_no {args.per_no} only" if args.per_no is not None else ""), R)
     if raw_acc:
         lat_raw, lon_raw = raw_acc.get("LATITUDE", ""), raw_acc.get("LONGITUD", "")
         filler = any(lat_raw.startswith(f) for f in LAT_FILLERS) or any(lon_raw.startswith(f) for f in LON_FILLERS)
@@ -230,7 +266,7 @@ def main() -> int:
 
     # 5 view ---------------------------------------------------------------
     out("\n== 5  VIEW v_ped_transactions: the items this death contributes ======", R)
-    in_scope = crash["rur_urb"] == 2 and 3 <= crash["func_sys"] <= 7
+    in_scope = crash["rur_urb"] == 2 and crash["func_sys"] not in (1, 2)
     for p in peds:
         row = q1(conn, "SELECT * FROM v_ped_transactions WHERE (year, st_case, per_no) = (%s, %s, %s)",
                  year, st_case, p["per_no"])
@@ -244,8 +280,8 @@ def main() -> int:
                 out(f"    {k:<18} = {v}", R)
         else:
             out(f"per_no {p['per_no']} is NOT in the view: scope filter rur_urb={crash['rur_urb']}, "
-                f"func_sys={crash['func_sys']} (the view keeps urban 2, classes 3-7); "
-                f"the death still counts in the county rate below", R)
+                f"func_sys={crash['func_sys']} (the view keeps urban crashes, rur_urb 2, off the "
+                f"freeways, func_sys not 1-2); the death still counts in the county rate below", R)
     if in_scope and crash["geoid10"] is None:
         out("walkability reads 'unknown': no block group yet (EPA join pending" +
             (", and this crash has no point anyway)" if crash["latitude"] is None else ")"), R)
@@ -257,8 +293,9 @@ def main() -> int:
     out(f"v_county_rate '{county_name}': deaths_all={rate[0]} (this record among them), in_scope={rate[1]}, "
         f"person_years={rate[2]}, rate={rate[3]}/100k/yr, unstable={rate[4]}", R)
     n_checks = q1(conn, "SELECT count(*) FILTER (WHERE passed) FROM validation_result WHERE run_id = %s", run[0])[0]
-    out(f"the load that carried this record passed {n_checks} checks (gates G1-G6) before COMMIT; "
-        f"run {run[0]} details: python pipeline/etl.py status --run {run[0]}", R)
+    if n_checks:
+        out(f"the load that carried this record passed {n_checks} check(s) (gates G1-G6) before COMMIT; "
+            f"run {run[0]} details: python pipeline/etl.py status --run {run[0]}", R)
     out("\nend of trace", R)
     conn.close()
     return 0

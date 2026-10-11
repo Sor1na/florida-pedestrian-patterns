@@ -1,12 +1,12 @@
 # Trace of one EDGE-CASE record (FARS filler coordinates -> NULL point; death kept). Command:
-#   python pipeline/trace.py --pick edge --raw-dir data/synthetic/clean
+#   PGDATABASE=ped_safety_week7 python pipeline/trace.py --pick edge --raw-dir data/synthetic/clean
 
 TRACE of crash (2020, 120197) and its pedestrian fatality record(s)
 why this record: an edge case: FARS filler coordinates became NULL, so there is no point and no block group, but the death is kept
 read-only: this tool only SELECTs and reads the zip; it changes nothing
 
 == 1  LINEAGE: which run loaded it, from which file =================
-loaded by run 6 (succeeded; finished 2026-10-11 17:17:36-0400; code commit ac581fb)
+loaded by run 6: the latest succeeded run, and the load replaces every year, so the current rows are its rows (finished 2026-10-11 17:17:36-0400; code commit ac581fb)
 source file: FARS2020NationalCSV.zip  sha256 ee66bdb47ab1...  release 'Final'  retrieved 2026-09-27
 gate G1 of that run verified this file's SHA-256 against the pinned manifest before reading it
 
@@ -59,6 +59,6 @@ walkability reads 'unknown': no block group yet (EPA join pending, and this cras
 
 == 6  AGGREGATES: where the death is counted =========================
 v_county_rate 'Jefferson': deaths_all=4 (this record among them), in_scope=4, person_years=76707, rate=5.21/100k/yr, unstable=True
-the load that carried this record passed 93 checks (gates G1-G6) before COMMIT; run 6 details: python pipeline/etl.py status --run 6
+the load that carried this record passed 93 check(s) (gates G1-G6) before COMMIT; run 6 details: python pipeline/etl.py status --run 6
 
 end of trace

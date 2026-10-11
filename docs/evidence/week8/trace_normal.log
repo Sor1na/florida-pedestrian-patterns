@@ -1,13 +1,13 @@
-# Trace of one NORMAL record through the pipeline (synthetic data, database ped_safety_week7,
-# the same load as docs/evidence/week7_synthetic/). Command:
-#   python pipeline/trace.py --pick normal --raw-dir data/synthetic/clean
+# Trace of one NORMAL record through the pipeline (synthetic data; an identical rebuild of the
+# Week 7 scenario load, content fingerprint c0656528b64a...). Command, from the repository root:
+#   PGDATABASE=ped_safety_week7 python pipeline/trace.py --pick normal --raw-dir data/synthetic/clean
 
 TRACE of crash (2020, 120002) and its pedestrian fatality record(s)
 why this record: a typical in-scope death: urban non-freeway crash, striking vehicle resolved, usable coordinates
 read-only: this tool only SELECTs and reads the zip; it changes nothing
 
 == 1  LINEAGE: which run loaded it, from which file =================
-loaded by run 6 (succeeded; finished 2026-10-11 17:17:36-0400; code commit ac581fb)
+loaded by run 6: the latest succeeded run, and the load replaces every year, so the current rows are its rows (finished 2026-10-11 17:17:36-0400; code commit ac581fb)
 source file: FARS2020NationalCSV.zip  sha256 ee66bdb47ab1...  release 'Final'  retrieved 2026-09-27
 gate G1 of that run verified this file's SHA-256 against the pinned manifest before reading it
 
@@ -60,6 +60,6 @@ walkability reads 'unknown': no block group yet (EPA join pending)
 
 == 6  AGGREGATES: where the death is counted =========================
 v_county_rate 'Volusia': deaths_all=19 (this record among them), in_scope=15, person_years=2847994, rate=0.67/100k/yr, unstable=True
-the load that carried this record passed 93 checks (gates G1-G6) before COMMIT; run 6 details: python pipeline/etl.py status --run 6
+the load that carried this record passed 93 check(s) (gates G1-G6) before COMMIT; run 6 details: python pipeline/etl.py status --run 6
 
 end of trace
