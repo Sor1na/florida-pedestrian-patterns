@@ -155,6 +155,7 @@ def redact(text: str) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--synthetic", action="store_true", help="generate and use synthetic inputs")
+    ap.add_argument("--raw-dir", help='folder with the REAL raw files (default data/raw/), e.g. "E:\\College\\Data Management\\raw"')
     ap.add_argument("--db", default="ped_safety_week7",
                     help="database to (re)build for the scenarios (default ped_safety_week7, created if missing; "
                          "kept apart from ped_safety so the project database is never overwritten)")
@@ -173,7 +174,8 @@ def main() -> int:
         out_dir, label = ROOT / "docs" / "evidence" / "week7_synthetic", "SYNTHETIC files from tools/make_synthetic_raw.py (not real FARS rows)"
         extra = []
     else:
-        raw, sources, expected = ROOT / "data" / "raw", ROOT / "pipeline" / "sources.csv", ROOT / "pipeline" / "expected_counts.csv"
+        raw = Path(args.raw_dir).resolve() if args.raw_dir else ROOT / "data" / "raw"
+        sources, expected = ROOT / "pipeline" / "sources.csv", ROOT / "pipeline" / "expected_counts.csv"
         out_dir, label = ROOT / "docs" / "evidence" / "week7", "REAL files in data/raw/, pinned by pipeline/sources.csv (case numbers, lines and values masked)"
         extra = ["--redact-keys"]
     real = bool(extra)
@@ -187,7 +189,12 @@ def main() -> int:
         old.unlink()
     shutil.rmtree(out_dir / "runs", ignore_errors=True)
     log_dir = interim / "logs"
-    rel = lambda p: os.path.relpath(p, ROOT)                 # etl.py runs from the repository root
+    def rel(p):                                              # etl.py runs from the repository root
+        try:
+            r = os.path.relpath(p, ROOT)
+            return r if not r.startswith("..") else str(p)   # outside the repo (e.g. another drive): absolute
+        except ValueError:                                   # Windows: different drive letter
+            return str(p)
     base = ["run", "--raw-dir", rel(raw), "--sources", rel(sources), "--expected", rel(expected), "--log-dir", rel(log_dir)] + extra
     checks: list[tuple[str, bool, str]] = []
     db = psycopg.connect("", autocommit=True)

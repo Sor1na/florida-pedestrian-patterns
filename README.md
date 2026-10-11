@@ -12,12 +12,19 @@ This repository holds the capstone deliverables as they are built: the PostgreSQ
 
 | Week | Deliverable | Where |
 |---|---|---|
+| 8 | **Midpoint demonstration package**: demo script and recording procedure, record traces (one normal, one edge case), progress against the proposal, prioritized risk register, revised Weeks 9–14 schedule | [`docs/Week8_Midpoint_Shkirpan.pdf`](docs/Week8_Midpoint_Shkirpan.pdf) ([Markdown](docs/Week8_Midpoint_Shkirpan.md)), [`pipeline/trace.py`](pipeline/trace.py), [`docs/evidence/week8/`](docs/evidence/week8) |
 | 7 | **Pipeline runs and recovery**: stage order with dependencies and six validation gates, a successful end-to-end run, a rerun with duplicate-prevention evidence, two deliberate failures, a killed run and its restart, logs with run ID / timestamps / row counts / errors, restart, recovery and rejected-record instructions | [`docs/Week7_Pipeline_Shkirpan.pdf`](docs/Week7_Pipeline_Shkirpan.pdf) ([Markdown](docs/Week7_Pipeline_Shkirpan.md)), [`pipeline/etl.py`](pipeline/etl.py), [`pipeline/run_scenarios.py`](pipeline/run_scenarios.py), [`docs/evidence/week7_synthetic/`](docs/evidence/week7_synthetic) |
 | 6 | **Data cleaning plan**: measured profile of the raw FARS 2020–2024 and Census files, five quality issues with detection rules, actions, rationale and verification tests, bias statement, raw-preservation and logging plan | [`docs/Week6_Data_Cleaning_Plan_Shkirpan.pdf`](docs/Week6_Data_Cleaning_Plan_Shkirpan.pdf) ([Markdown](docs/Week6_Data_Cleaning_Plan_Shkirpan.md)), [`pipeline/profile_raw.py`](pipeline/profile_raw.py), [`docs/profile/`](docs/profile), [`tests/verify_cleaning_rules.sql`](tests/verify_cleaning_rules.sql) |
 | 5 | **Database design**: conceptual and logical model, SQL scripts, data dictionary, constraint tests, sample queries | [`docs/Week5_Database_Design_Shkirpan.pdf`](docs/Week5_Database_Design_Shkirpan.pdf), [`sql/`](sql), [`tests/`](tests), [`queries/`](queries), [`docs/data_dictionary.md`](docs/data_dictionary.md) |
 | 4 | First-pass conceptual data model | [the section below](#week-4-first-pass-conceptual-data-model), [`docs/Week4_Conceptual_Data_Model_Shkirpan.pdf`](docs/Week4_Conceptual_Data_Model_Shkirpan.pdf), commit `cd0e009` |
 
 No real FARS rows are in this repository. FARS describes real deaths, and the proposal keeps person-level rows in the local database. Every record under `tests/` and `samples/`, and every input behind `docs/evidence/week7_synthetic/`, is synthetic. The repository holds no passwords, tokens, or keys; `.gitignore` keeps `.env` files, raw data, and database dumps out.
+
+---
+
+## Week 8: midpoint demonstration
+
+The write-up is [`docs/Week8_Midpoint_Shkirpan.pdf`](docs/Week8_Midpoint_Shkirpan.pdf): the demonstration script, the mapping of every required midpoint item to its evidence, progress against the proposal, the risk register, and the revised Weeks 9–14 schedule. New tool: [`pipeline/trace.py`](pipeline/trace.py) follows one record from its CSV line inside the zip, through every cleaning rule, to the stored rows, the analysis view and the county rate — `--pick normal` / `--pick edge` choose a typical death and a filler-coordinate edge case; committed traces are in [`docs/evidence/week8/`](docs/evidence/week8), and CI re-runs both on every change.
 
 ---
 

@@ -1,0 +1,64 @@
+# Trace of one EDGE-CASE record (FARS filler coordinates -> NULL point; death kept). Command:
+#   python pipeline/trace.py --pick edge --raw-dir data/synthetic/clean
+
+TRACE of crash (2020, 120197) and its pedestrian fatality record(s)
+why this record: an edge case: FARS filler coordinates became NULL, so there is no point and no block group, but the death is kept
+read-only: this tool only SELECTs and reads the zip; it changes nothing
+
+== 1  LINEAGE: which run loaded it, from which file =================
+loaded by run 6 (succeeded; finished 2026-10-11 17:17:36-0400; code commit ac581fb)
+source file: FARS2020NationalCSV.zip  sha256 ee66bdb47ab1...  release 'Final'  retrieved 2026-09-27
+gate G1 of that run verified this file's SHA-256 against the pinned manifest before reading it
+
+== 2  RAW: the record's own lines inside the zip =====================
+accident.csv (encoding cp1252) line 241:
+    ST_CASE=120197  COUNTY=65  MONTH=2  DAY_WEEK=1  HOUR=9  RUR_URB=2  FUNC_SYS=3  RELJCT2=1  LGT_COND=1  WEATHER=10  LATITUDE=77.77770000  LONGITUD=777.77770000  TWAY_ID=SW 8TH ST  FATALS=1  PEDS=1
+vehicle.csv (encoding utf-8) line 332:
+    ST_CASE=120197  VEH_NO=1  BODY_TYP=2  VSPD_LIM=35  HIT_RUN=0
+person.csv (encoding utf-8) line 653:
+    ST_CASE=120197  VEH_NO=0  PER_NO=1  PER_TYP=5  INJ_SEV=4  AGE=75  SEX=1  DRINKING=0  STR_VEH=1
+person.csv (encoding utf-8) line 654:
+    ST_CASE=120197  VEH_NO=1  PER_NO=1  PER_TYP=1  INJ_SEV=0  AGE=40  SEX=2  DRINKING=9  STR_VEH=0
+pbtype.csv (encoding cp1252) line 166:
+    ST_CASE=120197  VEH_NO=0  PER_NO=1  PBCWALK=0  PBSWALK=1  PEDLOC=3  PEDPOS=5  PEDCTYPE=770
+
+== 3  TRANSFORM: each cleaning rule next to its effect here ==========
+unit of observation: PER_TYP = 5 and INJ_SEV = 4 kept 1 death(s) out of 2 person row(s) of this crash (cleaning plan, section 1.3)
+coordinates: raw LATITUDE=77.77770000 LONGITUD=777.77770000 -> stored NULL / NULL  (FARS filler pair = 'no usable point' -> NULL; issue 5 rule a)
+striking vehicle of per_no 1: stored str_veh = 1  (NULL would mean STR_VEH 0 or unresolved; rule 2 keeps the death either way)
+county: code 65 -> foreign key to county 'Jefferson' (business rule 3: mandatory, one of the 67)
+unknown codes stay as values (issue 1): nothing in this record was imputed or dropped
+
+== 4  DATABASE: the stored rows ======================================
+crash (2020, 120197):  county=65  month=2  day_week=1  hour=9  rur_urb=2  func_sys=3  reljct2=1  lgt_cond=1  weather=10  latitude=NULL  longitud=NULL  geoid10=NULL  tway_id=SW 8TH ST  fatals=1  peds=1
+vehicle veh_no 1:  body_typ=2  vspd_lim=35  hit_run=0
+pedestrian per_no 1:  str_veh=1  per_typ=5  inj_sev=4  age=75  sex=1  drinking=0
+ped_crash_type per_no 1:  pbcwalk=0  pbswalk=1  pedloc=3  pedpos=5  pedctype=770
+guarded by: composite PK (year, st_case, ...), the striking-vehicle FK into the same crash,
+the county FK, the CHECK code lists, and the deferred 'one pedestrian + one vehicle' triggers
+
+== 5  VIEW v_ped_transactions: the items this death contributes ======
+per_no 1 is IN the analysis view; its items:
+    county_fips        = 65
+    county_name        = Jefferson
+    road_class         = principal arterial
+    speed_bin          = 35-40 mph
+    light              = daylight
+    crossing_location  = not at intersection
+    crosswalk          = no crosswalk noted
+    time_of_day        = morning (6-9)
+    day_type           = weekend
+    junction           = non-junction
+    crash_group        = Crossing Roadway - Vehicle Not Turning
+    vehicle_class      = passenger car
+    hit_and_run        = driver stayed
+    age_group          = 65 or older
+    walkability        = unknown
+    alcohol_stratum    = no alcohol reported
+walkability reads 'unknown': no block group yet (EPA join pending, and this crash has no point anyway)
+
+== 6  AGGREGATES: where the death is counted =========================
+v_county_rate 'Jefferson': deaths_all=4 (this record among them), in_scope=4, person_years=76707, rate=5.21/100k/yr, unstable=True
+the load that carried this record passed 93 checks (gates G1-G6) before COMMIT; run 6 details: python pipeline/etl.py status --run 6
+
+end of trace
