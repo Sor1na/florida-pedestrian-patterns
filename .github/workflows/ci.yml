@@ -78,6 +78,13 @@ jobs:
       - name: Week 7 pipeline scenarios on synthetic inputs (exits 1 if any scenario check fails)
         run: python pipeline/run_scenarios.py --synthetic
 
+      - name: Week 8 record traces (one normal, one edge case) against the scenario load
+        env:
+          PGDATABASE: ped_safety_week7
+        run: |
+          python pipeline/trace.py --pick normal --raw-dir data/synthetic/clean
+          python pipeline/trace.py --pick edge --raw-dir data/synthetic/clean
+
       - name: Keep the logs of this run
         if: always()
         uses: actions/upload-artifact@v4
