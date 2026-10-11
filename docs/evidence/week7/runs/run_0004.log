@@ -1,0 +1,130 @@
+2026-10-11T18:29:00.408-04:00 run=4 stage=preflight INFO | start (connect, take the run lock, close abandoned runs, open the etl_run row)
+2026-10-11T18:29:00.593-04:00 run=4 stage=preflight INFO | run 4 started 2026-10-11T18:29:00-04:00; git commit e63f5f41060d4880d58b4ba64b629f582c29c5bc
+2026-10-11T18:29:00.594-04:00 run=4 stage=preflight INFO | inputs: raw dir data\interim\week7\defects; sources data\interim\week7\defects\sources.csv; expected counts data\interim\week7\defects\expected_counts.csv
+2026-10-11T18:29:00.647-04:00 run=4 stage=preflight INFO | data tables before the run: crash=3690, vehicle=4200, pedestrian=3736, ped_crash_type=3736, county_population=335; fingerprint 785c4dcfe4f3
+2026-10-11T18:29:00.648-04:00 run=4 stage=preflight INFO | stage preflight finished in 0.24s
+2026-10-11T18:29:00.648-04:00 run=4 stage=verify_sources INFO | start (every input file present; size and SHA-256 equal to sources.csv)
+2026-10-11T18:29:00.650-04:00 run=4 stage=verify_sources INFO | PASS  G1 sources.csv lists FARS 2020-2024 and the Census file: FARS years [2020, 2021, 2022, 2023, 2024]; census yes
+2026-10-11T18:29:00.791-04:00 run=4 stage=verify_sources INFO | PASS  G1 sha256 FARS2020NationalCSV.zip: expected b2806902b3da9b45... (31,016,385 bytes), found b2806902b3da9b45... (31,016,385 bytes)
+2026-10-11T18:29:00.897-04:00 run=4 stage=verify_sources INFO | PASS  G1 sha256 FARS2021NationalCSV.zip: expected 743c19a138846144... (35,190,858 bytes), found 743c19a138846144... (35,190,858 bytes)
+2026-10-11T18:29:01.003-04:00 run=4 stage=verify_sources INFO | PASS  G1 sha256 FARS2022NationalCSV.zip: expected 989448d7a2f39642... (34,689,724 bytes), found 989448d7a2f39642... (34,689,724 bytes)
+2026-10-11T18:29:01.110-04:00 run=4 stage=verify_sources INFO | PASS  G1 sha256 FARS2023NationalCSV.zip: expected f9cff17932e441f8... (34,448,568 bytes), found f9cff17932e441f8... (34,448,568 bytes)
+2026-10-11T18:29:01.544-04:00 run=4 stage=verify_sources INFO | PASS  G1 sha256 FARS2024NationalCSV.zip: expected 5112727a8c0dc91f... (32,672,161 bytes), found 5112727a8c0dc91f... (32,672,161 bytes)
+2026-10-11T18:29:01.598-04:00 run=4 stage=verify_sources INFO | PASS  G1 sha256 co-est2025-alldata.csv: expected 4f5a499d851e2cb4... (2,071,735 bytes), found 4f5a499d851e2cb4... (2,071,735 bytes)
+2026-10-11T18:29:01.603-04:00 run=4 stage=verify_sources INFO rows_in=6 rows_out=6 | 6 input files verified against sources.csv and recorded in source_file
+2026-10-11T18:29:01.604-04:00 run=4 stage=verify_sources INFO | stage verify_sources finished in 0.96s; gate G1 passed
+2026-10-11T18:29:01.605-04:00 run=4 stage=extract INFO | start (read the CSV members from the zips (UTF-8, cp1252 fallback); required columns present; keep STATE = 12)
+2026-10-11T18:29:02.165-04:00 run=4 stage=extract INFO | PASS  G2 2020 accident.csv required columns: 16 columns present (cp1252)
+2026-10-11T18:29:02.184-04:00 run=4 stage=extract INFO rows_in=35935 rows_out=3097 | 2020 accident.csv: kept STATE = 12 (encoding cp1252)
+2026-10-11T18:29:03.680-04:00 run=4 stage=extract INFO | PASS  G2 2020 vehicle.csv required columns: 6 columns present (utf-8)
+2026-10-11T18:29:03.706-04:00 run=4 stage=extract INFO rows_in=54552 rows_out=4845 | 2020 vehicle.csv: kept STATE = 12 (encoding utf-8)
+2026-10-11T18:29:05.373-04:00 run=4 stage=extract INFO | PASS  G2 2020 person.csv required columns: 10 columns present (utf-8)
+2026-10-11T18:29:05.418-04:00 run=4 stage=extract INFO rows_in=86396 rows_out=7785 | 2020 person.csv: kept STATE = 12 (encoding utf-8)
+2026-10-11T18:29:05.560-04:00 run=4 stage=extract INFO | PASS  G2 2020 pbtype.csv required columns: 9 columns present (cp1252)
+2026-10-11T18:29:05.566-04:00 run=4 stage=extract INFO rows_in=8166 rows_out=936 | 2020 pbtype.csv: kept STATE = 12 (encoding cp1252)
+2026-10-11T18:29:06.219-04:00 run=4 stage=extract INFO | PASS  G2 2021 accident.csv required columns: 16 columns present (utf-8)
+2026-10-11T18:29:06.239-04:00 run=4 stage=extract INFO rows_in=39785 rows_out=3453 | 2021 accident.csv: kept STATE = 12 (encoding utf-8)
+2026-10-11T18:29:07.907-04:00 run=4 stage=extract INFO | PASS  G2 2021 vehicle.csv required columns: 6 columns present (utf-8)
+2026-10-11T18:29:07.936-04:00 run=4 stage=extract INFO rows_in=61802 rows_out=5485 | 2021 vehicle.csv: kept STATE = 12 (encoding utf-8)
+2026-10-11T18:29:09.522-04:00 run=4 stage=extract INFO | PASS  G2 2021 person.csv required columns: 10 columns present (utf-8)
+2026-10-11T18:29:09.569-04:00 run=4 stage=extract INFO rows_in=97511 rows_out=8889 | 2021 person.csv: kept STATE = 12 (encoding utf-8)
+2026-10-11T18:29:09.649-04:00 run=4 stage=extract INFO | PASS  G2 2021 pbtype.csv required columns: 9 columns present (utf-8)
+2026-10-11T18:29:09.655-04:00 run=4 stage=extract INFO rows_in=9140 rows_out=1102 | 2021 pbtype.csv: kept STATE = 12 (encoding utf-8)
+2026-10-11T18:29:10.230-04:00 run=4 stage=extract INFO | PASS  G2 2022 accident.csv required columns: 16 columns present (utf-8)
+2026-10-11T18:29:10.250-04:00 run=4 stage=extract INFO rows_in=39422 rows_out=3315 | 2022 accident.csv: kept STATE = 12 (encoding utf-8)
+2026-10-11T18:29:11.690-04:00 run=4 stage=extract INFO | PASS  G2 2022 vehicle.csv required columns: 6 columns present (utf-8)
+2026-10-11T18:29:11.719-04:00 run=4 stage=extract INFO rows_in=60765 rows_out=5234 | 2022 vehicle.csv: kept STATE = 12 (encoding utf-8)
+2026-10-11T18:29:13.307-04:00 run=4 stage=extract INFO | PASS  G2 2022 person.csv required columns: 10 columns present (utf-8)
+2026-10-11T18:29:13.352-04:00 run=4 stage=extract INFO rows_in=96186 rows_out=8592 | 2022 person.csv: kept STATE = 12 (encoding utf-8)
+2026-10-11T18:29:13.448-04:00 run=4 stage=extract INFO | PASS  G2 2022 pbtype.csv required columns: 9 columns present (utf-8)
+2026-10-11T18:29:13.454-04:00 run=4 stage=extract INFO rows_in=9495 rows_out=1100 | 2022 pbtype.csv: kept STATE = 12 (encoding utf-8)
+2026-10-11T18:29:13.960-04:00 run=4 stage=extract INFO | PASS  G2 2023 accident.csv required columns: 16 columns present (utf-8)
+2026-10-11T18:29:13.978-04:00 run=4 stage=extract INFO rows_in=37769 rows_out=3163 | 2023 accident.csv: kept STATE = 12 (encoding utf-8)
+2026-10-11T18:29:15.506-04:00 run=4 stage=extract INFO | PASS  G2 2023 vehicle.csv required columns: 6 columns present (utf-8)
+2026-10-11T18:29:15.534-04:00 run=4 stage=extract INFO rows_in=58508 rows_out=5019 | 2023 vehicle.csv: kept STATE = 12 (encoding utf-8)
+2026-10-11T18:29:17.320-04:00 run=4 stage=extract INFO | PASS  G2 2023 person.csv required columns: 10 columns present (utf-8)
+2026-10-11T18:29:17.364-04:00 run=4 stage=extract INFO rows_in=92770 rows_out=8224 | 2023 person.csv: kept STATE = 12 (encoding utf-8)
+2026-10-11T18:29:17.450-04:00 run=4 stage=extract INFO | PASS  G2 2023 pbtype.csv required columns: 9 columns present (utf-8)
+2026-10-11T18:29:17.455-04:00 run=4 stage=extract INFO rows_in=9240 rows_out=1086 | 2023 pbtype.csv: kept STATE = 12 (encoding utf-8)
+2026-10-11T18:29:17.949-04:00 run=4 stage=extract INFO | PASS  G2 2024 accident.csv required columns: 16 columns present (utf-8)
+2026-10-11T18:29:17.968-04:00 run=4 stage=extract INFO rows_in=36297 rows_out=2931 | 2024 accident.csv: kept STATE = 12 (encoding utf-8)
+2026-10-11T18:29:19.283-04:00 run=4 stage=extract INFO | PASS  G2 2024 vehicle.csv required columns: 6 columns present (utf-8)
+2026-10-11T18:29:19.311-04:00 run=4 stage=extract INFO rows_in=56011 rows_out=4620 | 2024 vehicle.csv: kept STATE = 12 (encoding utf-8)
+2026-10-11T18:29:20.781-04:00 run=4 stage=extract INFO | PASS  G2 2024 person.csv required columns: 10 columns present (utf-8)
+2026-10-11T18:29:20.840-04:00 run=4 stage=extract INFO rows_in=88326 rows_out=7645 | 2024 person.csv: kept STATE = 12 (encoding utf-8)
+2026-10-11T18:29:20.918-04:00 run=4 stage=extract INFO | PASS  G2 2024 pbtype.csv required columns: 9 columns present (utf-8)
+2026-10-11T18:29:20.924-04:00 run=4 stage=extract INFO rows_in=8940 rows_out=970 | 2024 pbtype.csv: kept STATE = 12 (encoding utf-8)
+2026-10-11T18:29:20.969-04:00 run=4 stage=extract INFO | PASS  G2 census required columns: 9 columns present (latin-1)
+2026-10-11T18:29:20.974-04:00 run=4 stage=extract INFO rows_in=3195 rows_out=67 | census: kept SUMLEV 050 and STATE 12 (encoding latin-1; the state summary row is dropped)
+2026-10-11T18:29:20.975-04:00 run=4 stage=extract INFO | stage extract finished in 19.37s; gate G2 passed
+2026-10-11T18:29:20.976-04:00 run=4 stage=reconcile_inventory INFO | start (Florida rows per member equal expected_counts.csv)
+2026-10-11T18:29:20.977-04:00 run=4 stage=reconcile_inventory INFO | PASS  G3 expected_counts.csv present and complete: 31 totals read from data\interim\week7\defects\expected_counts.csv
+2026-10-11T18:29:20.978-04:00 run=4 stage=reconcile_inventory INFO | PASS  G3 2020 accident Florida rows: expected 3,097, read 3,097
+2026-10-11T18:29:20.978-04:00 run=4 stage=reconcile_inventory INFO | PASS  G3 2020 vehicle Florida rows: expected 4,845, read 4,845
+2026-10-11T18:29:20.979-04:00 run=4 stage=reconcile_inventory INFO | PASS  G3 2020 person Florida rows: expected 7,785, read 7,785
+2026-10-11T18:29:20.979-04:00 run=4 stage=reconcile_inventory INFO | PASS  G3 2020 pbtype Florida rows: expected 936, read 936
+2026-10-11T18:29:20.980-04:00 run=4 stage=reconcile_inventory INFO | PASS  G3 2021 accident Florida rows: expected 3,453, read 3,453
+2026-10-11T18:29:20.980-04:00 run=4 stage=reconcile_inventory INFO | PASS  G3 2021 vehicle Florida rows: expected 5,485, read 5,485
+2026-10-11T18:29:20.981-04:00 run=4 stage=reconcile_inventory INFO | PASS  G3 2021 person Florida rows: expected 8,889, read 8,889
+2026-10-11T18:29:20.981-04:00 run=4 stage=reconcile_inventory INFO | PASS  G3 2021 pbtype Florida rows: expected 1,102, read 1,102
+2026-10-11T18:29:20.982-04:00 run=4 stage=reconcile_inventory INFO | PASS  G3 2022 accident Florida rows: expected 3,315, read 3,315
+2026-10-11T18:29:20.982-04:00 run=4 stage=reconcile_inventory INFO | PASS  G3 2022 vehicle Florida rows: expected 5,234, read 5,234
+2026-10-11T18:29:20.983-04:00 run=4 stage=reconcile_inventory INFO | PASS  G3 2022 person Florida rows: expected 8,592, read 8,592
+2026-10-11T18:29:20.983-04:00 run=4 stage=reconcile_inventory INFO | PASS  G3 2022 pbtype Florida rows: expected 1,100, read 1,100
+2026-10-11T18:29:20.984-04:00 run=4 stage=reconcile_inventory INFO | PASS  G3 2023 accident Florida rows: expected 3,163, read 3,163
+2026-10-11T18:29:20.984-04:00 run=4 stage=reconcile_inventory INFO | PASS  G3 2023 vehicle Florida rows: expected 5,019, read 5,019
+2026-10-11T18:29:20.985-04:00 run=4 stage=reconcile_inventory INFO | PASS  G3 2023 person Florida rows: expected 8,224, read 8,224
+2026-10-11T18:29:20.985-04:00 run=4 stage=reconcile_inventory INFO | PASS  G3 2023 pbtype Florida rows: expected 1,086, read 1,086
+2026-10-11T18:29:20.986-04:00 run=4 stage=reconcile_inventory INFO | PASS  G3 2024 accident Florida rows: expected 2,931, read 2,931
+2026-10-11T18:29:20.986-04:00 run=4 stage=reconcile_inventory INFO | PASS  G3 2024 vehicle Florida rows: expected 4,620, read 4,620
+2026-10-11T18:29:20.986-04:00 run=4 stage=reconcile_inventory INFO | PASS  G3 2024 person Florida rows: expected 7,645, read 7,645
+2026-10-11T18:29:20.987-04:00 run=4 stage=reconcile_inventory INFO | PASS  G3 2024 pbtype Florida rows: expected 970, read 970
+2026-10-11T18:29:20.987-04:00 run=4 stage=reconcile_inventory INFO | PASS  G3 census Florida county rows: expected 67, read 67
+2026-10-11T18:29:20.987-04:00 run=4 stage=reconcile_inventory INFO | stage reconcile_inventory finished in 0.01s; gate G3 passed
+2026-10-11T18:29:20.988-04:00 run=4 stage=transform INFO | start (unit of observation; filler coordinates and STR_VEH 0 -> NULL; census to long format)
+2026-10-11T18:29:21.034-04:00 run=4 stage=transform INFO rows_in=7785 rows_out=695 | 2020 person -> pedestrian: PER_TYP = 5 and INJ_SEV = 4
+2026-10-11T18:29:21.053-04:00 run=4 stage=transform INFO rows_in=3097 rows_out=689 | 2020 accident -> crash: crashes with at least one pedestrian fatality; 0 filler coordinate pair(s) (77.7777 / 88.8888 / 99.9999) set to NULL
+2026-10-11T18:29:21.063-04:00 run=4 stage=transform INFO rows_in=4845 rows_out=796 | 2020 vehicle -> vehicle: in-transport vehicles of those crashes
+2026-10-11T18:29:21.078-04:00 run=4 stage=transform INFO rows_in=936 rows_out=695 | 2020 pbtype -> ped_crash_type: typing records of the pedestrian fatalities
+2026-10-11T18:29:21.133-04:00 run=4 stage=transform INFO rows_in=8889 rows_out=819 | 2021 person -> pedestrian: PER_TYP = 5 and INJ_SEV = 4
+2026-10-11T18:29:21.152-04:00 run=4 stage=transform INFO rows_in=3453 rows_out=809 | 2021 accident -> crash: crashes with at least one pedestrian fatality; 2 filler coordinate pair(s) (77.7777 / 88.8888 / 99.9999) set to NULL
+2026-10-11T18:29:21.188-04:00 run=4 stage=transform INFO rows_in=5485 rows_out=919 | 2021 vehicle -> vehicle: in-transport vehicles of those crashes
+2026-10-11T18:29:21.202-04:00 run=4 stage=transform INFO rows_in=1102 rows_out=819 | 2021 pbtype -> ped_crash_type: typing records of the pedestrian fatalities
+2026-10-11T18:29:21.254-04:00 run=4 stage=transform INFO rows_in=8592 rows_out=780 | 2022 person -> pedestrian: PER_TYP = 5 and INJ_SEV = 4
+2026-10-11T18:29:21.273-04:00 run=4 stage=transform INFO rows_in=3315 rows_out=768 | 2022 accident -> crash: crashes with at least one pedestrian fatality; 1 filler coordinate pair(s) (77.7777 / 88.8888 / 99.9999) set to NULL
+2026-10-11T18:29:21.284-04:00 run=4 stage=transform INFO rows_in=5234 rows_out=881 | 2022 vehicle -> vehicle: in-transport vehicles of those crashes
+2026-10-11T18:29:21.299-04:00 run=4 stage=transform INFO rows_in=1100 rows_out=780 | 2022 pbtype -> ped_crash_type: typing records of the pedestrian fatalities
+2026-10-11T18:29:21.387-04:00 run=4 stage=transform INFO rows_in=8224 rows_out=776 | 2023 person -> pedestrian: PER_TYP = 5 and INJ_SEV = 4
+2026-10-11T18:29:21.420-04:00 run=4 stage=transform INFO rows_in=3163 rows_out=768 | 2023 accident -> crash: crashes with at least one pedestrian fatality; 0 filler coordinate pair(s) (77.7777 / 88.8888 / 99.9999) set to NULL
+2026-10-11T18:29:21.437-04:00 run=4 stage=transform INFO rows_in=5019 rows_out=876 | 2023 vehicle -> vehicle: in-transport vehicles of those crashes
+2026-10-11T18:29:21.515-04:00 run=4 stage=transform WARN | 2023 STR_VEH: 0 coded 0 and 1 without a vehicle in the same crash set to NULL (rule 2; the death is kept)
+2026-10-11T18:29:21.618-04:00 run=4 stage=transform INFO rows_in=1086 rows_out=775 | 2023 pbtype -> ped_crash_type: typing records of the pedestrian fatalities
+2026-10-11T18:29:21.666-04:00 run=4 stage=transform INFO rows_in=7645 rows_out=668 | 2024 person -> pedestrian: PER_TYP = 5 and INJ_SEV = 4
+2026-10-11T18:29:21.686-04:00 run=4 stage=transform INFO rows_in=2931 rows_out=656 | 2024 accident -> crash: crashes with at least one pedestrian fatality; 0 filler coordinate pair(s) (77.7777 / 88.8888 / 99.9999) set to NULL
+2026-10-11T18:29:21.697-04:00 run=4 stage=transform INFO rows_in=4620 rows_out=728 | 2024 vehicle -> vehicle: in-transport vehicles of those crashes
+2026-10-11T18:29:21.713-04:00 run=4 stage=transform INFO rows_in=970 rows_out=668 | 2024 pbtype -> ped_crash_type: typing records of the pedestrian fatalities
+2026-10-11T18:29:21.739-04:00 run=4 stage=transform INFO rows_in=67 rows_out=335 | census -> county_population: one row per county and year (vintage 2025)
+2026-10-11T18:29:21.740-04:00 run=4 stage=transform INFO | unit totals: crash=3,690, vehicle=4,200, pedestrian=3,738, ped_crash_type=3,737, county_population=335
+2026-10-11T18:29:21.741-04:00 run=4 stage=transform INFO | stage transform finished in 0.75s
+2026-10-11T18:29:21.742-04:00 run=4 stage=join_block_groups INFO | start (EPA spatial join for crash.geoid10 (not implemented yet: always skipped with a warning))
+2026-10-11T18:29:21.742-04:00 run=4 stage=join_block_groups WARN rows_in=3690 rows_out=0 | skipped: the EPA block-group join is not implemented yet, so crash.geoid10 stays NULL for all 3,690 crashes and the walkability item reads 'unknown' (cleaning plan, issue 5)
+2026-10-11T18:29:21.743-04:00 run=4 stage=join_block_groups WARN | stage join_block_groups skipped in 0.00s
+2026-10-11T18:29:21.743-04:00 run=4 stage=validate_records INFO | start (pandera: unique keys, no orphans, types, code lists valid for the year, reference tables; failures -> rejected_record)
+2026-10-11T18:29:22.920-04:00 run=4 stage=validate_records ERROR | REJECT person (FARS2023NationalCSV.zip:person.csv): duplicate key within the year
+2026-10-11T18:29:22.921-04:00 run=4 stage=validate_records ERROR | REJECT person (FARS2023NationalCSV.zip:person.csv): ST_CASE exists in accident.csv (no orphan) [ST_CASE]
+2026-10-11T18:29:22.922-04:00 run=4 stage=validate_records ERROR | REJECT pbtype (FARS2023NationalCSV.zip:pbtype.csv): ST_CASE exists in accident.csv (no orphan) [ST_CASE]
+2026-10-11T18:29:22.923-04:00 run=4 stage=validate_records ERROR | REJECT crash (FARS2023NationalCSV.zip:accident.csv): one of the 67 Florida counties [county]
+2026-10-11T18:29:22.923-04:00 run=4 stage=validate_records ERROR | REJECT crash (FARS2023NationalCSV.zip:accident.csv): code with a 2023 label in code_lookup [lgt_cond]
+2026-10-11T18:29:22.924-04:00 run=4 stage=validate_records INFO | PASS  G4 raw file accident: 0 failures
+2026-10-11T18:29:22.924-04:00 run=4 stage=validate_records INFO | PASS  G4 raw file vehicle: 0 failures
+2026-10-11T18:29:22.925-04:00 run=4 stage=validate_records ERROR | FAIL  G4 raw file person: 2 failure(s): 2023 : duplicate key within the year; 2023 ST_CASE: ST_CASE exists in accident.csv (no orphan)
+2026-10-11T18:29:22.925-04:00 run=4 stage=validate_records ERROR | FAIL  G4 raw file pbtype: 1 failure(s): 2023 ST_CASE: ST_CASE exists in accident.csv (no orphan)
+2026-10-11T18:29:22.926-04:00 run=4 stage=validate_records ERROR | FAIL  G4 record rules crash: 2 failure(s): 2023 county: one of the 67 Florida counties; 2023 lgt_cond: code with a 2023 label in code_lookup
+2026-10-11T18:29:22.926-04:00 run=4 stage=validate_records INFO | PASS  G4 record rules vehicle: 0 failures
+2026-10-11T18:29:22.927-04:00 run=4 stage=validate_records INFO | PASS  G4 record rules pedestrian: 0 failures
+2026-10-11T18:29:22.927-04:00 run=4 stage=validate_records INFO | PASS  G4 record rules ped_crash_type: 0 failures
+2026-10-11T18:29:22.927-04:00 run=4 stage=validate_records INFO | PASS  G4 record rules county_population: 0 failures
+2026-10-11T18:29:22.927-04:00 run=4 stage=validate_records ERROR rows_in=103191 rows_out=103186 | record-level rules applied to 103,191 rows; 5 record(s) rejected (5 rule failure(s)) into rejected_record
+2026-10-11T18:29:22.928-04:00 run=4 stage=validate_records ERROR | gate failed at stage validate_records: G4 record rules (5 record(s) in rejected_record, run 4): 3 blocking check(s) failed: G4 raw file person; G4 raw file pbtype; G4 record rules crash
+2026-10-11T18:29:22.981-04:00 run=4 stage=validate_records INFO | data tables unchanged by this run: True (fingerprint 785c4dcfe4f3); they hold the load of run 2
+2026-10-11T18:29:22.982-04:00 run=4 stage=end ERROR | RUN 4 FAILED at stage validate_records; see docs/Week7_Pipeline_Shkirpan.md, section 6 (recovery)

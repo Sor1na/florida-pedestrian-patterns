@@ -1,0 +1,16 @@
+2026-10-11T18:28:46.974-04:00 run=3 stage=preflight INFO | start (connect, take the run lock, close abandoned runs, open the etl_run row)
+2026-10-11T18:28:47.136-04:00 run=3 stage=preflight INFO | run 3 started 2026-10-11T18:28:47-04:00; git commit e63f5f41060d4880d58b4ba64b629f582c29c5bc
+2026-10-11T18:28:47.138-04:00 run=3 stage=preflight INFO | inputs: raw dir data\interim\week7\tampered; sources pipeline\sources.csv; expected counts pipeline\expected_counts.csv
+2026-10-11T18:28:47.190-04:00 run=3 stage=preflight INFO | data tables before the run: crash=3690, vehicle=4200, pedestrian=3736, ped_crash_type=3736, county_population=335; fingerprint 785c4dcfe4f3
+2026-10-11T18:28:47.190-04:00 run=3 stage=preflight INFO | stage preflight finished in 0.22s
+2026-10-11T18:28:47.191-04:00 run=3 stage=verify_sources INFO | start (every input file present; size and SHA-256 equal to sources.csv)
+2026-10-11T18:28:47.193-04:00 run=3 stage=verify_sources INFO | PASS  G1 sources.csv lists FARS 2020-2024 and the Census file: FARS years [2020, 2021, 2022, 2023, 2024]; census yes
+2026-10-11T18:28:47.287-04:00 run=3 stage=verify_sources INFO | PASS  G1 sha256 FARS2020NationalCSV.zip: expected b2806902b3da9b45... (31,016,385 bytes), found b2806902b3da9b45... (31,016,385 bytes)
+2026-10-11T18:28:47.391-04:00 run=3 stage=verify_sources INFO | PASS  G1 sha256 FARS2021NationalCSV.zip: expected 743c19a138846144... (35,190,858 bytes), found 743c19a138846144... (35,190,858 bytes)
+2026-10-11T18:28:47.493-04:00 run=3 stage=verify_sources ERROR | FAIL  G1 sha256 FARS2022NationalCSV.zip: expected 989448d7a2f39642... (34,689,724 bytes), found bb95700b04370425... (34,961,296 bytes)
+2026-10-11T18:28:47.592-04:00 run=3 stage=verify_sources INFO | PASS  G1 sha256 FARS2023NationalCSV.zip: expected edde841eb493e557... (34,174,899 bytes), found edde841eb493e557... (34,174,899 bytes)
+2026-10-11T18:28:47.689-04:00 run=3 stage=verify_sources INFO | PASS  G1 sha256 FARS2024NationalCSV.zip: expected 5112727a8c0dc91f... (32,672,161 bytes), found 5112727a8c0dc91f... (32,672,161 bytes)
+2026-10-11T18:28:47.696-04:00 run=3 stage=verify_sources INFO | PASS  G1 sha256 co-est2025-alldata.csv: expected 4f5a499d851e2cb4... (2,071,735 bytes), found 4f5a499d851e2cb4... (2,071,735 bytes)
+2026-10-11T18:28:47.696-04:00 run=3 stage=verify_sources ERROR | gate failed at stage verify_sources: G1 integrity: 1 blocking check(s) failed: G1 sha256 FARS2022NationalCSV.zip
+2026-10-11T18:28:47.748-04:00 run=3 stage=verify_sources INFO | data tables unchanged by this run: True (fingerprint 785c4dcfe4f3); they hold the load of run 2
+2026-10-11T18:28:47.749-04:00 run=3 stage=end ERROR | RUN 3 FAILED at stage verify_sources; see docs/Week7_Pipeline_Shkirpan.md, section 6 (recovery)

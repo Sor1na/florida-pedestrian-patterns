@@ -1,0 +1,42 @@
+# Scenario 3 (deliberate failure A): a raw file edited after it was pinned
+# input: REAL files in data/raw/, pinned by pipeline/sources.csv (case numbers, lines and values masked)
+# expected outcome: exit 1 at stage verify_sources (gate G1); nothing read, nothing loaded; tables unchanged
+# recorded 2026-10-11T18:28:37-04:00
+
+fault injected: FARS2022NationalCSV.zip: one AGE value in person.csv changed and the zip re-written
+(sources.csv is NOT updated: the pinned hash no longer matches)
+
+$ python pipeline/etl.py run --raw-dir data\interim\week7\tampered --sources pipeline\sources.csv --expected pipeline\expected_counts.csv --log-dir data\interim\week7\logs --redact-keys
+2026-10-11T18:28:46.974-04:00 run=- stage=preflight INFO | start (connect, take the run lock, close abandoned runs, open the etl_run row)
+2026-10-11T18:28:47.136-04:00 run=3 stage=preflight INFO | run 3 started 2026-10-11T18:28:47-04:00; git commit e63f5f41060d4880d58b4ba64b629f582c29c5bc
+2026-10-11T18:28:47.138-04:00 run=3 stage=preflight INFO | inputs: raw dir data\interim\week7\tampered; sources pipeline\sources.csv; expected counts pipeline\expected_counts.csv
+2026-10-11T18:28:47.190-04:00 run=3 stage=preflight INFO | data tables before the run: crash=3690, vehicle=4200, pedestrian=3736, ped_crash_type=3736, county_population=335; fingerprint 785c4dcfe4f3
+2026-10-11T18:28:47.190-04:00 run=3 stage=preflight INFO | stage preflight finished in 0.22s
+2026-10-11T18:28:47.191-04:00 run=3 stage=verify_sources INFO | start (every input file present; size and SHA-256 equal to sources.csv)
+2026-10-11T18:28:47.193-04:00 run=3 stage=verify_sources INFO | PASS  G1 sources.csv lists FARS 2020-2024 and the Census file: FARS years [2020, 2021, 2022, 2023, 2024]; census yes
+2026-10-11T18:28:47.287-04:00 run=3 stage=verify_sources INFO | PASS  G1 sha256 FARS2020NationalCSV.zip: expected b2806902b3da9b45... (31,016,385 bytes), found b2806902b3da9b45... (31,016,385 bytes)
+2026-10-11T18:28:47.391-04:00 run=3 stage=verify_sources INFO | PASS  G1 sha256 FARS2021NationalCSV.zip: expected 743c19a138846144... (35,190,858 bytes), found 743c19a138846144... (35,190,858 bytes)
+2026-10-11T18:28:47.493-04:00 run=3 stage=verify_sources ERROR | FAIL  G1 sha256 FARS2022NationalCSV.zip: expected 989448d7a2f39642... (34,689,724 bytes), found bb95700b04370425... (34,961,296 bytes)
+2026-10-11T18:28:47.592-04:00 run=3 stage=verify_sources INFO | PASS  G1 sha256 FARS2023NationalCSV.zip: expected edde841eb493e557... (34,174,899 bytes), found edde841eb493e557... (34,174,899 bytes)
+2026-10-11T18:28:47.689-04:00 run=3 stage=verify_sources INFO | PASS  G1 sha256 FARS2024NationalCSV.zip: expected 5112727a8c0dc91f... (32,672,161 bytes), found 5112727a8c0dc91f... (32,672,161 bytes)
+2026-10-11T18:28:47.696-04:00 run=3 stage=verify_sources INFO | PASS  G1 sha256 co-est2025-alldata.csv: expected 4f5a499d851e2cb4... (2,071,735 bytes), found 4f5a499d851e2cb4... (2,071,735 bytes)
+2026-10-11T18:28:47.696-04:00 run=3 stage=verify_sources ERROR | gate failed at stage verify_sources: G1 integrity: 1 blocking check(s) failed: G1 sha256 FARS2022NationalCSV.zip
+2026-10-11T18:28:47.748-04:00 run=3 stage=verify_sources INFO | data tables unchanged by this run: True (fingerprint 785c4dcfe4f3); they hold the load of run 2
+2026-10-11T18:28:47.749-04:00 run=3 stage=end ERROR | RUN 3 FAILED at stage verify_sources; see docs/Week7_Pipeline_Shkirpan.md, section 6 (recovery)
+[exit code 1]
+
+--- tables after this scenario ---
+$ python pipeline/etl.py snapshot
+table             | rows | 2020 | 2021 | 2022 | 2023 | 2024 | content md5 
+------------------+------+------+------+------+------+------+-------------
+crash             | 3690 | 689  | 809  | 768  | 768  | 656  | 6f7bbfc5ac89
+vehicle           | 4200 | 796  | 919  | 881  | 876  | 728  | 7462a426d606
+pedestrian        | 3736 | 695  | 819  | 780  | 774  | 668  | fd23fa3bde6b
+ped_crash_type    | 3736 | 695  | 819  | 780  | 774  | 668  | ba2d7c5a7441
+county_population | 335  | 67   | 67   | 67   | 67   | 67   | cd9a51b9495c
+fingerprint of all data tables: 785c4dcfe4f357904b944ee0003a51a1
+[exit code 0]
+
+CHECK PASS  exit code 1: exit 1
+CHECK PASS  stopped by G1 at verify_sources: log lines
+CHECK PASS  tables unchanged (fingerprint of scenario 1): 785c4dcfe4f357904b944ee0003a51a1
