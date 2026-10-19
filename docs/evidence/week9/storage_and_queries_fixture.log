@@ -1,0 +1,184 @@
+# tools/measure_storage_and_queries.sql on an EMPTY built schema holding only the Week 5 fixture (16 synthetic deaths)
+# purpose: check that the script runs; the 9.1 MB is the PostgreSQL baseline of a built database before any load
+# recorded 2026-10-18T23:07:44-04:00 in the assistant's Linux environment; the real-data numbers are measured on the student's PC (Week 10)
+
+$ psql -d ped_week9 -f tools/measure_storage_and_queries.sql
+Timing is off.
+                                                                 version                                                                  
+------------------------------------------------------------------------------------------------------------------------------------------
+ PostgreSQL 16.15 (Ubuntu 16.15-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit
+
+ database  | size_on_disk |  bytes  
+-----------+--------------+---------
+ ped_week9 | 9087 kB      | 9305111
+
+       table       | rows | table_size | index_size | total 
+-------------------+------+------------+------------+-------
+ data_dictionary   |  148 | 56 kB      | 16 kB      | 72 kB
+ pbcat_type        |   55 | 16 kB      | 48 kB      | 64 kB
+ crash             |   15 | 16 kB      | 48 kB      | 64 kB
+ validation_result |    1 | 16 kB      | 32 kB      | 48 kB
+ source_file       |    1 | 16 kB      | 32 kB      | 48 kB
+ etl_log           |    1 | 16 kB      | 32 kB      | 48 kB
+ block_group       |    8 | 16 kB      | 32 kB      | 48 kB
+ county            |   67 | 16 kB      | 32 kB      | 48 kB
+ pbcat_group       |   16 | 16 kB      | 32 kB      | 48 kB
+ code_lookup       |   98 | 16 kB      | 24 kB      | 40 kB
+ pedestrian        |   16 | 8192 bytes | 32 kB      | 40 kB
+ ped_crash_type    |   15 | 8192 bytes | 32 kB      | 40 kB
+ etl_run           |    1 | 16 kB      | 16 kB      | 32 kB
+ county_population |   35 | 8192 bytes | 16 kB      | 24 kB
+ vehicle           |   16 | 8192 bytes | 16 kB      | 24 kB
+ rejected_record   |    0 | 8192 bytes | 8192 bytes | 16 kB
+
+ runs | etl_log_rows | validation_rows | source_file_rows | rejected_rows 
+------+--------------+-----------------+------------------+---------------
+    1 |            1 |               1 |                1 |             0
+
+
+--- v_ped_transactions: full scan (what the mining step reads) ---
+                                                                             QUERY PLAN                                                                              
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Nested Loop Left Join  (cost=1.06..88.42 rows=9 width=490) (actual time=0.070..0.194 rows=14 loops=1)
+   Buffers: shared hit=182
+   ->  Nested Loop Left Join  (cost=0.91..85.02 rows=9 width=80) (actual time=0.055..0.154 rows=14 loops=1)
+         Buffers: shared hit=156
+         ->  Nested Loop Left Join  (cost=0.76..83.24 rows=9 width=80) (actual time=0.048..0.135 rows=14 loops=1)
+               Buffers: shared hit=130
+               ->  Nested Loop Left Join  (cost=0.61..81.38 rows=9 width=76) (actual time=0.040..0.102 rows=14 loops=1)
+                     Buffers: shared hit=103
+                     ->  Nested Loop  (cost=0.45..79.54 rows=9 width=72) (actual time=0.032..0.079 rows=14 loops=1)
+                           Buffers: shared hit=77
+                           ->  Nested Loop Left Join  (cost=0.30..58.99 rows=3 width=62) (actual time=0.025..0.055 rows=13 loops=1)
+                                 Buffers: shared hit=51
+                                 ->  Nested Loop  (cost=0.15..38.47 rows=3 width=82) (actual time=0.016..0.033 rows=13 loops=1)
+                                       Buffers: shared hit=27
+                                       ->  Seq Scan on crash c  (cost=0.00..17.95 rows=3 width=50) (actual time=0.006..0.009 rows=13 loops=1)
+                                             Filter: ((func_sys <> ALL ('{1,2}'::integer[])) AND (rur_urb = 2))
+                                             Rows Removed by Filter: 2
+                                             Buffers: shared hit=1
+                                       ->  Index Scan using county_pk on county co  (cost=0.15..6.84 rows=1 width=34) (actual time=0.001..0.001 rows=1 loops=13)
+                                             Index Cond: (county_fips = c.county)
+                                             Buffers: shared hit=26
+                                 ->  Index Scan using block_group_pk on block_group bg  (cost=0.15..6.83 rows=1 width=44) (actual time=0.001..0.001 rows=1 loops=13)
+                                       Index Cond: (geoid10 = c.geoid10)
+                                       Buffers: shared hit=24
+                           ->  Index Scan using pedestrian_pk on pedestrian p  (cost=0.15..6.84 rows=1 width=16) (actual time=0.001..0.001 rows=1 loops=13)
+                                 Index Cond: ((year = c.year) AND (st_case = c.st_case))
+                                 Buffers: shared hit=26
+                     ->  Index Scan using vehicle_pk on vehicle v  (cost=0.15..0.20 rows=1 width=14) (actual time=0.001..0.001 rows=1 loops=14)
+                           Index Cond: ((year = p.year) AND (st_case = p.st_case) AND (veh_no = p.str_veh))
+                           Buffers: shared hit=26
+               ->  Index Scan using ped_crash_type_pk on ped_crash_type t  (cost=0.15..0.21 rows=1 width=16) (actual time=0.001..0.001 rows=1 loops=14)
+                     Index Cond: ((year = p.year) AND (st_case = p.st_case) AND (veh_no = p.veh_no) AND (per_no = p.per_no))
+                     Buffers: shared hit=27
+         ->  Index Scan using pbcat_type_pk on pbcat_type pt  (cost=0.15..0.20 rows=1 width=4) (actual time=0.001..0.001 rows=1 loops=14)
+               Index Cond: (pedctype = t.pedctype)
+               Buffers: shared hit=26
+   ->  Index Scan using pbcat_group_pk on pbcat_group g  (cost=0.15..0.21 rows=1 width=34) (actual time=0.001..0.001 rows=1 loops=14)
+         Index Cond: (pedcgp = pt.pedcgp)
+         Buffers: shared hit=26
+ Planning:
+   Buffers: shared hit=350
+ Planning Time: 2.385 ms
+ Execution Time: 0.333 ms
+
+
+--- v_county_rate: 67 county rates (Objective 3) ---
+                                                                   QUERY PLAN                                                                   
+------------------------------------------------------------------------------------------------------------------------------------------------
+ Hash Left Join  (cost=138.93..188.58 rows=1310 width=99) (actual time=0.056..0.092 rows=67 loops=1)
+   Hash Cond: (co.county_fips = pop.county_fips)
+   Buffers: shared hit=4
+   ->  Hash Left Join  (cost=84.98..111.53 rows=1310 width=50) (actual time=0.038..0.053 rows=67 loops=1)
+         Hash Cond: (co.county_fips = d.county_fips)
+         Buffers: shared hit=3
+         ->  Seq Scan on county co  (cost=0.00..23.10 rows=1310 width=34) (actual time=0.003..0.006 rows=67 loops=1)
+               Buffers: shared hit=1
+         ->  Hash  (cost=82.48..82.48 rows=200 width=18) (actual time=0.031..0.032 rows=6 loops=1)
+               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+               Buffers: shared hit=2
+               ->  Subquery Scan on d  (cost=78.48..82.48 rows=200 width=18) (actual time=0.027..0.030 rows=6 loops=1)
+                     Buffers: shared hit=2
+                     ->  HashAggregate  (cost=78.48..80.48 rows=200 width=18) (actual time=0.026..0.029 rows=6 loops=1)
+                           Group Key: c.county
+                           Batches: 1  Memory Usage: 40kB
+                           Buffers: shared hit=2
+                           ->  Hash Join  (cost=23.25..58.11 rows=1630 width=6) (actual time=0.012..0.018 rows=16 loops=1)
+                                 Hash Cond: ((p.year = c.year) AND (p.st_case = c.st_case))
+                                 Buffers: shared hit=2
+                                 ->  Seq Scan on pedestrian p  (cost=0.00..26.30 rows=1630 width=6) (actual time=0.001..0.002 rows=16 loops=1)
+                                       Buffers: shared hit=1
+                                 ->  Hash  (cost=15.30..15.30 rows=530 width=12) (actual time=0.008..0.008 rows=15 loops=1)
+                                       Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                       Buffers: shared hit=1
+                                       ->  Seq Scan on crash c  (cost=0.00..15.30 rows=530 width=12) (actual time=0.002..0.004 rows=15 loops=1)
+                                             Buffers: shared hit=1
+   ->  Hash  (cost=51.45..51.45 rows=200 width=18) (actual time=0.014..0.015 rows=7 loops=1)
+         Buckets: 1024  Batches: 1  Memory Usage: 9kB
+         Buffers: shared hit=1
+         ->  Subquery Scan on pop  (cost=47.45..51.45 rows=200 width=18) (actual time=0.011..0.013 rows=7 loops=1)
+               Buffers: shared hit=1
+               ->  HashAggregate  (cost=47.45..49.45 rows=200 width=18) (actual time=0.011..0.012 rows=7 loops=1)
+                     Group Key: county_population.county_fips
+                     Batches: 1  Memory Usage: 40kB
+                     Buffers: shared hit=1
+                     ->  Seq Scan on county_population  (cost=0.00..31.40 rows=2140 width=6) (actual time=0.001..0.004 rows=35 loops=1)
+                           Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=44
+ Planning Time: 0.325 ms
+ Execution Time: 0.178 ms
+
+
+--- v_dash_pattern_county: what the dashboard role reads ---
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              QUERY PLAN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=63.52..64.46 rows=9 width=202) (actual time=0.147..0.155 rows=11 loops=1)
+   Group Key: c.county, co.name, (CASE c.func_sys WHEN 3 THEN 'principal arterial'::text WHEN 4 THEN 'minor arterial'::text WHEN 5 THEN 'collector'::text WHEN 6 THEN 'collector'::text WHEN 7 THEN 'local road'::text ELSE 'unknown'::text END), (CASE WHEN ((v.vspd_lim IS NULL) OR (v.vspd_lim = ANY ('{98,99}'::integer[]))) THEN 'unknown'::text WHEN (v.vspd_lim = 0) THEN 'no statutory limit'::text WHEN (v.vspd_lim <= 30) THEN '30 mph or less'::text WHEN (v.vspd_lim <= 40) THEN '35-40 mph'::text WHEN (v.vspd_lim <= 50) THEN '45-50 mph'::text ELSE '55 mph or more'::text END), (CASE c.lgt_cond WHEN 1 THEN 'daylight'::text WHEN 2 THEN 'dark, not lighted'::text WHEN 3 THEN 'dark, lighted'::text WHEN 4 THEN 'dawn or dusk'::text WHEN 5 THEN 'dawn or dusk'::text WHEN 6 THEN 'dark, lighting unknown'::text ELSE 'unknown'::text END), (CASE t.pedloc WHEN 1 THEN 'at intersection'::text WHEN 2 THEN 'intersection-related'::text WHEN 3 THEN 'not at intersection'::text WHEN 4 THEN 'non-trafficway'::text ELSE 'unknown'::text END), (CASE WHEN (c.hour = 99) THEN 'unknown'::text WHEN ((c.hour >= 6) AND (c.hour <= 9)) THEN 'morning (6-9)'::text WHEN ((c.hour >= 10) AND (c.hour <= 15)) THEN 'midday (10-15)'::text WHEN ((c.hour >= 16) AND (c.hour <= 19)) THEN 'evening (16-19)'::text WHEN ((c.hour >= 20) AND (c.hour <= 23)) THEN 'night (20-23)'::text ELSE 'late night (0-5)'::text END)
+   Buffers: shared hit=112
+   ->  Sort  (cost=63.52..63.54 rows=9 width=194) (actual time=0.142..0.144 rows=14 loops=1)
+         Sort Key: c.county, co.name, (CASE c.func_sys WHEN 3 THEN 'principal arterial'::text WHEN 4 THEN 'minor arterial'::text WHEN 5 THEN 'collector'::text WHEN 6 THEN 'collector'::text WHEN 7 THEN 'local road'::text ELSE 'unknown'::text END), (CASE WHEN ((v.vspd_lim IS NULL) OR (v.vspd_lim = ANY ('{98,99}'::integer[]))) THEN 'unknown'::text WHEN (v.vspd_lim = 0) THEN 'no statutory limit'::text WHEN (v.vspd_lim <= 30) THEN '30 mph or less'::text WHEN (v.vspd_lim <= 40) THEN '35-40 mph'::text WHEN (v.vspd_lim <= 50) THEN '45-50 mph'::text ELSE '55 mph or more'::text END), (CASE c.lgt_cond WHEN 1 THEN 'daylight'::text WHEN 2 THEN 'dark, not lighted'::text WHEN 3 THEN 'dark, lighted'::text WHEN 4 THEN 'dawn or dusk'::text WHEN 5 THEN 'dawn or dusk'::text WHEN 6 THEN 'dark, lighting unknown'::text ELSE 'unknown'::text END), (CASE t.pedloc WHEN 1 THEN 'at intersection'::text WHEN 2 THEN 'intersection-related'::text WHEN 3 THEN 'not at intersection'::text WHEN 4 THEN 'non-trafficway'::text ELSE 'unknown'::text END), (CASE WHEN (c.hour = 99) THEN 'unknown'::text WHEN ((c.hour >= 6) AND (c.hour <= 9)) THEN 'morning (6-9)'::text WHEN ((c.hour >= 10) AND (c.hour <= 15)) THEN 'midday (10-15)'::text WHEN ((c.hour >= 16) AND (c.hour <= 19)) THEN 'evening (16-19)'::text WHEN ((c.hour >= 20) AND (c.hour <= 23)) THEN 'night (20-23)'::text ELSE 'late night (0-5)'::text END)
+         Sort Method: quicksort  Memory: 26kB
+         Buffers: shared hit=112
+         ->  Nested Loop Left Join  (cost=0.61..63.37 rows=9 width=194) (actual time=0.021..0.117 rows=14 loops=1)
+               Buffers: shared hit=106
+               ->  Nested Loop Left Join  (cost=0.46..60.86 rows=9 width=52) (actual time=0.014..0.088 rows=14 loops=1)
+                     Buffers: shared hit=79
+                     ->  Nested Loop  (cost=0.30..59.02 rows=9 width=52) (actual time=0.011..0.042 rows=14 loops=1)
+                           Buffers: shared hit=53
+                           ->  Nested Loop  (cost=0.15..38.47 rows=3 width=46) (actual time=0.008..0.023 rows=13 loops=1)
+                                 Buffers: shared hit=27
+                                 ->  Seq Scan on crash c  (cost=0.00..17.95 rows=3 width=46) (actual time=0.003..0.007 rows=13 loops=1)
+                                       Filter: ((func_sys <> ALL ('{1,2}'::integer[])) AND (rur_urb = 2))
+                                       Rows Removed by Filter: 2
+                                       Buffers: shared hit=1
+                                 ->  Index Scan using county_pk on county co  (cost=0.15..6.84 rows=1 width=34) (actual time=0.001..0.001 rows=1 loops=13)
+                                       Index Cond: (county_fips = c.county)
+                                       Buffers: shared hit=26
+                           ->  Index Scan using pedestrian_pk on pedestrian p  (cost=0.15..6.84 rows=1 width=12) (actual time=0.001..0.001 rows=1 loops=13)
+                                 Index Cond: ((year = c.year) AND (st_case = c.st_case))
+                                 Buffers: shared hit=26
+                     ->  Index Scan using vehicle_pk on vehicle v  (cost=0.15..0.20 rows=1 width=10) (actual time=0.001..0.001 rows=1 loops=14)
+                           Index Cond: ((year = p.year) AND (st_case = p.st_case) AND (veh_no = p.str_veh))
+                           Buffers: shared hit=26
+               ->  Index Scan using ped_crash_type_pk on ped_crash_type t  (cost=0.15..0.21 rows=1 width=14) (actual time=0.001..0.001 rows=1 loops=14)
+                     Index Cond: ((year = p.year) AND (st_case = p.st_case) AND (veh_no = p.veh_no) AND (per_no = p.per_no))
+                     Buffers: shared hit=27
+ Planning:
+   Buffers: shared hit=21
+ Planning Time: 0.753 ms
+ Execution Time: 0.195 ms
+
+
+--- fingerprint of every stored data row (what preflight and finalize compute) ---
+                                                       QUERY PLAN                                                       
+------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=129.57..129.58 rows=1 width=32) (actual time=0.087..0.088 rows=1 loops=1)
+   ->  Sort  (cost=113.27..117.34 rows=1630 width=46) (actual time=0.042..0.043 rows=16 loops=1)
+         Sort Key: ((t.*)::text)
+         Sort Method: quicksort  Memory: 26kB
+         ->  Seq Scan on pedestrian t  (cost=0.00..26.30 rows=1630 width=46) (actual time=0.019..0.031 rows=16 loops=1)
+ Planning Time: 0.047 ms
+ Execution Time: 0.099 ms
+

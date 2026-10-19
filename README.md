@@ -12,6 +12,7 @@ This repository holds the capstone deliverables as they are built: the PostgreSQ
 
 | Week | Deliverable | Where |
 |---|---|---|
+| 9 | **Processing architecture memo**: measured volume and run-time, three architectures compared, the decision to stay on one machine with PostgreSQL (and not on a distributed platform) justified from the Week 8 real-data run, partitioning / storage / security / cost / reproducibility, and the conditions that would change the decision | [`docs/Week9_Architecture_Shkirpan.pdf`](docs/Week9_Architecture_Shkirpan.pdf) ([Markdown](docs/Week9_Architecture_Shkirpan.md)), [`tools/measure_storage_and_queries.sql`](tools/measure_storage_and_queries.sql), [`docs/evidence/week9/`](docs/evidence/week9) |
 | 8 | **Midpoint package**: record traces (one normal, one edge case), progress against the proposal, prioritized risk register, revised Weeks 9–14 schedule; the recorded demonstration itself is submitted in Canvas | [`docs/Week8_Midpoint_Shkirpan.pdf`](docs/Week8_Midpoint_Shkirpan.pdf) ([Markdown](docs/Week8_Midpoint_Shkirpan.md)), [`pipeline/trace.py`](pipeline/trace.py), [`docs/evidence/week8/`](docs/evidence/week8) |
 | 7 | **Pipeline runs and recovery**: stage order with dependencies and six validation gates, a successful end-to-end run, a rerun with duplicate-prevention evidence, two deliberate failures, a killed run and its restart, logs with run ID / timestamps / row counts / errors, restart, recovery and rejected-record instructions | [`docs/Week7_Pipeline_Shkirpan.pdf`](docs/Week7_Pipeline_Shkirpan.pdf) ([Markdown](docs/Week7_Pipeline_Shkirpan.md)), [`pipeline/etl.py`](pipeline/etl.py), [`pipeline/run_scenarios.py`](pipeline/run_scenarios.py), [`docs/evidence/week7_synthetic/`](docs/evidence/week7_synthetic) |
 | 6 | **Data cleaning plan**: measured profile of the raw FARS 2020–2024 and Census files, five quality issues with detection rules, actions, rationale and verification tests, bias statement, raw-preservation and logging plan | [`docs/Week6_Data_Cleaning_Plan_Shkirpan.pdf`](docs/Week6_Data_Cleaning_Plan_Shkirpan.pdf) ([Markdown](docs/Week6_Data_Cleaning_Plan_Shkirpan.md)), [`pipeline/profile_raw.py`](pipeline/profile_raw.py), [`docs/profile/`](docs/profile), [`tests/verify_cleaning_rules.sql`](tests/verify_cleaning_rules.sql) |
@@ -19,6 +20,12 @@ This repository holds the capstone deliverables as they are built: the PostgreSQ
 | 4 | First-pass conceptual data model | [the section below](#week-4-first-pass-conceptual-data-model), [`docs/Week4_Conceptual_Data_Model_Shkirpan.pdf`](docs/Week4_Conceptual_Data_Model_Shkirpan.pdf), commit `cd0e009` |
 
 No real FARS rows are in this repository. FARS describes real deaths, and the proposal keeps person-level rows in the local database. Every record under `tests/` and `samples/`, and every input behind `docs/evidence/week7_synthetic/`, is synthetic. The repository holds no passwords, tokens, or keys; `.gitignore` keeps `.env` files, raw data, and database dumps out.
+
+---
+
+## Week 9: processing architecture
+
+The memo is [`docs/Week9_Architecture_Shkirpan.pdf`](docs/Week9_Architecture_Shkirpan.pdf) (Markdown source: [`docs/Week9_Architecture_Shkirpan.md`](docs/Week9_Architecture_Shkirpan.md)). It takes the measured needs from this repository — 168 MB of pinned input, 15,697 stored rows, a 22-second end-to-end run on the real files (`docs/evidence/week7/runs/run_0001.log`, 86% of it reading CSV), queries in milliseconds, a 51-second CI suite — compares the current Python + PostgreSQL design with a single-file DuckDB/Parquet design and with a distributed cluster or cloud warehouse, and keeps the current one. Storage, memory and query figures that are not yet measured on the real data are labelled estimates; `tools/measure_storage_and_queries.sql` measures them on any PostgreSQL that holds the database (`psql -d ped_safety -f tools/measure_storage_and_queries.sql`), and its run on an empty built schema is in `docs/evidence/week9/`.
 
 ---
 
