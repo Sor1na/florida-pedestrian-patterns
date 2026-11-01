@@ -1,0 +1,248 @@
+{
+  "split": {
+    "train_years": [
+      2020,
+      2021,
+      2022
+    ],
+    "validation_year": 2023,
+    "test_year": 2024,
+    "final_fit_years": [
+      2020,
+      2021,
+      2022,
+      2023
+    ],
+    "test_year_release": "Annual Report File (provisional)"
+  },
+  "locked_params": {
+    "min_support": 0.03,
+    "min_lift": 1.5,
+    "top_k": 20,
+    "secondary_top_k": 10,
+    "max_len": 4,
+    "n_patterns_validation": 29,
+    "fewer_than_k_patterns": false,
+    "git_commit": "528311f87919d331035eabbc6c4248382c106a08",
+    "git_dirty": false,
+    "timestamp": "2026-11-01T01:06:51-05:00",
+    "config_sha256": "26ecf2041b4f42e44d2bedd8aa757e7c24be48567093fc3ee07274b81faf3909",
+    "database": "ped_real",
+    "transactions_file": "transactions.csv",
+    "transactions_sha256": "1894047c890e50264c05abc8c922feec88a7898c5790300240c2c6c4bc3f4069",
+    "rows_through_validation_sha256": "dc54a893fd08cf30d3280abf2265353a24b55c56bae2530d68ac82b73014c2f5"
+  },
+  "n_fit_rows": 2531,
+  "n_test_rows": 522,
+  "n_patterns_passing": 28,
+  "n_expected_by_construction": 2,
+  "n_topk_expected_by_construction": 2,
+  "n_roadway_patterns": 26,
+  "secondary_analyses": "roadway top-K: pre-specified after tuning and before the test run, on seeing the fit-years pattern list; reported as secondary",
+  "git_commit": "14bf0cae7d55b4330f7f709743555be8d9ab94ef",
+  "git_dirty": false,
+  "transactions_sha256": "1894047c890e50264c05abc8c922feec88a7898c5790300240c2c6c4bc3f4069",
+  "results": {
+    "top_20": {
+      "k": 20,
+      "mae_pp_candidate": 0.8213781295839635,
+      "mae_pp_baseline": 2.569163785061886,
+      "mae_pp_difference": -1.7477856554779223,
+      "signed_bias_pp_candidate": 0.3690785978010599,
+      "signed_bias_pp_baseline": -2.569163785061886,
+      "replication_rate": 0.85,
+      "spearman_rank": 0.918796992481203,
+      "coverage": 0.4540229885057471,
+      "ci95": {
+        "mae_pp_candidate": [
+          0.6552534672399122,
+          1.519972493674407
+        ],
+        "mae_pp_baseline": [
+          2.0356625095435494,
+          3.2406704678630027
+        ],
+        "mae_pp_difference": [
+          -2.3593609660809243,
+          -0.626701458962349
+        ],
+        "replication_rate": [
+          0.6,
+          0.9
+        ],
+        "coverage": [
+          0.41411391155567256,
+          0.49524286304879034
+        ]
+      }
+    },
+    "top_10": {
+      "k": 10,
+      "mae_pp_candidate": 0.80386351009929,
+      "mae_pp_baseline": 3.0211305186242607,
+      "mae_pp_difference": -2.2172670085249706,
+      "signed_bias_pp_candidate": 0.5047374245183482,
+      "signed_bias_pp_baseline": -3.0211305186242607,
+      "replication_rate": 0.9,
+      "spearman_rank": 0.8666666666666665,
+      "coverage": 0.21264367816091953,
+      "ci95": {
+        "mae_pp_candidate": [
+          0.5577695820382176,
+          1.5275367896660184
+        ],
+        "mae_pp_baseline": [
+          2.2874203306037284,
+          3.8827263372646965
+        ],
+        "mae_pp_difference": [
+          -3.122784125059949,
+          -0.8614397757022509
+        ],
+        "replication_rate": [
+          0.5,
+          0.9
+        ],
+        "coverage": [
+          0.1805950716023484,
+          0.2471382950559269
+        ]
+      }
+    }
+  },
+  "roadway_topk": {
+    "top_20": {
+      "k": 20,
+      "mae_pp_candidate": 0.8368302020463492,
+      "mae_pp_baseline": 2.216859057054598,
+      "mae_pp_difference": -1.3800288550082487,
+      "signed_bias_pp_candidate": 0.46235492157779917,
+      "signed_bias_pp_baseline": -2.216859057054598,
+      "replication_rate": 0.8,
+      "spearman_rank": 0.9052631578947368,
+      "coverage": 0.46360153256704983,
+      "ci95": {
+        "mae_pp_candidate": [
+          0.6653931632373947,
+          1.5096012413735411
+        ],
+        "mae_pp_baseline": [
+          1.7449409264484235,
+          2.871599422990122
+        ],
+        "mae_pp_difference": [
+          -1.9815788918043036,
+          -0.3712342847779749
+        ],
+        "replication_rate": [
+          0.55,
+          0.9
+        ],
+        "coverage": [
+          0.42447418738049714,
+          0.5077134724857685
+        ]
+      }
+    },
+    "top_10": {
+      "k": 10,
+      "mae_pp_candidate": 0.7854330440469217,
+      "mae_pp_baseline": 2.6984224732183173,
+      "mae_pp_difference": -1.9129894291713956,
+      "signed_bias_pp_candidate": 0.4863069584659798,
+      "signed_bias_pp_baseline": -2.6984224732183173,
+      "replication_rate": 0.9,
+      "spearman_rank": 0.8666666666666665,
+      "coverage": 0.20306513409961685,
+      "ci95": {
+        "mae_pp_candidate": [
+          0.5233475914976576,
+          1.5990018130026382
+        ],
+        "mae_pp_baseline": [
+          1.9320762196722934,
+          3.5516178607240496
+        ],
+        "mae_pp_difference": [
+          -2.8003026881723727,
+          -0.4391538437834283
+        ],
+        "replication_rate": [
+          0.5,
+          0.9
+        ],
+        "coverage": [
+          0.1724137931034483,
+          0.23745414133345166
+        ]
+      }
+    }
+  },
+  "permutation_null": {
+    "n_resamples": 500,
+    "seconds": 42.1,
+    "statistics": [
+      {
+        "statistic": "n_patterns",
+        "observed": 28.0,
+        "null_mean": 0.002,
+        "null_p95": 0.0,
+        "null_percentile_of_observed": 100.0,
+        "count_null_ge_observed": 0,
+        "n_resamples": 500,
+        "p_value_one_sided": 0.001996007984031936
+      },
+      {
+        "statistic": "max_lift",
+        "observed": 5.886046511627907,
+        "null_mean": 1.5213903480949345,
+        "null_p95": 1.5213903480949345,
+        "null_percentile_of_observed": 0.2,
+        "count_null_ge_observed": 0,
+        "n_resamples": 500,
+        "p_value_one_sided": 0.001996007984031936
+      },
+      {
+        "statistic": "replication_rate",
+        "observed": 0.85,
+        "null_mean": 0.10430000000000002,
+        "null_p95": 0.2,
+        "null_percentile_of_observed": 100.0,
+        "count_null_ge_observed": 0,
+        "n_resamples": 500,
+        "p_value_one_sided": 0.001996007984031936
+      }
+    ]
+  },
+  "subgroup_county": {
+    "five most populous": {
+      "n_rows": 233,
+      "mae_pp_candidate": 1.9404873135353378,
+      "mae_pp_baseline": 2.2300708044468207,
+      "replication_rate": 0.45
+    },
+    "other counties": {
+      "n_rows": 289,
+      "mae_pp_candidate": 1.3257749238166459,
+      "mae_pp_baseline": 3.3113186591819193,
+      "replication_rate": 0.9
+    }
+  },
+  "stability_share_present_all_fit_years": 0.75,
+  "subgroup_county_roadway": {
+    "five most populous": {
+      "n_rows": 233,
+      "mae_pp_candidate": 2.114102722803757,
+      "mae_pp_baseline": 1.8455444743795322,
+      "replication_rate": 0.4
+    },
+    "other counties": {
+      "n_rows": 289,
+      "mae_pp_candidate": 1.2438837993653777,
+      "mae_pp_baseline": 3.094671304333496,
+      "replication_rate": 0.9
+    }
+  },
+  "stability_share_present_all_fit_years_roadway": 0.8,
+  "seconds": 43.8
+}

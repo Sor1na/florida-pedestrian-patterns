@@ -8,10 +8,12 @@ Yelysei Shkirpan · Capstone Project, B.S. Data Science · Eastern Florida State
 
 **Audience:** safety planners at FDOT's State Safety Office and Florida MPOs who decide which FHWA proven countermeasures (lighting, crossings, medians, speed management) and which counties and corridor types to fund first.
 
-This repository holds the capstone deliverables as they are built: the PostgreSQL database and data dictionary, the validated ETL pipeline, the analysis notebooks, and the dashboard.
+This repository holds the capstone deliverables as they are built: the PostgreSQL database and data dictionary, the validated ETL pipeline, the pre-registered mining experiment and its evaluation, and the dashboard.
 
 | Week | Deliverable | Where |
 |---|---|---|
+| 11 | **Final evaluation**: the one read of the held-out 2024 year by the pre-registered experiment; baseline vs candidate with cluster-bootstrap intervals and a permutation null; error analysis of the three patterns that did not replicate; large-county subgroup, alcohol sensitivity and year-by-year stability; one supported claim, one unsupported claim, the principal limitation | [`docs/Week11_Evaluation_Shkirpan.pdf`](docs/Week11_Evaluation_Shkirpan.pdf) ([Markdown](docs/Week11_Evaluation_Shkirpan.md)), [`docs/evidence/week11/`](docs/evidence/week11) |
+| 10 | **Leakage-safe, reproducible experiment design**: estimand, unit, feature table with availability and exclusions, forward split by year (train 2020–2022, validation 2023, test 2024), independence baseline vs FP-Growth closed itemsets ranked by lift, primary metric MAE_pp, seeds, versions, locked parameters | [`docs/Week10_Experiment_Design_Shkirpan.pdf`](docs/Week10_Experiment_Design_Shkirpan.pdf) ([Markdown](docs/Week10_Experiment_Design_Shkirpan.md)), [`analysis/`](analysis), [`docs/evidence/week10/`](docs/evidence/week10) |
 | 9 | **Processing architecture memo**: measured volume and run-time, three architectures compared, the decision to stay on one machine with PostgreSQL (and not on a distributed platform) justified from the Week 8 real-data run, partitioning / storage / security / cost / reproducibility, and the conditions that would change the decision | [`docs/Week9_Architecture_Shkirpan.pdf`](docs/Week9_Architecture_Shkirpan.pdf) ([Markdown](docs/Week9_Architecture_Shkirpan.md)), [`tools/measure_storage_and_queries.sql`](tools/measure_storage_and_queries.sql), [`docs/evidence/week9/`](docs/evidence/week9) |
 | 8 | **Midpoint package**: record traces (one normal, one edge case), progress against the proposal, prioritized risk register, revised Weeks 9–14 schedule; the recorded demonstration itself is submitted in Canvas | [`docs/Week8_Midpoint_Shkirpan.pdf`](docs/Week8_Midpoint_Shkirpan.pdf) ([Markdown](docs/Week8_Midpoint_Shkirpan.md)), [`pipeline/trace.py`](pipeline/trace.py), [`docs/evidence/week8/`](docs/evidence/week8) |
 | 7 | **Pipeline runs and recovery**: stage order with dependencies and six validation gates, a successful end-to-end run, a rerun with duplicate-prevention evidence, two deliberate failures, a killed run and its restart, logs with run ID / timestamps / row counts / errors, restart, recovery and rejected-record instructions | [`docs/Week7_Pipeline_Shkirpan.pdf`](docs/Week7_Pipeline_Shkirpan.pdf) ([Markdown](docs/Week7_Pipeline_Shkirpan.md)), [`pipeline/etl.py`](pipeline/etl.py), [`pipeline/run_scenarios.py`](pipeline/run_scenarios.py), [`docs/evidence/week7_synthetic/`](docs/evidence/week7_synthetic) |
@@ -20,6 +22,24 @@ This repository holds the capstone deliverables as they are built: the PostgreSQ
 | 4 | First-pass conceptual data model | [the section below](#week-4-first-pass-conceptual-data-model), [`docs/Week4_Conceptual_Data_Model_Shkirpan.pdf`](docs/Week4_Conceptual_Data_Model_Shkirpan.pdf), commit `cd0e009` |
 
 No real FARS rows are in this repository. FARS describes real deaths, and the proposal keeps person-level rows in the local database. Every record under `tests/` and `samples/`, and every input behind `docs/evidence/week7_synthetic/`, is synthetic. The repository holds no passwords, tokens, or keys; `.gitignore` keeps `.env` files, raw data, and database dumps out.
+
+---
+
+## Weeks 10–11: the experiment and its evaluation
+
+Week 10 ([`docs/Week10_Experiment_Design_Shkirpan.pdf`](docs/Week10_Experiment_Design_Shkirpan.pdf), Markdown [`docs/Week10_Experiment_Design_Shkirpan.md`](docs/Week10_Experiment_Design_Shkirpan.md)) fixes the experiment before any pattern is mined on the real data: one in-scope death is one transaction of five items (road class, speed limit, lighting, crossing location, time of day, from `v_ped_transactions`); the years are split forward (train 2020–2022, validation 2023, test 2024, the provisional Annual Report File); the baseline is statistical independence (a pattern's share predicted from its items' shares) and the candidate is FP-Growth closed itemsets ranked by lift; the primary metric is the mean absolute error, in percentage points of deaths, between the share predicted for 2024 and the share observed there. The settings live in [`analysis/experiment_config.json`](analysis/experiment_config.json); [`analysis/experiment.py`](analysis/experiment.py) runs three stages: `prepare` (export the transactions and hash them), `tune` (grid search on 2020–2022 → 2023, never reads 2024, writes [`analysis/locked_params.json`](analysis/locked_params.json)) and `test` (refuses to run without the locked file, runs once, logs every invocation). Tuning locked minimum support 3% and minimum lift 1.5 ([`docs/evidence/week10/`](docs/evidence/week10)).
+
+Week 11 ([`docs/Week11_Evaluation_Shkirpan.pdf`](docs/Week11_Evaluation_Shkirpan.pdf), Markdown [`docs/Week11_Evaluation_Shkirpan.md`](docs/Week11_Evaluation_Shkirpan.md)) is the single read of 2024 ([`docs/evidence/week11/`](docs/evidence/week11)): the twenty patterns named from 2020–2023 predicted their 2024 shares to within 0.82 pp on average (95% interval 0.66–1.52) against 2.57 pp (2.04–3.24) for independence; 17 of 20 recurred with lift above one; the order by lift held (Spearman 0.92); no pattern survives when the item columns are shuffled (p = 0.002, 500 permutations). The write-up diagnoses the three patterns that did not replicate, shows that the high-speed unlit-arterial patterns nearly vanish in the five most populous counties while the lighted 45–50 mph arterial at night grows there, and bounds the claims: shares of deaths on an untouched provisional year, not risk, not causation, not a statewide headline for the large counties.
+
+Running it (PG* variables pointing at the project database; the same three stages run in CI on the synthetic scenario load, into `docs/evidence/week10_synthetic/` and `week11_synthetic/`, with their own locked file):
+
+```
+pip install -r requirements.txt          # exact versions used: requirements.lock
+python analysis/experiment.py prepare
+python analysis/experiment.py tune
+python analysis/experiment.py test
+python tools/md_to_pdf.py docs/Week11_Evaluation_Shkirpan.md   # how the PDFs are made
+```
 
 ---
 

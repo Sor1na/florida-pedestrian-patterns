@@ -1,0 +1,21 @@
+rank,itemset,length,fit_count,fit_support,baseline_support,fit_lift,expected_by_construction,obs_count,obs_support,obs_lift,obs_wilson_low,obs_wilson_high,residual_candidate_pp,residual_baseline_pp,replicated,baseline_beats_candidate,hit_and_run_share_2024
+1,light=daylight & time_of_day=midday (10-15),2,195,0.077045,0.013089,5.886047,True,37,0.070881,6.141176,0.051859,0.096173,0.616342,-5.779186,True,False,0.054054
+2,light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),3,132,0.052153,0.009454,5.516695,False,24,0.045977,5.681336,0.031088,0.067499,0.617629,-3.652329,True,False,0.000000
+3,road_class=local road & speed_bin=30 mph or less,2,140,0.055314,0.011485,4.816038,False,24,0.045977,3.275294,0.031088,0.067499,0.933709,-3.449162,True,False,0.166667
+4,road_class=principal arterial & light=daylight & time_of_day=midday (10-15),3,82,0.032398,0.006832,4.742335,False,12,0.022989,4.278537,0.013198,0.039748,0.940976,-1.615680,False,False,0.083333
+5,"road_class=principal arterial & speed_bin=55 mph or more & light=dark, not lighted & crossing_location=not at intersection",4,107,0.042276,0.009155,4.617600,False,17,0.032567,4.215153,0.020431,0.051533,0.970873,-2.341169,True,False,0.176471
+6,road_class=local road & speed_bin=30 mph or less & crossing_location=not at intersection,3,94,0.037139,0.008295,4.477192,False,16,0.030651,3.114214,0.018954,0.049207,0.648813,-2.235608,True,False,0.125000
+7,"road_class=principal arterial & speed_bin=55 mph or more & light=dark, not lighted",3,117,0.046227,0.012676,3.646720,False,20,0.038314,3.477003,0.024937,0.058437,0.791261,-2.563791,True,False,0.150000
+8,"speed_bin=55 mph or more & light=dark, not lighted & crossing_location=not at intersection",3,126,0.049783,0.017541,2.838009,False,23,0.044061,2.654777,0.029537,0.065247,0.572139,-2.651989,True,False,0.173913
+9,"road_class=minor arterial & speed_bin=35-40 mph & light=dark, lighted & time_of_day=night (20-23)",4,89,0.035164,0.014612,2.406572,False,16,0.030651,2.132639,0.018954,0.049207,0.451263,-1.603970,True,False,0.250000
+10,speed_bin=30 mph or less & light=daylight,2,127,0.050178,0.021950,2.286018,False,34,0.065134,2.784000,0.046982,0.089640,-1.495630,-4.318423,True,False,0.058824
+11,light=daylight & time_of_day=morning (6-9),2,98,0.038720,0.017050,2.270994,True,28,0.053640,2.865882,0.037369,0.076432,-1.491997,-3.659010,True,False,0.035714
+12,"speed_bin=55 mph or more & light=dark, not lighted",2,137,0.054129,0.024287,2.228680,False,26,0.049808,2.104186,0.034214,0.071980,0.432037,-2.552105,True,False,0.153846
+13,road_class=local road & light=daylight,2,79,0.031213,0.015103,2.066656,False,17,0.032567,2.047059,0.020431,0.051533,-0.135409,-1.746393,True,False,0.058824
+14,"road_class=principal arterial & speed_bin=45-50 mph & light=dark, lighted & time_of_day=night (20-23)",4,218,0.086132,0.041820,2.059593,False,42,0.080460,2.283968,0.060075,0.106974,0.567219,-3.863988,True,False,0.095238
+15,"speed_bin=45-50 mph & light=dark, not lighted & crossing_location=not at intersection & time_of_day=late night (0-5)",4,94,0.037139,0.019125,1.941964,False,13,0.024904,1.249103,0.014611,0.042139,1.223526,-0.577952,False,True,0.153846
+16,road_class=principal arterial & speed_bin=55 mph or more & crossing_location=not at intersection,3,152,0.060055,0.030979,1.938588,False,25,0.047893,1.781251,0.032648,0.069743,1.216259,-1.691383,True,False,0.200000
+17,"light=dark, lighted & crossing_location=intersection-related & time_of_day=night (20-23)",3,81,0.032003,0.018019,1.776072,False,11,0.021073,1.267900,0.011807,0.037336,1.093036,-0.305373,False,True,0.181818
+18,"road_class=principal arterial & speed_bin=45-50 mph & light=dark, lighted & time_of_day=late night (0-5)",4,97,0.038325,0.022301,1.718512,False,24,0.045977,2.092343,0.031088,0.067499,-0.765224,-2.367588,True,False,0.208333
+19,road_class=collector & speed_bin=35-40 mph & crossing_location=not at intersection,3,110,0.043461,0.026052,1.668213,False,26,0.049808,1.348717,0.034214,0.071980,-0.634735,-2.375596,True,False,0.153846
+20,road_class=principal arterial & speed_bin=55 mph or more,2,181,0.071513,0.042893,1.667265,False,33,0.063218,1.648579,0.045366,0.087452,0.829485,-2.032584,True,False,0.151515

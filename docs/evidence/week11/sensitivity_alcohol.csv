@@ -1,0 +1,41 @@
+group,n_rows,alcohol_unknown_share,pattern_rank,itemset,expected_by_construction,predicted_candidate,predicted_baseline,observed_support,observed_lift
+all deaths,522,0.440613,1,light=daylight & time_of_day=midday (10-15),True,0.077045,0.013089,0.070881,6.141176
+all deaths,522,0.440613,2,light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),False,0.052153,0.009454,0.045977,5.681336
+all deaths,522,0.440613,3,road_class=local road & speed_bin=30 mph or less,False,0.055314,0.011485,0.045977,3.275294
+all deaths,522,0.440613,4,road_class=principal arterial & light=daylight & time_of_day=midday (10-15),False,0.032398,0.006832,0.022989,4.278537
+all deaths,522,0.440613,5,"road_class=principal arterial & speed_bin=55 mph or more & light=dark, not lighted & crossing_location=not at intersection",False,0.042276,0.009155,0.032567,4.215153
+all deaths,522,0.440613,6,road_class=local road & speed_bin=30 mph or less & crossing_location=not at intersection,False,0.037139,0.008295,0.030651,3.114214
+all deaths,522,0.440613,7,"road_class=principal arterial & speed_bin=55 mph or more & light=dark, not lighted",False,0.046227,0.012676,0.038314,3.477003
+all deaths,522,0.440613,8,"speed_bin=55 mph or more & light=dark, not lighted & crossing_location=not at intersection",False,0.049783,0.017541,0.044061,2.654777
+all deaths,522,0.440613,9,"road_class=minor arterial & speed_bin=35-40 mph & light=dark, lighted & time_of_day=night (20-23)",False,0.035164,0.014612,0.030651,2.132639
+all deaths,522,0.440613,10,speed_bin=30 mph or less & light=daylight,False,0.050178,0.021950,0.065134,2.784000
+all deaths,522,0.440613,11,light=daylight & time_of_day=morning (6-9),True,0.038720,0.017050,0.053640,2.865882
+all deaths,522,0.440613,12,"speed_bin=55 mph or more & light=dark, not lighted",False,0.054129,0.024287,0.049808,2.104186
+all deaths,522,0.440613,13,road_class=local road & light=daylight,False,0.031213,0.015103,0.032567,2.047059
+all deaths,522,0.440613,14,"road_class=principal arterial & speed_bin=45-50 mph & light=dark, lighted & time_of_day=night (20-23)",False,0.086132,0.041820,0.080460,2.283968
+all deaths,522,0.440613,15,"speed_bin=45-50 mph & light=dark, not lighted & crossing_location=not at intersection & time_of_day=late night (0-5)",False,0.037139,0.019125,0.024904,1.249103
+all deaths,522,0.440613,16,road_class=principal arterial & speed_bin=55 mph or more & crossing_location=not at intersection,False,0.060055,0.030979,0.047893,1.781251
+all deaths,522,0.440613,17,"light=dark, lighted & crossing_location=intersection-related & time_of_day=night (20-23)",False,0.032003,0.018019,0.021073,1.267900
+all deaths,522,0.440613,18,"road_class=principal arterial & speed_bin=45-50 mph & light=dark, lighted & time_of_day=late night (0-5)",False,0.038325,0.022301,0.045977,2.092343
+all deaths,522,0.440613,19,road_class=collector & speed_bin=35-40 mph & crossing_location=not at intersection,False,0.043461,0.026052,0.049808,1.348717
+all deaths,522,0.440613,20,road_class=principal arterial & speed_bin=55 mph or more,False,0.071513,0.042893,0.063218,1.648579
+no alcohol reported,253,0.440613,1,light=daylight & time_of_day=midday (10-15),True,0.077045,0.013089,0.114625,3.776119
+no alcohol reported,253,0.440613,2,light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),False,0.052153,0.009454,0.071146,3.550784
+no alcohol reported,253,0.440613,3,road_class=local road & speed_bin=30 mph or less,False,0.055314,0.011485,0.059289,2.555556
+no alcohol reported,253,0.440613,4,road_class=principal arterial & light=daylight & time_of_day=midday (10-15),False,0.032398,0.006832,0.039526,3.229744
+no alcohol reported,253,0.440613,5,"road_class=principal arterial & speed_bin=55 mph or more & light=dark, not lighted & crossing_location=not at intersection",False,0.042276,0.009155,0.027668,7.783534
+no alcohol reported,253,0.440613,6,road_class=local road & speed_bin=30 mph or less & crossing_location=not at intersection,False,0.037139,0.008295,0.039526,2.581060
+no alcohol reported,253,0.440613,7,"road_class=principal arterial & speed_bin=55 mph or more & light=dark, not lighted",False,0.046227,0.012676,0.031621,5.871712
+no alcohol reported,253,0.440613,8,"speed_bin=55 mph or more & light=dark, not lighted & crossing_location=not at intersection",False,0.049783,0.017541,0.039526,4.482894
+no alcohol reported,253,0.440613,9,"road_class=minor arterial & speed_bin=35-40 mph & light=dark, lighted & time_of_day=night (20-23)",False,0.035164,0.014612,0.019763,1.455688
+no alcohol reported,253,0.440613,10,speed_bin=30 mph or less & light=daylight,False,0.050178,0.021950,0.114625,1.991045
+no alcohol reported,253,0.440613,11,light=daylight & time_of_day=morning (6-9),True,0.038720,0.017050,0.098814,2.052239
+no alcohol reported,253,0.440613,12,"speed_bin=55 mph or more & light=dark, not lighted",False,0.054129,0.024287,0.043478,3.254971
+no alcohol reported,253,0.440613,13,road_class=local road & light=daylight,False,0.031213,0.015103,0.051383,1.818132
+no alcohol reported,253,0.440613,14,"road_class=principal arterial & speed_bin=45-50 mph & light=dark, lighted & time_of_day=night (20-23)",False,0.086132,0.041820,0.086957,3.910243
+no alcohol reported,253,0.440613,15,"speed_bin=45-50 mph & light=dark, not lighted & crossing_location=not at intersection & time_of_day=late night (0-5)",False,0.037139,0.019125,0.007905,1.000740
+no alcohol reported,253,0.440613,16,road_class=principal arterial & speed_bin=55 mph or more & crossing_location=not at intersection,False,0.060055,0.030979,0.039526,2.505147
+no alcohol reported,253,0.440613,17,"light=dark, lighted & crossing_location=intersection-related & time_of_day=night (20-23)",False,0.032003,0.018019,0.027668,1.579116
+no alcohol reported,253,0.440613,18,"road_class=principal arterial & speed_bin=45-50 mph & light=dark, lighted & time_of_day=late night (0-5)",False,0.038325,0.022301,0.039526,4.132416
+no alcohol reported,253,0.440613,19,road_class=collector & speed_bin=35-40 mph & crossing_location=not at intersection,False,0.043461,0.026052,0.059289,1.276774
+no alcohol reported,253,0.440613,20,road_class=principal arterial & speed_bin=55 mph or more,False,0.071513,0.042893,0.047431,1.984314

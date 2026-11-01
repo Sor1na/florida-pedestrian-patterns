@@ -1,0 +1,41 @@
+group,n_rows,pattern_rank,itemset,expected_by_construction,predicted_candidate,predicted_baseline,observed_support,observed_lift
+five most populous,233,1,light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),False,0.052153,0.009454,0.051502,5.357467
+five most populous,233,2,road_class=local road & speed_bin=30 mph or less,False,0.055314,0.011485,0.051502,3.434889
+five most populous,233,3,road_class=principal arterial & light=daylight & time_of_day=midday (10-15),False,0.032398,0.006832,0.012876,2.080570
+five most populous,233,4,"road_class=principal arterial & speed_bin=55 mph or more & light=dark, not lighted & crossing_location=not at intersection",False,0.042276,0.009155,0.008584,4.568791
+five most populous,233,5,road_class=local road & speed_bin=30 mph or less & crossing_location=not at intersection,False,0.037139,0.008295,0.030043,2.917867
+five most populous,233,6,"road_class=principal arterial & speed_bin=55 mph or more & light=dark, not lighted",False,0.046227,0.012676,0.012876,4.706051
+five most populous,233,7,"speed_bin=55 mph or more & light=dark, not lighted & crossing_location=not at intersection",False,0.049783,0.017541,0.008584,2.019680
+five most populous,233,8,"road_class=minor arterial & speed_bin=35-40 mph & light=dark, lighted & time_of_day=night (20-23)",False,0.035164,0.014612,0.042918,2.255664
+five most populous,233,9,speed_bin=30 mph or less & light=daylight,False,0.050178,0.021950,0.072961,2.817212
+five most populous,233,10,"speed_bin=55 mph or more & light=dark, not lighted",False,0.054129,0.024287,0.012876,2.080357
+five most populous,233,11,road_class=local road & light=daylight,False,0.031213,0.015103,0.021459,1.393541
+five most populous,233,12,"road_class=principal arterial & speed_bin=45-50 mph & light=dark, lighted & time_of_day=night (20-23)",False,0.086132,0.041820,0.094421,2.756059
+five most populous,233,13,"speed_bin=45-50 mph & light=dark, not lighted & crossing_location=not at intersection & time_of_day=late night (0-5)",False,0.037139,0.019125,0.012876,0.781333
+five most populous,233,14,road_class=principal arterial & speed_bin=55 mph or more & crossing_location=not at intersection,False,0.060055,0.030979,0.017167,1.882420
+five most populous,233,15,"light=dark, lighted & crossing_location=intersection-related & time_of_day=night (20-23)",False,0.032003,0.018019,0.021459,1.030054
+five most populous,233,16,"road_class=principal arterial & speed_bin=45-50 mph & light=dark, lighted & time_of_day=late night (0-5)",False,0.038325,0.022301,0.055794,1.987826
+five most populous,233,17,road_class=collector & speed_bin=35-40 mph & crossing_location=not at intersection,False,0.043461,0.026052,0.034335,0.939907
+five most populous,233,18,road_class=principal arterial & speed_bin=55 mph or more,False,0.071513,0.042893,0.025751,1.938974
+five most populous,233,19,"speed_bin=45-50 mph & light=dark, not lighted & time_of_day=late night (0-5)",False,0.043856,0.026480,0.012876,0.536537
+five most populous,233,20,"road_class=collector & light=dark, not lighted & crossing_location=not at intersection",False,0.042671,0.026228,0.030043,1.302162
+other counties,289,1,light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),False,0.052153,0.009454,0.041522,6.089238
+other counties,289,2,road_class=local road & speed_bin=30 mph or less,False,0.055314,0.011485,0.041522,3.147005
+other counties,289,3,road_class=principal arterial & light=daylight & time_of_day=midday (10-15),False,0.032398,0.006832,0.031142,6.719909
+other counties,289,4,"road_class=principal arterial & speed_bin=55 mph or more & light=dark, not lighted & crossing_location=not at intersection",False,0.042276,0.009155,0.051903,3.418904
+other counties,289,5,road_class=local road & speed_bin=30 mph or less & crossing_location=not at intersection,False,0.037139,0.008295,0.031142,3.311230
+other counties,289,6,"road_class=principal arterial & speed_bin=55 mph or more & light=dark, not lighted",False,0.046227,0.012676,0.058824,2.761938
+other counties,289,7,"speed_bin=55 mph or more & light=dark, not lighted & crossing_location=not at intersection",False,0.049783,0.017541,0.072664,2.318703
+other counties,289,8,"road_class=minor arterial & speed_bin=35-40 mph & light=dark, lighted & time_of_day=night (20-23)",False,0.035164,0.014612,0.020761,1.889314
+other counties,289,9,speed_bin=30 mph or less & light=daylight,False,0.050178,0.021950,0.058824,2.750840
+other counties,289,10,"speed_bin=55 mph or more & light=dark, not lighted",False,0.054129,0.024287,0.079585,1.810185
+other counties,289,11,road_class=local road & light=daylight,False,0.031213,0.015103,0.041522,2.544387
+other counties,289,12,"road_class=principal arterial & speed_bin=45-50 mph & light=dark, lighted & time_of_day=night (20-23)",False,0.086132,0.041820,0.069204,1.962923
+other counties,289,13,"speed_bin=45-50 mph & light=dark, not lighted & crossing_location=not at intersection & time_of_day=late night (0-5)",False,0.037139,0.019125,0.034602,1.636865
+other counties,289,14,road_class=principal arterial & speed_bin=55 mph or more & crossing_location=not at intersection,False,0.060055,0.030979,0.072664,1.689341
+other counties,289,15,"light=dark, lighted & crossing_location=intersection-related & time_of_day=night (20-23)",False,0.032003,0.018019,0.020761,1.568980
+other counties,289,16,"road_class=principal arterial & speed_bin=45-50 mph & light=dark, lighted & time_of_day=late night (0-5)",False,0.038325,0.022301,0.038062,2.215057
+other counties,289,17,road_class=collector & speed_bin=35-40 mph & crossing_location=not at intersection,False,0.043461,0.026052,0.062284,1.689341
+other counties,289,18,road_class=principal arterial & speed_bin=55 mph or more,False,0.071513,0.042893,0.093426,1.548214
+other counties,289,19,"speed_bin=45-50 mph & light=dark, not lighted & time_of_day=late night (0-5)",False,0.043856,0.026480,0.038062,1.283438
+other counties,289,20,"road_class=collector & light=dark, not lighted & crossing_location=not at intersection",False,0.042671,0.026228,0.065744,1.398583

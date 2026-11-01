@@ -1,0 +1,4 @@
+statistic,observed,null_mean,null_p95,null_percentile_of_observed,count_null_ge_observed,n_resamples,p_value_one_sided
+n_patterns,28.000000,0.002000,0.000000,100.000000,0,500,0.001996
+max_lift,5.886047,1.521390,1.521390,0.200000,0,500,0.001996
+replication_rate,0.850000,0.104300,0.200000,100.000000,0,500,0.001996
