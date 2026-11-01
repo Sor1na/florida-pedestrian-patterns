@@ -1,0 +1,21 @@
+rank,itemset,length,fit_count,fit_support,baseline_support,fit_lift,expected_by_construction,obs_count,obs_support,obs_lift,obs_wilson_low,obs_wilson_high,residual_candidate_pp,residual_baseline_pp,replicated,baseline_beats_candidate,hit_and_run_share_2024
+1,road_class=principal arterial & speed_bin=45-50 mph & light=daylight & time_of_day=midday (10-15),4,19,0.045564,0.004088,11.144998,False,0,0.000000,0.000000,0.000000,0.044751,4.556355,0.408825,False,True,
+2,speed_bin=45-50 mph & light=daylight & time_of_day=midday (10-15),3,24,0.057554,0.008482,6.785747,False,1,0.012195,3.091494,0.002156,0.065893,4.535883,-0.371353,False,True,0.000000
+3,speed_bin=45-50 mph & light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),4,18,0.043165,0.006549,6.590815,False,0,0.000000,0.000000,0.000000,0.044751,4.316547,0.654934,False,True,
+4,road_class=principal arterial & light=daylight & time_of_day=midday (10-15),3,25,0.059952,0.009854,6.083821,False,0,0.000000,0.000000,0.000000,0.044751,5.995204,0.985434,False,True,
+5,road_class=local road & speed_bin=30 mph or less,2,29,0.069544,0.012238,5.682801,False,9,0.109756,4.100000,0.058827,0.195612,-4.021173,-9.751841,True,False,0.000000
+6,"road_class=local road & speed_bin=30 mph or less & light=dark, lighted",3,13,0.031175,0.005488,5.680705,False,4,0.048780,4.150617,0.019131,0.118815,-1.760543,-4.329260,True,False,0.000000
+7,road_class=principal arterial & light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),4,18,0.043165,0.007609,5.672691,False,0,0.000000,0.000000,0.000000,0.044751,4.316547,0.760935,False,True,
+8,road_class=local road & speed_bin=30 mph or less & crossing_location=not at intersection,3,20,0.047962,0.009450,5.075451,False,8,0.097561,4.394771,0.050269,0.180872,-4.959934,-8.811125,True,False,0.000000
+9,light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),3,31,0.074341,0.015787,4.709104,False,3,0.036585,3.955294,0.012520,0.102127,3.775516,-2.079881,True,True,0.333333
+10,road_class=principal arterial & light=dawn or dusk & time_of_day=evening (16-19),3,14,0.033573,0.007296,4.601699,False,2,0.024390,4.794296,0.006714,0.084634,0.918290,-1.709443,False,False,0.000000
+11,light=daylight & crossing_location=not at intersection & time_of_day=morning (6-9),3,17,0.040767,0.009823,4.150305,False,5,0.060976,3.662309,0.026324,0.134920,-2.020822,-5.115287,True,False,0.200000
+12,light=dawn or dusk & crossing_location=not at intersection & time_of_day=evening (16-19),3,20,0.047962,0.011688,4.103556,False,4,0.048780,4.653287,0.019131,0.118815,-0.081886,-3.709267,True,False,0.000000
+13,road_class=principal arterial & speed_bin=55 mph or more & crossing_location=not at intersection,3,26,0.062350,0.024099,2.587199,False,4,0.048780,2.996435,0.019131,0.118815,1.356963,-2.468102,True,False,0.250000
+14,"road_class=principal arterial & speed_bin=45-50 mph & light=dark, not lighted & time_of_day=night (20-23)",4,22,0.052758,0.021077,2.503074,False,4,0.048780,3.000740,0.019131,0.118815,0.397731,-2.770328,True,False,0.750000
+15,road_class=minor arterial & speed_bin=35-40 mph & crossing_location=not at intersection & time_of_day=late night (0-5),4,15,0.035971,0.016089,2.235783,False,2,0.024390,1.613442,0.006714,0.084634,1.158098,-0.830137,False,True,0.000000
+16,road_class=collector & speed_bin=30 mph or less,2,16,0.038369,0.018357,2.090226,False,7,0.085366,1.993056,0.041967,0.165875,-4.699655,-6.700932,True,False,0.285714
+17,road_class=principal arterial & speed_bin=55 mph or more,2,27,0.064748,0.031210,2.074627,False,4,0.048780,2.484848,0.019131,0.118815,1.596771,-1.757092,True,False,0.250000
+18,road_class=principal arterial & speed_bin=45-50 mph & crossing_location=not at intersection & time_of_day=midday (10-15),4,14,0.033573,0.016664,2.014771,False,0,0.000000,0.000000,0.000000,0.044751,3.357314,1.666350,False,True,
+19,road_class=collector & speed_bin=35-40 mph & time_of_day=night (20-23),3,14,0.033573,0.017140,1.958796,False,1,0.012195,0.570992,0.002156,0.065893,2.137802,0.494456,False,True,1.000000
+20,"road_class=minor arterial & speed_bin=35-40 mph & light=dark, not lighted & crossing_location=not at intersection",4,16,0.038369,0.020286,1.891421,False,1,0.012195,0.638654,0.002156,0.065893,2.617418,0.809084,False,True,0.000000

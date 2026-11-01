@@ -1,0 +1,60 @@
+pattern_rank,itemset,antecedent,consequent,support,confidence,rule_lift
+10,light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),crossing_location=not at intersection & time_of_day=midday (10-15),light=daylight,0.074341,1.000000,5.278481
+8,light=daylight & time_of_day=midday (10-15),time_of_day=midday (10-15),light=daylight,0.107914,1.000000,5.278481
+7,road_class=principal arterial & light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),road_class=principal arterial & crossing_location=not at intersection & time_of_day=midday (10-15),light=daylight,0.043165,1.000000,5.278481
+4,road_class=principal arterial & light=daylight & time_of_day=midday (10-15),road_class=principal arterial & time_of_day=midday (10-15),light=daylight,0.059952,1.000000,5.278481
+1,road_class=principal arterial & speed_bin=45-50 mph & light=daylight & time_of_day=midday (10-15),road_class=principal arterial & speed_bin=45-50 mph & time_of_day=midday (10-15),light=daylight,0.045564,1.000000,5.278481
+3,speed_bin=45-50 mph & light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),speed_bin=45-50 mph & crossing_location=not at intersection & time_of_day=midday (10-15),light=daylight,0.043165,1.000000,5.278481
+2,speed_bin=45-50 mph & light=daylight & time_of_day=midday (10-15),speed_bin=45-50 mph & time_of_day=midday (10-15),light=daylight,0.057554,1.000000,5.278481
+20,road_class=principal arterial & speed_bin=55 mph or more,speed_bin=55 mph or more,road_class=principal arterial,0.064748,1.000000,2.074627
+16,road_class=principal arterial & speed_bin=55 mph or more & crossing_location=not at intersection,speed_bin=55 mph or more & crossing_location=not at intersection,road_class=principal arterial,0.062350,1.000000,2.074627
+18,road_class=minor arterial & speed_bin=35-40 mph & crossing_location=not at intersection & time_of_day=late night (0-5),road_class=minor arterial & speed_bin=35-40 mph & time_of_day=late night (0-5),crossing_location=not at intersection,0.035971,1.000000,1.295031
+16,road_class=principal arterial & speed_bin=55 mph or more & crossing_location=not at intersection,road_class=principal arterial & speed_bin=55 mph or more,crossing_location=not at intersection,0.062350,0.962963,1.247067
+12,light=daylight & crossing_location=not at intersection & time_of_day=morning (6-9),light=daylight & time_of_day=morning (6-9),crossing_location=not at intersection,0.040767,0.894737,1.158712
+14,light=dawn or dusk & time_of_day=evening (16-19),light=dawn or dusk,time_of_day=evening (16-19),0.057554,0.857143,3.802432
+17,"road_class=principal arterial & speed_bin=45-50 mph & light=dark, not lighted & time_of_day=night (20-23)","speed_bin=45-50 mph & light=dark, not lighted & time_of_day=night (20-23)",road_class=principal arterial,0.052758,0.846154,1.755454
+13,light=dawn or dusk & crossing_location=not at intersection & time_of_day=evening (16-19),light=dawn or dusk & crossing_location=not at intersection,time_of_day=evening (16-19),0.047962,0.833333,3.696809
+13,light=dawn or dusk & crossing_location=not at intersection & time_of_day=evening (16-19),light=dawn or dusk & time_of_day=evening (16-19),crossing_location=not at intersection,0.047962,0.833333,1.079193
+11,road_class=principal arterial & light=dawn or dusk & time_of_day=evening (16-19),road_class=principal arterial & light=dawn or dusk,time_of_day=evening (16-19),0.033573,0.823529,3.653317
+6,"road_class=local road & speed_bin=30 mph or less & light=dark, lighted","road_class=local road & light=dark, lighted",speed_bin=30 mph or less,0.031175,0.812500,6.050223
+1,road_class=principal arterial & speed_bin=45-50 mph & light=daylight & time_of_day=midday (10-15),speed_bin=45-50 mph & light=daylight & time_of_day=midday (10-15),road_class=principal arterial,0.045564,0.791667,1.642413
+9,road_class=local road & speed_bin=30 mph or less & crossing_location=not at intersection,road_class=local road & crossing_location=not at intersection,speed_bin=30 mph or less,0.047962,0.769231,5.728022
+5,road_class=local road & speed_bin=30 mph or less,road_class=local road,speed_bin=30 mph or less,0.069544,0.763158,5.682801
+1,road_class=principal arterial & speed_bin=45-50 mph & light=daylight & time_of_day=midday (10-15),road_class=principal arterial & light=daylight & time_of_day=midday (10-15),speed_bin=45-50 mph,0.045564,0.760000,1.831908
+3,speed_bin=45-50 mph & light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),speed_bin=45-50 mph & light=daylight & time_of_day=midday (10-15),crossing_location=not at intersection,0.043165,0.750000,0.971273
+3,speed_bin=45-50 mph & light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),speed_bin=45-50 mph & light=daylight & crossing_location=not at intersection,time_of_day=midday (10-15),0.043165,0.720000,6.672000
+7,road_class=principal arterial & light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),road_class=principal arterial & light=daylight & time_of_day=midday (10-15),crossing_location=not at intersection,0.043165,0.720000,0.932422
+12,light=daylight & crossing_location=not at intersection & time_of_day=morning (6-9),crossing_location=not at intersection & time_of_day=morning (6-9),light=daylight,0.040767,0.708333,3.738924
+1,road_class=principal arterial & speed_bin=45-50 mph & light=daylight & time_of_day=midday (10-15),road_class=principal arterial & speed_bin=45-50 mph & light=daylight,time_of_day=midday (10-15),0.045564,0.703704,6.520988
+7,road_class=principal arterial & light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),road_class=principal arterial & light=daylight & crossing_location=not at intersection,time_of_day=midday (10-15),0.043165,0.692308,6.415385
+9,road_class=local road & speed_bin=30 mph or less & crossing_location=not at intersection,road_class=local road & speed_bin=30 mph or less,crossing_location=not at intersection,0.047962,0.689655,0.893125
+10,light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),light=daylight & time_of_day=midday (10-15),crossing_location=not at intersection,0.074341,0.688889,0.892133
+17,"road_class=principal arterial & speed_bin=45-50 mph & light=dark, not lighted & time_of_day=night (20-23)","road_class=principal arterial & speed_bin=45-50 mph & light=dark, not lighted",time_of_day=night (20-23),0.052758,0.687500,1.814478
+15,light=daylight & time_of_day=morning (6-9),time_of_day=morning (6-9),light=daylight,0.045564,0.678571,3.581826
+2,speed_bin=45-50 mph & light=daylight & time_of_day=midday (10-15),speed_bin=45-50 mph & light=daylight,time_of_day=midday (10-15),0.057554,0.648649,6.010811
+4,road_class=principal arterial & light=daylight & time_of_day=midday (10-15),road_class=principal arterial & light=daylight,time_of_day=midday (10-15),0.059952,0.641026,5.940171
+11,road_class=principal arterial & light=dawn or dusk & time_of_day=evening (16-19),light=dawn or dusk & time_of_day=evening (16-19),road_class=principal arterial,0.033573,0.583333,1.210199
+3,speed_bin=45-50 mph & light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),speed_bin=45-50 mph,0.043165,0.580645,1.399590
+7,road_class=principal arterial & light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),road_class=principal arterial,0.043165,0.580645,1.204622
+17,"road_class=principal arterial & speed_bin=45-50 mph & light=dark, not lighted & time_of_day=night (20-23)","road_class=principal arterial & light=dark, not lighted & time_of_day=night (20-23)",speed_bin=45-50 mph,0.052758,0.578947,1.395497
+18,road_class=minor arterial & speed_bin=35-40 mph & crossing_location=not at intersection & time_of_day=late night (0-5),speed_bin=35-40 mph & crossing_location=not at intersection & time_of_day=late night (0-5),road_class=minor arterial,0.035971,0.576923,2.021655
+18,road_class=minor arterial & speed_bin=35-40 mph & crossing_location=not at intersection & time_of_day=late night (0-5),road_class=minor arterial & crossing_location=not at intersection & time_of_day=late night (0-5),speed_bin=35-40 mph,0.035971,0.576923,1.743311
+8,light=daylight & time_of_day=midday (10-15),light=daylight,time_of_day=midday (10-15),0.107914,0.569620,5.278481
+4,road_class=principal arterial & light=daylight & time_of_day=midday (10-15),light=daylight & time_of_day=midday (10-15),road_class=principal arterial,0.059952,0.555556,1.152570
+10,light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),light=daylight & crossing_location=not at intersection,time_of_day=midday (10-15),0.074341,0.543860,5.039766
+6,"road_class=local road & speed_bin=30 mph or less & light=dark, lighted","speed_bin=30 mph or less & light=dark, lighted",road_class=local road,0.031175,0.541667,5.944079
+2,speed_bin=45-50 mph & light=daylight & time_of_day=midday (10-15),light=daylight & time_of_day=midday (10-15),speed_bin=45-50 mph,0.057554,0.533333,1.285549
+5,road_class=local road & speed_bin=30 mph or less,speed_bin=30 mph or less,road_class=local road,0.069544,0.517857,5.682801
+9,road_class=local road & speed_bin=30 mph or less & crossing_location=not at intersection,speed_bin=30 mph or less & crossing_location=not at intersection,road_class=local road,0.047962,0.512821,5.627530
+17,"road_class=principal arterial & speed_bin=45-50 mph & light=dark, not lighted & time_of_day=night (20-23)",road_class=principal arterial & speed_bin=45-50 mph & time_of_day=night (20-23),"light=dark, not lighted",0.052758,0.458333,1.647629
+6,"road_class=local road & speed_bin=30 mph or less & light=dark, lighted",road_class=local road & speed_bin=30 mph or less,"light=dark, lighted",0.031175,0.448276,0.999631
+18,road_class=minor arterial & speed_bin=35-40 mph & crossing_location=not at intersection & time_of_day=late night (0-5),road_class=minor arterial & speed_bin=35-40 mph & crossing_location=not at intersection,time_of_day=late night (0-5),0.035971,0.333333,1.510870
+11,road_class=principal arterial & light=dawn or dusk & time_of_day=evening (16-19),road_class=principal arterial & time_of_day=evening (16-19),light=dawn or dusk,0.033573,0.325581,4.848837
+12,light=daylight & crossing_location=not at intersection & time_of_day=morning (6-9),light=daylight & crossing_location=not at intersection,time_of_day=morning (6-9),0.040767,0.298246,4.441729
+19,road_class=collector & speed_bin=30 mph or less,speed_bin=30 mph or less,road_class=collector,0.038369,0.285714,2.090226
+19,road_class=collector & speed_bin=30 mph or less,road_class=collector,speed_bin=30 mph or less,0.038369,0.280702,2.090226
+13,light=dawn or dusk & crossing_location=not at intersection & time_of_day=evening (16-19),crossing_location=not at intersection & time_of_day=evening (16-19),light=dawn or dusk,0.047962,0.273973,4.080235
+14,light=dawn or dusk & time_of_day=evening (16-19),time_of_day=evening (16-19),light=dawn or dusk,0.057554,0.255319,3.802432
+15,light=daylight & time_of_day=morning (6-9),light=daylight,time_of_day=morning (6-9),0.045564,0.240506,3.581826
+16,road_class=principal arterial & speed_bin=55 mph or more & crossing_location=not at intersection,road_class=principal arterial & crossing_location=not at intersection,speed_bin=55 mph or more,0.062350,0.168831,2.607504
+20,road_class=principal arterial & speed_bin=55 mph or more,road_class=principal arterial,speed_bin=55 mph or more,0.064748,0.134328,2.074627

@@ -1,0 +1,41 @@
+group,n_rows,pattern_rank,itemset,expected_by_construction,predicted_candidate,predicted_baseline,observed_support,observed_lift
+five most populous,33,1,road_class=principal arterial & speed_bin=45-50 mph & light=daylight & time_of_day=midday (10-15),False,0.045564,0.004088,0.000000,0.000000
+five most populous,33,2,speed_bin=45-50 mph & light=daylight & time_of_day=midday (10-15),False,0.057554,0.008482,0.000000,0.000000
+five most populous,33,3,speed_bin=45-50 mph & light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),False,0.043165,0.006549,0.000000,0.000000
+five most populous,33,4,road_class=principal arterial & light=daylight & time_of_day=midday (10-15),False,0.059952,0.009854,0.000000,0.000000
+five most populous,33,5,road_class=local road & speed_bin=30 mph or less,False,0.069544,0.012238,0.151515,3.666667
+five most populous,33,6,"road_class=local road & speed_bin=30 mph or less & light=dark, lighted",False,0.031175,0.005488,0.060606,3.723077
+five most populous,33,7,road_class=principal arterial & light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),False,0.043165,0.007609,0.000000,0.000000
+five most populous,33,8,road_class=local road & speed_bin=30 mph or less & crossing_location=not at intersection,False,0.047962,0.009450,0.121212,3.337931
+five most populous,33,9,light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),False,0.074341,0.015787,0.030303,7.510345
+five most populous,33,10,road_class=principal arterial & light=dawn or dusk & time_of_day=evening (16-19),False,0.033573,0.007296,0.060606,8.066667
+five most populous,33,11,light=daylight & crossing_location=not at intersection & time_of_day=morning (6-9),False,0.040767,0.009823,0.090909,4.506207
+five most populous,33,12,light=dawn or dusk & crossing_location=not at intersection & time_of_day=evening (16-19),False,0.047962,0.011688,0.090909,6.258621
+five most populous,33,13,road_class=principal arterial & speed_bin=55 mph or more & crossing_location=not at intersection,False,0.062350,0.024099,0.030303,2.503448
+five most populous,33,14,"road_class=principal arterial & speed_bin=45-50 mph & light=dark, not lighted & time_of_day=night (20-23)",False,0.052758,0.021077,0.030303,1.663750
+five most populous,33,15,road_class=minor arterial & speed_bin=35-40 mph & crossing_location=not at intersection & time_of_day=late night (0-5),False,0.035971,0.016089,0.030303,2.868534
+five most populous,33,16,road_class=collector & speed_bin=30 mph or less,False,0.038369,0.018357,0.090909,1.571429
+five most populous,33,17,road_class=principal arterial & speed_bin=55 mph or more,False,0.064748,0.031210,0.030303,2.200000
+five most populous,33,18,road_class=principal arterial & speed_bin=45-50 mph & crossing_location=not at intersection & time_of_day=midday (10-15),False,0.033573,0.016664,0.000000,0.000000
+five most populous,33,19,road_class=collector & speed_bin=35-40 mph & time_of_day=night (20-23),False,0.033573,0.017140,0.000000,0.000000
+five most populous,33,20,"road_class=minor arterial & speed_bin=35-40 mph & light=dark, not lighted & crossing_location=not at intersection",False,0.038369,0.020286,0.030303,2.581681
+other counties,49,1,road_class=principal arterial & speed_bin=45-50 mph & light=daylight & time_of_day=midday (10-15),False,0.045564,0.004088,0.000000,0.000000
+other counties,49,2,speed_bin=45-50 mph & light=daylight & time_of_day=midday (10-15),False,0.057554,0.008482,0.020408,3.530882
+other counties,49,3,speed_bin=45-50 mph & light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),False,0.043165,0.006549,0.000000,0.000000
+other counties,49,4,road_class=principal arterial & light=daylight & time_of_day=midday (10-15),False,0.059952,0.009854,0.000000,0.000000
+other counties,49,5,road_class=local road & speed_bin=30 mph or less,False,0.069544,0.012238,0.081633,4.355556
+other counties,49,6,"road_class=local road & speed_bin=30 mph or less & light=dark, lighted",False,0.031175,0.005488,0.040816,4.639614
+other counties,49,7,road_class=principal arterial & light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),False,0.043165,0.007609,0.000000,0.000000
+other counties,49,8,road_class=local road & speed_bin=30 mph or less & crossing_location=not at intersection,False,0.047962,0.009450,0.081633,5.472365
+other counties,49,9,light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),False,0.074341,0.015787,0.040816,3.078205
+other counties,49,10,road_class=principal arterial & light=dawn or dusk & time_of_day=evening (16-19),False,0.033573,0.007296,0.000000,0.000000
+other counties,49,11,light=daylight & crossing_location=not at intersection & time_of_day=morning (6-9),False,0.040767,0.009823,0.040816,3.078205
+other counties,49,12,light=dawn or dusk & crossing_location=not at intersection & time_of_day=evening (16-19),False,0.047962,0.011688,0.020408,2.798368
+other counties,49,13,road_class=principal arterial & speed_bin=55 mph or more & crossing_location=not at intersection,False,0.062350,0.024099,0.061224,3.420228
+other counties,49,14,"road_class=principal arterial & speed_bin=45-50 mph & light=dark, not lighted & time_of_day=night (20-23)",False,0.052758,0.021077,0.061224,4.119363
+other counties,49,15,road_class=minor arterial & speed_bin=35-40 mph & crossing_location=not at intersection & time_of_day=late night (0-5),False,0.035971,0.016089,0.020408,1.182996
+other counties,49,16,road_class=collector & speed_bin=30 mph or less,False,0.038369,0.018357,0.081633,2.419753
+other counties,49,17,road_class=principal arterial & speed_bin=55 mph or more,False,0.064748,0.031210,0.061224,2.722222
+other counties,49,18,road_class=principal arterial & speed_bin=45-50 mph & crossing_location=not at intersection & time_of_day=midday (10-15),False,0.033573,0.016664,0.000000,0.000000
+other counties,49,19,road_class=collector & speed_bin=35-40 mph & time_of_day=night (20-23),False,0.033573,0.017140,0.020408,0.889259
+other counties,49,20,"road_class=minor arterial & speed_bin=35-40 mph & light=dark, not lighted & crossing_location=not at intersection",False,0.038369,0.020286,0.000000,0.000000

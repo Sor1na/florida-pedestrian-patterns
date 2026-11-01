@@ -1,0 +1,18 @@
+2026-11-01T01:05:06.719-05:00 | stage tune; argv: tune --evidence-dir docs/evidence/week10_synthetic --locked data/interim/experiment/locked_params_synthetic.json --transactions data/interim/experiment/transactions_synthetic.csv
+2026-11-01T01:05:06.762-05:00 | python 3.14.3 on Windows-10-10.0.19045-SP0; pandas 3.0.6; numpy 2.4.4; scipy 1.17.1; mlxtend 0.25.0
+2026-11-01T01:05:06.762-05:00 | PostgreSQL server_version 16.15; database ped_safety
+2026-11-01T01:05:06.762-05:00 | git commit 6858ad4a6f7134b926aa68c08795917d1303c528; dirty=True; config experiment_config.json sha256 26ecf2041b4f42e44d2bedd8aa757e7c24be48567093fc3ee07274b81faf3909
+2026-11-01T01:05:06.837-05:00 | read 417 rows from the database with year <= 2023; max year read 2023
+2026-11-01T01:05:06.842-05:00 | train [2020, 2021, 2022]: 300 rows; validation 2023: 117 rows
+2026-11-01T01:05:08.815-05:00 | tuning grid (train -> validation, K = 20):
+2026-11-01T01:05:08.816-05:00 |  min_support  min_lift  n_patterns  k_evaluated  n_topk_expected_by_construction  mae_pp_candidate  mae_pp_baseline  replication_rate  selected
+2026-11-01T01:05:08.816-05:00 |       0.0300    1.0000         142           20                                3            1.8333           2.7633            0.5500     False
+2026-11-01T01:05:08.816-05:00 |       0.0300    1.2000          99           20                                3            1.8333           2.7633            0.5500     False
+2026-11-01T01:05:08.816-05:00 |       0.0300    1.5000          57           20                                3            1.8333           2.7633            0.5500      True
+2026-11-01T01:05:08.816-05:00 |       0.0500    1.0000          86           20                                2            2.2991           2.3232            0.4000     False
+2026-11-01T01:05:08.816-05:00 |       0.0500    1.2000          58           20                                2            2.2991           2.3232            0.4000     False
+2026-11-01T01:05:08.816-05:00 |       0.0500    1.5000          28           20                                2            2.2991           2.3232            0.4000     False
+2026-11-01T01:05:08.816-05:00 |       0.0800    1.0000          44           20                                3            2.4487           3.2793            0.6500     False
+2026-11-01T01:05:08.816-05:00 |       0.0800    1.2000          25           20                                3            2.4487           3.2793            0.6500     False
+2026-11-01T01:05:08.816-05:00 |       0.0800    1.5000          10           10                                2            2.8513           3.4388            0.6000     False
+2026-11-01T01:05:08.827-05:00 | selected min_support=0.03, min_lift=1.5; wrote locked_params_synthetic.json

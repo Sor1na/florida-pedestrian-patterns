@@ -1,0 +1,61 @@
+{
+  "_comment": "Pre-registered settings of the Week 10 experiment (docs/Week10_Experiment_Design_Shkirpan.md). Fixed before any pattern was mined on the real data. The test year is read only by the `test` stage, once, after tuning has written analysis/locked_params.json.",
+  "source_view": "v_ped_transactions",
+  "unit": "one in-scope pedestrian death (one row of v_ped_transactions)",
+  "cluster_key": ["year", "st_case"],
+  "item_variables": ["road_class", "speed_bin", "light", "crossing_location", "time_of_day"],
+  "stratifiers": ["county_fips", "age_group", "alcohol_stratum", "hit_and_run"],
+  "unknown_label": "unknown",
+  "split": {
+    "train_years": [2020, 2021, 2022],
+    "validation_year": 2023,
+    "test_year": 2024,
+    "final_fit_years": [2020, 2021, 2022, 2023],
+    "test_year_release": "Annual Report File (provisional)"
+  },
+  "candidate": {
+    "method": "FP-Growth closed frequent itemsets (mlxtend.frequent_patterns.fpgrowth), lift ranking",
+    "min_itemset_len": 2,
+    "max_itemset_len": 4,
+    "exclude_unknown_items_from_patterns": true,
+    "grid": {"min_support": [0.03, 0.05, 0.08], "min_lift": [1.0, 1.2, 1.5]},
+    "top_k": 20,
+    "secondary_top_k": 10,
+    "expected_by_construction_variables": ["light", "time_of_day"],
+    "roadway_variables": ["road_class", "speed_bin", "crossing_location"],
+    "ranking": ["lift desc", "support desc", "itemset lexicographic"],
+    "selection_rule": "minimise validation MAE of the candidate at K = top_k; require at least top_k patterns; ties -> larger min_support, then larger min_lift"
+  },
+  "secondary_analyses": "roadway top-K: pre-specified after tuning and before the test run, on seeing the fit-years pattern list; reported as secondary",
+  "baseline": {
+    "method": "statistical independence: predicted support of an itemset = product of the single-item supports measured on the fit years (lift == 1 by construction)"
+  },
+  "metrics": {
+    "primary": "MAE_pp: mean absolute error, in percentage points, between predicted and observed hold-out support over the top-K patterns",
+    "secondary": [
+      "replication_rate: share of top-K patterns with hold-out support >= min_support and hold-out lift > 1",
+      "signed_bias_pp: mean (predicted - observed) support in percentage points",
+      "spearman_rank: rank correlation of fit-years lift vs hold-out lift over the top-K patterns",
+      "coverage: share of hold-out deaths covered by at least one top-K pattern"
+    ]
+  },
+  "uncertainty": {
+    "bootstrap_resamples": 1000,
+    "bootstrap_unit": "crash (year, st_case) within the evaluated year",
+    "confidence_level": 0.95,
+    "support_interval": "Wilson score interval"
+  },
+  "permutation_null": {
+    "method": "column-wise permutation of each item variable within the fit years (swap randomisation that preserves every item support and every transaction length)",
+    "resamples": 500,
+    "statistics": ["number of patterns passing min_support and min_lift", "maximum lift", "replication_rate of the top-K under the null"]
+  },
+  "seeds": {"bootstrap": 20262024, "permutation": 20262025},
+  "subgroups": {
+    "period": "each fit year separately (2020, 2021, 2022, 2023)",
+    "county_group": "five most populous counties by 2020-2024 person-years vs all other counties",
+    "sensitivity": "alcohol_stratum: 'no alcohol reported' only vs all deaths (never reported as a clean split; the unknown share is printed next to it)"
+  },
+  "outputs_dir": "data/interim/experiment",
+  "evidence_dir": "docs/evidence/week10"
+}

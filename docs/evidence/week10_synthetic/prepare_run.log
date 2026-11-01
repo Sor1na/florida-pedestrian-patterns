@@ -1,0 +1,12 @@
+2026-11-01T01:05:04.529-05:00 | stage prepare; argv: prepare --evidence-dir docs/evidence/week10_synthetic --locked data/interim/experiment/locked_params_synthetic.json --transactions data/interim/experiment/transactions_synthetic.csv
+2026-11-01T01:05:04.569-05:00 | python 3.14.3 on Windows-10-10.0.19045-SP0; pandas 3.0.6; numpy 2.4.4; scipy 1.17.1; mlxtend 0.25.0
+2026-11-01T01:05:04.569-05:00 | PostgreSQL server_version 16.15; database ped_safety
+2026-11-01T01:05:04.569-05:00 | git commit 6858ad4a6f7134b926aa68c08795917d1303c528; dirty=True; config experiment_config.json sha256 26ecf2041b4f42e44d2bedd8aa757e7c24be48567093fc3ee07274b81faf3909
+2026-11-01T01:05:04.658-05:00 | wrote 499 rows to data\interim\experiment\transactions_synthetic.csv; sha256 46601bcfcdc4b2da92df24fe46c7c2fef475f52d20309db937d7ec62ac1d3769
+2026-11-01T01:05:04.667-05:00 | content hash of the rows (order-independent) 46601bcfcdc4b2da92df24fe46c7c2fef475f52d20309db937d7ec62ac1d3769
+2026-11-01T01:05:04.670-05:00 |   rows in 2020: 115
+2026-11-01T01:05:04.670-05:00 |   rows in 2021: 99
+2026-11-01T01:05:04.670-05:00 |   rows in 2022: 86
+2026-11-01T01:05:04.670-05:00 |   rows in 2023: 117
+2026-11-01T01:05:04.670-05:00 |   rows in 2024: 82
+2026-11-01T01:05:04.813-05:00 | five most populous counties by 2020-2024 person-years: Miami-Dade (86) 13832428; Broward (11) 10136440; Palm Beach (99) 7589603; Hillsborough (57) 7435461; Orange (95) 7318784

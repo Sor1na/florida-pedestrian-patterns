@@ -1,0 +1,9 @@
+rank,itemset,fit_support,baseline_support,obs_support,residual_candidate_pp,residual_baseline_pp,margin_pp
+4,road_class=principal arterial & light=daylight & time_of_day=midday (10-15),0.059952,0.009854,0.000000,5.995204,0.985434,5.009770
+2,speed_bin=45-50 mph & light=daylight & time_of_day=midday (10-15),0.057554,0.008482,0.012195,4.535883,-0.371353,4.164531
+1,road_class=principal arterial & speed_bin=45-50 mph & light=daylight & time_of_day=midday (10-15),0.045564,0.004088,0.000000,4.556355,0.408825,4.147530
+3,speed_bin=45-50 mph & light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),0.043165,0.006549,0.000000,4.316547,0.654934,3.661613
+7,road_class=principal arterial & light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),0.043165,0.007609,0.000000,4.316547,0.760935,3.555612
+10,light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),0.074341,0.015787,0.036585,3.775516,-2.079881,1.695635
+8,light=daylight & time_of_day=midday (10-15),0.107914,0.020444,0.060976,4.693806,-4.053153,0.640653
+18,road_class=minor arterial & speed_bin=35-40 mph & crossing_location=not at intersection & time_of_day=late night (0-5),0.035971,0.016089,0.024390,1.158098,-0.830137,0.327960

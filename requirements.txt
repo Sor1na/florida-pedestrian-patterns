@@ -1,6 +1,9 @@
-# Python packages for pipeline/profile_raw.py (Week 6) and pipeline/etl.py (Week 7).
+# Python packages for pipeline/profile_raw.py (Week 6), pipeline/etl.py (Week 7) and analysis/experiment.py (Weeks 10-11).
 # Install: pip install -r requirements.txt   (PostgreSQL 16 with psql is installed separately)
 numpy>=1.26
 pandas>=2.2
 pandera>=0.24
 psycopg[binary]>=3.2
+# Week 10-11 experiment (analysis/experiment.py): FP-Growth, Spearman, normal quantiles
+mlxtend>=0.23
+scipy>=1.11

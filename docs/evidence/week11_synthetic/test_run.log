@@ -1,0 +1,33 @@
+2026-11-01T01:05:10.731-05:00 | stage test; argv: test --evidence-dir docs/evidence/week11_synthetic --locked data/interim/experiment/locked_params_synthetic.json --transactions data/interim/experiment/transactions_synthetic.csv --permutations 50
+2026-11-01T01:05:10.771-05:00 | python 3.14.3 on Windows-10-10.0.19045-SP0; pandas 3.0.6; numpy 2.4.4; scipy 1.17.1; mlxtend 0.25.0
+2026-11-01T01:05:10.771-05:00 | PostgreSQL server_version 16.15; database ped_safety
+2026-11-01T01:05:10.771-05:00 | git commit 6858ad4a6f7134b926aa68c08795917d1303c528; dirty=True; config experiment_config.json sha256 26ecf2041b4f42e44d2bedd8aa757e7c24be48567093fc3ee07274b81faf3909
+2026-11-01T01:05:12.067-05:00 | transactions transactions_synthetic.csv sha256 46601bcfcdc4b2da92df24fe46c7c2fef475f52d20309db937d7ec62ac1d3769 (499 rows); locked params: min_support 0.03, min_lift 1.5, K 20, locked at commit 6858ad4a6f7134b926aa68c08795917d1303c528
+2026-11-01T01:05:12.067-05:00 | seeds: bootstrap 20262024 (B=1000), permutation 20262025 (N=50 override)
+2026-11-01T01:05:12.072-05:00 | fit [2020, 2021, 2022, 2023]: 417 rows; test 2024 (Annual Report File (provisional)): 82 rows
+2026-11-01T01:05:12.314-05:00 | patterns passing on the fit years: 48; expected_by_construction: 4; roadway list: 44; expected_by_construction among the primary top-20: 3
+2026-11-01T01:05:12.398-05:00 | results K=20 (evaluated 20): MAE_pp candidate 2.974 [2.504, 4.663], baseline 3.456 [2.350, 4.982], difference -0.482 [-1.259, 1.073]; replication 0.650 [0.400, 0.750]; coverage 0.451 [0.337, 0.575]; Spearman -0.140; bias candidate 0.788, baseline -3.175
+2026-11-01T01:05:12.451-05:00 | results K=10 (evaluated 10): MAE_pp candidate 4.293 [3.074, 6.121], baseline 3.221 [1.606, 5.437], difference 1.072 [-0.677, 2.528]; replication 0.500 [0.200, 0.600]; coverage 0.159 [0.083, 0.244]; Spearman -0.613; bias candidate 2.145, baseline -2.659
+2026-11-01T01:05:12.539-05:00 | roadway_topk K=20 (evaluated 20): MAE_pp candidate 2.929 [2.461, 4.312], baseline 2.809 [2.025, 4.145], difference 0.120 [-0.479, 1.196]; replication 0.500 [0.300, 0.600]; coverage 0.427 [0.316, 0.543]; Spearman 0.058; bias candidate 1.175, baseline -2.231
+2026-11-01T01:05:12.587-05:00 | roadway_topk K=10 (evaluated 10): MAE_pp candidate 3.916 [2.977, 5.745], baseline 2.986 [1.488, 4.938], difference 0.929 [-0.007, 2.088]; replication 0.400 [0.200, 0.500]; coverage 0.171 [0.084, 0.259]; Spearman -0.675; bias candidate 1.767, baseline -2.424
+2026-11-01T01:05:15.758-05:00 |   permutation 50/50: 3.2 s
+2026-11-01T01:05:15.765-05:00 | permutation null (50 resamples, 3.2 s):
+2026-11-01T01:05:15.765-05:00 |        statistic  observed  null_mean  null_p95  null_percentile_of_observed  count_null_ge_observed  n_resamples  p_value_one_sided
+2026-11-01T01:05:15.765-05:00 |       n_patterns   48.0000     6.1800   11.0000                     100.0000                       0           50             0.0196
+2026-11-01T01:05:15.765-05:00 |         max_lift   11.1450     1.8925    2.2564                     100.0000                       0           50             0.0196
+2026-11-01T01:05:15.765-05:00 | replication_rate    0.6500     0.1120    0.2500                     100.0000                       0           50             0.0196
+2026-11-01T01:05:15.993-05:00 | primary: county group 'five most populous' (33 test rows): MAE_pp candidate 4.508, baseline 4.189
+2026-11-01T01:05:16.066-05:00 | primary: county group 'other counties' (49 test rows): MAE_pp candidate 2.651, baseline 3.098
+2026-11-01T01:05:16.126-05:00 | primary: alcohol sensitivity: 30 of 82 test rows 'no alcohol reported'; alcohol unknown share 0.451 (not a clean split)
+2026-11-01T01:05:16.362-05:00 | roadway: county group 'five most populous' (33 test rows): MAE_pp candidate 4.103, baseline 3.589
+2026-11-01T01:05:16.437-05:00 | roadway: county group 'other counties' (49 test rows): MAE_pp candidate 2.681, baseline 2.520
+2026-11-01T01:05:16.500-05:00 | roadway: alcohol sensitivity: 30 of 82 test rows 'no alcohol reported'; alcohol unknown share 0.451 (not a clean split)
+2026-11-01T01:05:16.561-05:00 | worst candidate residuals:
+2026-11-01T01:05:16.561-05:00 |  worst_rank  rank                                                                                           itemset  residual_candidate_pp  residual_baseline_pp
+2026-11-01T01:05:16.561-05:00 |           1     4                       road_class=principal arterial & light=daylight & time_of_day=midday (10-15)                  5.995                 0.985
+2026-11-01T01:05:16.561-05:00 |           2     9          road_class=local road & speed_bin=30 mph or less & crossing_location=not at intersection                 -4.960                -8.811
+2026-11-01T01:05:16.561-05:00 |           3    19                                                   road_class=collector & speed_bin=30 mph or less                 -4.700                -6.701
+2026-11-01T01:05:16.561-05:00 |           4     8                                                       light=daylight & time_of_day=midday (10-15)                  4.694                -4.053
+2026-11-01T01:05:16.561-05:00 |           5     1 road_class=principal arterial & speed_bin=45-50 mph & light=daylight & time_of_day=midday (10-15)                  4.556                 0.409
+2026-11-01T01:05:16.561-05:00 | patterns where the baseline beats the candidate: 8
+2026-11-01T01:05:16.728-05:00 | test finished in 4.7 s; outputs in docs\evidence\week11_synthetic

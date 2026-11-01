@@ -85,6 +85,22 @@ jobs:
           python pipeline/trace.py --pick normal --raw-dir data/synthetic/clean
           python pipeline/trace.py --pick edge --raw-dir data/synthetic/clean
 
+      - name: Week 10-11 experiment (prepare, tune, test) on the synthetic scenario load
+        env:
+          PGDATABASE: ped_safety_week7
+        run: |
+          # Synthetic paths only: never touches analysis/locked_params.json or the real-data evidence.
+          ARGS="--evidence-dir docs/evidence/week11_synthetic --locked data/interim/experiment/locked_params_synthetic.json --transactions data/interim/experiment/transactions_synthetic.csv"
+          rm -rf docs/evidence/week11_synthetic          # the committed copy would trip the one-run guard
+          cp analysis/locked_params.json /tmp/locked_before.json 2>/dev/null || true
+          python analysis/experiment.py prepare $ARGS
+          python analysis/experiment.py tune $ARGS
+          python analysis/experiment.py test $ARGS --permutations 50
+          # fail if the synthetic run changed, created or deleted the real locked parameters
+          if [ -f /tmp/locked_before.json ]; then cmp analysis/locked_params.json /tmp/locked_before.json
+          else test ! -e analysis/locked_params.json; fi
+          test -f docs/evidence/week11_synthetic/results_summary.json
+
       - name: Keep the logs of this run
         if: always()
         uses: actions/upload-artifact@v4
