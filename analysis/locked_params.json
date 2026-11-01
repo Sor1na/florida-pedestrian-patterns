@@ -1,0 +1,17 @@
+{
+  "min_support": 0.03,
+  "min_lift": 1.5,
+  "top_k": 20,
+  "secondary_top_k": 10,
+  "max_len": 4,
+  "n_patterns_validation": 29,
+  "fewer_than_k_patterns": false,
+  "git_commit": "528311f87919d331035eabbc6c4248382c106a08",
+  "git_dirty": false,
+  "timestamp": "2026-11-01T01:06:51-05:00",
+  "config_sha256": "26ecf2041b4f42e44d2bedd8aa757e7c24be48567093fc3ee07274b81faf3909",
+  "database": "ped_real",
+  "transactions_file": "transactions.csv",
+  "transactions_sha256": "1894047c890e50264c05abc8c922feec88a7898c5790300240c2c6c4bc3f4069",
+  "rows_through_validation_sha256": "dc54a893fd08cf30d3280abf2265353a24b55c56bae2530d68ac82b73014c2f5"
+}

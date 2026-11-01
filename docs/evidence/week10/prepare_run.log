@@ -1,0 +1,12 @@
+2026-11-01T01:06:47.581-05:00 | stage prepare; argv: prepare
+2026-11-01T01:06:47.624-05:00 | python 3.14.3 on Windows-10-10.0.19045-SP0; pandas 3.0.6; numpy 2.4.4; scipy 1.17.1; mlxtend 0.25.0
+2026-11-01T01:06:47.624-05:00 | PostgreSQL server_version 16.15; database ped_real
+2026-11-01T01:06:47.624-05:00 | git commit 528311f87919d331035eabbc6c4248382c106a08; dirty=False; config experiment_config.json sha256 26ecf2041b4f42e44d2bedd8aa757e7c24be48567093fc3ee07274b81faf3909
+2026-11-01T01:06:47.775-05:00 | wrote 3053 rows to data\interim\experiment\transactions.csv; sha256 1894047c890e50264c05abc8c922feec88a7898c5790300240c2c6c4bc3f4069
+2026-11-01T01:06:47.805-05:00 | content hash of the rows (order-independent) 1894047c890e50264c05abc8c922feec88a7898c5790300240c2c6c4bc3f4069
+2026-11-01T01:06:47.809-05:00 |   rows in 2020: 588
+2026-11-01T01:06:47.809-05:00 |   rows in 2021: 674
+2026-11-01T01:06:47.809-05:00 |   rows in 2022: 644
+2026-11-01T01:06:47.809-05:00 |   rows in 2023: 625
+2026-11-01T01:06:47.809-05:00 |   rows in 2024: 522
+2026-11-01T01:06:47.848-05:00 | five most populous counties by 2020-2024 person-years: Miami-Dade (86) 13705287; Broward (11) 9859698; Palm Beach (99) 7665735; Hillsborough (57) 7604046; Orange (95) 7349462
