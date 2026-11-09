@@ -1,0 +1,10 @@
+id,text,placed_beside
+L1,"These are shares of deaths, not risk. FARS counts deaths, not crossings or pedestrian-miles, so a large share says where deaths happen, not where a pedestrian is most likely to be killed.",F1; A1; A2
+L2,"This analysis is descriptive. It has no comparison with treated roads of the same class and traffic, so it does not estimate what any countermeasure would prevent.",A2
+L3,2024 is the provisional Annual Report File: 13.7% fewer deaths than 2023 and 4.6% of them uncodable to the analysis population. Every 2024 figure will be re-read when the Final file is loaded.,C1; F1; F2; F3
+L4,The statewide list is right about the state and wrong about where each pattern lives: unlit high-speed arterial patterns are 1–3% of deaths in the five largest counties and 5–9% elsewhere. Check the county view before quoting a pattern.,F1; F4
+L5,"Deaths with an unknown value stay in every denominator and no pattern contains an unknown. Speed is unknown for 6% of deaths, most of them hit-and-runs, so patterns with a speed item under-represent hit-and-run deaths.",C3; F1
+L6,"The patterns describe urban, non-freeway roads only: 3,053 of 3,736 deaths. County rates use all deaths, so a rural county can have a high rate and contribute no pattern.",C1; C2
+L7,A rate or share built on fewer than 20 deaths is flagged unstable and is not ranked; one multi-victim crash can move it by several deaths.,C2; A1
+L8,"Alcohol involvement is unknown for 44% of 2024 deaths, so no claim about impairment is made. Among the 253 deaths with no alcohol reported, all twenty combinations keep lift above one.",F1
+L9,"The speed and time-of-day bins were fixed in Week 6 from pooled single-variable frequencies that included 2024; the patterns measure joint structure, which that binning did not look at, but the contamination is disclosed.",F2; methods footer

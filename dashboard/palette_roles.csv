@@ -1,0 +1,16 @@
+role,hex,kind
+"series 1 (2020–2023, the prediction, the list)",#2a78d6,series
+"series 2 (2024, held out, provisional)",#eb6834,series
+"context gray (baseline, out of scope, unknown)",#898781,context
+map ramp step 1 (lightest),#86b6ef,ramp_map
+map ramp step 2,#5598e7,ramp_map
+map ramp step 3,#2a78d6,ramp_map
+map ramp step 4,#1c5cab,ramp_map
+map ramp step 5 (darkest),#0d366b,ramp_map
+heat-table ramp step 1 (below the 3% floor),#86b6ef,ramp_heat
+heat-table ramp step 2 (3–5%),#5598e7,ramp_heat
+heat-table ramp step 3 (5–7%),#1c5cab,ramp_heat
+heat-table ramp step 4 (7% and more),#0d366b,ramp_heat
+primary ink,#0b0b0b,ink
+secondary ink,#52514e,ink
+surface,#fcfcfb,surface

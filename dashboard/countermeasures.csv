@@ -1,0 +1,21 @@
+primary_rank,roadway_rank,itemset,lighting,crosswalk_visibility,phb_rrfb,medians_refuge,road_diet,speed_management,lpi,walkways
+2,1,light=daylight & crossing_location=not at intersection & time_of_day=midday (10-15),0,1,1,0,0,0,0,0
+3,2,road_class=local road & speed_bin=30 mph or less,0,1,0,0,0,0,0,1
+4,3,road_class=principal arterial & light=daylight & time_of_day=midday (10-15),0,0,1,1,0,0,0,0
+5,4,"road_class=principal arterial & speed_bin=55 mph or more & light=dark, not lighted & crossing_location=not at intersection",1,1,1,1,0,1,0,0
+6,5,road_class=local road & speed_bin=30 mph or less & crossing_location=not at intersection,0,1,1,0,0,0,0,1
+7,6,"road_class=principal arterial & speed_bin=55 mph or more & light=dark, not lighted",1,0,1,1,0,1,0,0
+8,7,"speed_bin=55 mph or more & light=dark, not lighted & crossing_location=not at intersection",1,1,1,1,0,1,0,0
+9,8,"road_class=minor arterial & speed_bin=35-40 mph & light=dark, lighted & time_of_day=night (20-23)",0,0,1,1,1,0,0,0
+10,9,speed_bin=30 mph or less & light=daylight,0,1,0,0,0,0,0,1
+12,10,"speed_bin=55 mph or more & light=dark, not lighted",1,0,0,1,0,1,0,0
+13,11,road_class=local road & light=daylight,0,1,0,0,0,0,0,1
+14,12,"road_class=principal arterial & speed_bin=45-50 mph & light=dark, lighted & time_of_day=night (20-23)",0,0,1,1,1,1,0,0
+15,13,"speed_bin=45-50 mph & light=dark, not lighted & crossing_location=not at intersection & time_of_day=late night (0-5)",1,1,1,1,0,1,0,0
+16,14,road_class=principal arterial & speed_bin=55 mph or more & crossing_location=not at intersection,0,1,1,1,0,1,0,0
+17,15,"light=dark, lighted & crossing_location=intersection-related & time_of_day=night (20-23)",0,1,0,0,0,0,1,0
+18,16,"road_class=principal arterial & speed_bin=45-50 mph & light=dark, lighted & time_of_day=late night (0-5)",0,0,1,1,1,1,0,0
+19,17,road_class=collector & speed_bin=35-40 mph & crossing_location=not at intersection,0,1,1,0,0,0,0,1
+20,18,road_class=principal arterial & speed_bin=55 mph or more,0,0,1,1,0,1,0,0
+,19,"speed_bin=45-50 mph & light=dark, not lighted & time_of_day=late night (0-5)",1,0,1,1,0,1,0,0
+,20,"road_class=collector & light=dark, not lighted & crossing_location=not at intersection",1,1,1,0,0,0,0,1

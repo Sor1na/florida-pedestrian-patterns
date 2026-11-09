@@ -1,0 +1,33 @@
+%% Week 12 dashboard: the sequence of views, context -> finding -> action, and what each stage hands to the next.
+%% One row per view in dashboard/views.csv; the design is docs/Week12_Dashboard_Design_Shkirpan.md.
+flowchart LR
+    subgraph CTX["CONTEXT — how many, where, which deaths (tasks T1, T3)"]
+        direction TB
+        C1["C1 Deaths per year, 2020–2024<br/>stacked columns: in scope vs all<br/><i>2024 marked provisional</i>"]
+        C2["C2 County counts and rates<br/>choropleth + ranked bars<br/><i>unstable rates flagged (&lt; 20 deaths)</i>"]
+        C3["C3 One condition at a time<br/>five bar charts, 2020–2023<br/><i>the independence baseline</i>"]
+        C1 --> C2 --> C3
+    end
+
+    subgraph FND["FINDING — the twenty combinations (tasks T2, T3)"]
+        direction TB
+        F1["F1 Predicted vs observed 2024<br/>dumbbell with Wilson 95% intervals<br/><i>17 of 20 replicated</i>"]
+        F2["F2 How much to trust the list<br/>stat tiles: 0.82 vs 2.57 pp, p = 0.002<br/><i>bootstrap intervals, permutation null</i>"]
+        F3["F3 Steady or one year's spike<br/>heat table, pattern × year<br/><i>15 of 20 in every fit year</i>"]
+        F4["F4 Five largest counties vs other 62<br/>dumbbell, shapes not colors<br/><i>the geographic split</i>"]
+        F1 --> F2 --> F3 --> F4
+    end
+
+    subgraph ACT["ACTION — one county, one countermeasure family (tasks T3, T4)"]
+        direction TB
+        A1["A1 Your county<br/>dot plot vs statewide reference<br/><i>too few to rank below 20 deaths</i>"]
+        A2["A2 Combination → countermeasure family<br/>matrix: roadway patterns × 8 FHWA families<br/><i>candidate, not effect</i>"]
+        A1 --> A2
+    end
+
+    C3 -- "baseline shares feed lift" --> F1
+    F4 -- "the split that A1 resolves" --> A1
+
+    LIM["Beside every finding, in the same view:<br/>units and denominator (§5.1–5.2),<br/>Wilson or bootstrap interval (§5.4),<br/>provisional and unstable marks,<br/>limitation block L1–L9 (§5.5)"]
+    F1 -.- LIM
+    A1 -.- LIM

@@ -1,0 +1,19 @@
+pair,foreground,background,min_ratio,stated_ratio,mitigation
+primary ink on surface (text),#0b0b0b,#fcfcfb,4.5,19.17,
+"secondary ink on surface (axis labels, annotations)",#52514e,#fcfcfb,4.5,7.73,
+link color on surface (text),#0969da,#fcfcfb,4.5,5.06,
+blue series on surface (mark),#2a78d6,#fcfcfb,3,4.30,
+orange series on surface (mark),#eb6834,#fcfcfb,3,3.12,
+context gray on surface (mark),#898781,#fcfcfb,3,3.50,
+focus ring on surface (2 px offset),#0b0b0b,#fcfcfb,3,19.17,
+heat-table text on class 1,#0b0b0b,#86b6ef,4.5,9.33,
+heat-table text on class 2,#0b0b0b,#5598e7,4.5,6.59,
+heat-table text on class 3,#ffffff,#1c5cab,4.5,6.63,
+heat-table text on class 4,#ffffff,#0d366b,4.5,11.95,
+map lightest class on surface (ordinal light end),#86b6ef,#fcfcfb,2,2.06,
+surface-colored county border on darkest map class,#fcfcfb,#0d366b,3,11.64,
+map class 1 against class 2,#86b6ef,#5598e7,3,1.42,"county borders in the surface color; class value in tooltip and table; the map locates, the ranked bars compare"
+map class 2 against class 3,#5598e7,#2a78d6,3,1.48,"county borders in the surface color; class value in tooltip and table; the map locates, the ranked bars compare"
+map class 3 against class 4,#2a78d6,#1c5cab,3,1.50,"county borders in the surface color; class value in tooltip and table; the map locates, the ranked bars compare"
+map class 4 against class 5,#1c5cab,#0d366b,3,1.80,"county borders in the surface color; class value in tooltip and table; the map locates, the ranked bars compare"
+blue series against orange series (touching marks),#2a78d6,#eb6834,3,1.38,"different shapes (circle, diamond); 2 px surface ring on overlapping marks; legend and table"

@@ -50,6 +50,9 @@ jobs:
       - name: CHECK lists match the code labels
         run: python tests/check_code_domains.py
 
+      - name: Week 12 dashboard specification is consistent with the views, the evidence and the design
+        run: python tests/check_dashboard_spec.py
+
       - name: Pinned real inputs match the Week 6 manifest
         run: |
           python - <<'EOF'
