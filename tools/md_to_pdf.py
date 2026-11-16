@@ -13,8 +13,12 @@ Needs:
 A temporary HTML file is written next to the Markdown file (so relative image
 links resolve) and deleted afterwards. If the output path is omitted, the PDF
 is written next to the Markdown file with a .pdf extension.
+
+A document can add its own CSS in an HTML comment (GitHub does not show it):
+    <!-- md2pdf-css: td, th { word-break: normal; } -->
 """
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -72,12 +76,15 @@ def main():
     out = Path(sys.argv[2]).resolve() if len(sys.argv) > 2 else md_path.with_suffix(".pdf")
     out.parent.mkdir(parents=True, exist_ok=True)
 
+    text = md_path.read_text(encoding="utf-8")
+    # Optional per-document CSS, carried in an HTML comment that GitHub does not show.
+    extra_css = "\n".join(c.strip() for c in re.findall(r"<!--\s*md2pdf-css:(.*?)-->", text, flags=re.S))
     body = markdown.markdown(
-        md_path.read_text(encoding="utf-8"),
+        text,
         extensions=["tables", "fenced_code", "sane_lists", "attr_list"],
     )
     html = (f'<!doctype html><html><head><meta charset="utf-8">'
-            f'<title>{md_path.stem}</title><style>{CSS}</style></head>'
+            f'<title>{md_path.stem}</title><style>{CSS}\n{extra_css}</style></head>'
             f'<body>{body}</body></html>')
     tmp_html = md_path.parent / f".{md_path.stem}.md2pdf.tmp.html"
     tmp_html.write_text(html, encoding="utf-8")

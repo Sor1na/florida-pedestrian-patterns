@@ -12,6 +12,7 @@ This repository holds the capstone deliverables as they are built: the PostgreSQ
 
 | Week | Deliverable | Where |
 |---|---|---|
+| 13 | **Technical report, complete draft**: title and executive summary; context, audience and central question; data sources, provenance, governance, ethics and quality; database design and pipeline architecture; methods, experiment design, evaluation and reproducibility; results with numbered tables and six figures discussed in the text; interpretation, limitations, recommendations and a responsible-use statement; references and three appendices (setup, schema, evidence map); a revision memo naming the three areas where feedback is most needed | [`docs/Week13_Technical_Report_Draft_Shkirpan.pdf`](docs/Week13_Technical_Report_Draft_Shkirpan.pdf) ([Markdown](docs/Week13_Technical_Report_Draft_Shkirpan.md)), [`analysis/report_figures.py`](analysis/report_figures.py), [`docs/figures/week13/`](docs/figures/week13) |
 | 12 | **Narrative and evidence structure for the dashboard**: audience, four planner tasks and the one-sentence takeaway; nine views in a context → finding → action sequence, each with its question, chart form, source fields, comparison, annotation and the uncertainty drawn beside it; filters and interactions (and the ones deliberately not offered); units, denominators, source note and nine limitation blocks placed next to specific views; accessibility designed in (a colour-vision-checked palette with computed contrast, reading order, keyboard rules, alternative text); a machine-readable spec checked in CI | [`docs/Week12_Dashboard_Design_Shkirpan.pdf`](docs/Week12_Dashboard_Design_Shkirpan.pdf) ([Markdown](docs/Week12_Dashboard_Design_Shkirpan.md)), [`dashboard/`](dashboard), [`tests/check_dashboard_spec.py`](tests/check_dashboard_spec.py), [`docs/dashboard_sequence.png`](docs/dashboard_sequence.png) |
 | 11 | **Final evaluation**: the one read of the held-out 2024 year by the pre-registered experiment; baseline vs candidate with cluster-bootstrap intervals and a permutation null; error analysis of the three patterns that did not replicate; large-county subgroup, alcohol sensitivity and year-by-year stability; one supported claim, one unsupported claim, the principal limitation | [`docs/Week11_Evaluation_Shkirpan.pdf`](docs/Week11_Evaluation_Shkirpan.pdf) ([Markdown](docs/Week11_Evaluation_Shkirpan.md)), [`docs/evidence/week11/`](docs/evidence/week11) |
 | 10 | **Leakage-safe, reproducible experiment design**: estimand, unit, feature table with availability and exclusions, forward split by year (train 2020–2022, validation 2023, test 2024), independence baseline vs FP-Growth closed itemsets ranked by lift, primary metric MAE_pp, seeds, versions, locked parameters | [`docs/Week10_Experiment_Design_Shkirpan.pdf`](docs/Week10_Experiment_Design_Shkirpan.pdf) ([Markdown](docs/Week10_Experiment_Design_Shkirpan.md)), [`analysis/`](analysis), [`docs/evidence/week10/`](docs/evidence/week10) |
@@ -23,6 +24,21 @@ This repository holds the capstone deliverables as they are built: the PostgreSQ
 | 4 | First-pass conceptual data model | [the section below](#week-4-first-pass-conceptual-data-model), [`docs/Week4_Conceptual_Data_Model_Shkirpan.pdf`](docs/Week4_Conceptual_Data_Model_Shkirpan.pdf), commit `cd0e009` |
 
 No real FARS rows are in this repository. FARS describes real deaths, and the proposal keeps person-level rows in the local database. Every record under `tests/` and `samples/`, and every input behind `docs/evidence/week7_synthetic/`, is synthetic. The repository holds no passwords, tokens, or keys; `.gitignore` keeps `.env` files, raw data, and database dumps out.
+
+---
+
+## Week 13: the technical report, as a complete draft
+
+The draft is [`docs/Week13_Technical_Report_Draft_Shkirpan.pdf`](docs/Week13_Technical_Report_Draft_Shkirpan.pdf) (Markdown source: [`docs/Week13_Technical_Report_Draft_Shkirpan.md`](docs/Week13_Technical_Report_Draft_Shkirpan.md)). It brings the Week 4–12 deliverables into one report, from the question to the recommendations, and ends with a revision memo that names the three areas where feedback is most needed. Every number in it comes from a file already in this repository, and each section names the files it uses.
+
+Four of its six figures are drawn from the committed evidence files (aggregates only) in the Week 12 palette:
+
+```
+python analysis/report_figures.py        # needs matplotlib; writes docs/figures/week13/
+python tools/md_to_pdf.py docs/Week13_Technical_Report_Draft_Shkirpan.md
+```
+
+The report states the project's open items as limitations: 2024 is the provisional Annual Report File, the interactive dashboard is designed and not built yet, and the block-group join for the walkability item is not built.
 
 ---
 
